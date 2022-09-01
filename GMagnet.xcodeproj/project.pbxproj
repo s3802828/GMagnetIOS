@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B22FD7D528C0708600E874F9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D428C0708600E874F9 /* User.swift */; };
+		B22FD7D728C0709200E874F9 /* GameForum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D628C0709200E874F9 /* GameForum.swift */; };
+		B22FD7D928C0709E00E874F9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D828C0709E00E874F9 /* Post.swift */; };
 		FA51A4AA28C06D02008AF58F /* GMagnetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA51A4A928C06D02008AF58F /* GMagnetApp.swift */; };
 		FA51A4AC28C06D02008AF58F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA51A4AB28C06D02008AF58F /* ContentView.swift */; };
 		FA51A4AE28C06D05008AF58F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA51A4AD28C06D05008AF58F /* Assets.xcassets */; };
@@ -14,6 +17,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B22FD7D428C0708600E874F9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		B22FD7D628C0709200E874F9 /* GameForum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameForum.swift; sourceTree = "<group>"; };
+		B22FD7D828C0709E00E874F9 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		FA51A4A628C06D02008AF58F /* GMagnet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GMagnet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA51A4A928C06D02008AF58F /* GMagnetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMagnetApp.swift; sourceTree = "<group>"; };
 		FA51A4AB28C06D02008AF58F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -32,6 +38,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B22FD7D228C0707200E874F9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B22FD7D428C0708600E874F9 /* User.swift */,
+				B22FD7D628C0709200E874F9 /* GameForum.swift */,
+				B22FD7D828C0709E00E874F9 /* Post.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B22FD7D328C0707A00E874F9 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		FA51A49D28C06D01008AF58F = {
 			isa = PBXGroup;
 			children = (
@@ -51,6 +74,8 @@
 		FA51A4A828C06D02008AF58F /* GMagnet */ = {
 			isa = PBXGroup;
 			children = (
+				B22FD7D328C0707A00E874F9 /* ViewModels */,
+				B22FD7D228C0707200E874F9 /* Models */,
 				FA51A4A928C06D02008AF58F /* GMagnetApp.swift */,
 				FA51A4AB28C06D02008AF58F /* ContentView.swift */,
 				FA51A4AD28C06D05008AF58F /* Assets.xcassets */,
@@ -138,7 +163,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA51A4AC28C06D02008AF58F /* ContentView.swift in Sources */,
+				B22FD7D728C0709200E874F9 /* GameForum.swift in Sources */,
 				FA51A4AA28C06D02008AF58F /* GMagnetApp.swift in Sources */,
+				B22FD7D528C0708600E874F9 /* User.swift in Sources */,
+				B22FD7D928C0709E00E874F9 /* Post.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

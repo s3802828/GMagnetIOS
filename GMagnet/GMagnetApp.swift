@@ -10,7 +10,6 @@ import Firebase
 
 @main
 struct GMagnetApp: App {
-    
     init() {
         FirebaseApp.configure()
     }

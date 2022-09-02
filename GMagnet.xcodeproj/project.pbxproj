@@ -10,6 +10,11 @@
 		B22FD7D528C0708600E874F9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D428C0708600E874F9 /* User.swift */; };
 		B22FD7D728C0709200E874F9 /* GameForum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D628C0709200E874F9 /* GameForum.swift */; };
 		B22FD7D928C0709E00E874F9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D828C0709E00E874F9 /* Post.swift */; };
+		B2D3086028C0B66100B64AAE /* MainPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3085F28C0B66100B64AAE /* MainPageViewModel.swift */; };
+		B2D3086228C0C65300B64AAE /* GameForumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3086128C0C65300B64AAE /* GameForumViewModel.swift */; };
+		B2D3086428C0CA1A00B64AAE /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3086328C0CA1A00B64AAE /* ProfileViewModel.swift */; };
+		B2D3086628C1FF6F00B64AAE /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3086528C1FF6F00B64AAE /* Comment.swift */; };
+		B2D3086828C1FFCD00B64AAE /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3086728C1FFCD00B64AAE /* PostViewModel.swift */; };
 		FA51A4AA28C06D02008AF58F /* GMagnetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA51A4A928C06D02008AF58F /* GMagnetApp.swift */; };
 		FA51A4AC28C06D02008AF58F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA51A4AB28C06D02008AF58F /* ContentView.swift */; };
 		FA51A4AE28C06D05008AF58F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA51A4AD28C06D05008AF58F /* Assets.xcassets */; };
@@ -34,6 +39,11 @@
 		B22FD7D428C0708600E874F9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B22FD7D628C0709200E874F9 /* GameForum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameForum.swift; sourceTree = "<group>"; };
 		B22FD7D828C0709E00E874F9 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		B2D3085F28C0B66100B64AAE /* MainPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewModel.swift; sourceTree = "<group>"; };
+		B2D3086128C0C65300B64AAE /* GameForumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameForumViewModel.swift; sourceTree = "<group>"; };
+		B2D3086328C0CA1A00B64AAE /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		B2D3086528C1FF6F00B64AAE /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		B2D3086728C1FFCD00B64AAE /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		FA51A4A628C06D02008AF58F /* GMagnet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GMagnet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA51A4A928C06D02008AF58F /* GMagnetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMagnetApp.swift; sourceTree = "<group>"; };
 		FA51A4AB28C06D02008AF58F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -72,6 +82,7 @@
 				B22FD7D428C0708600E874F9 /* User.swift */,
 				B22FD7D628C0709200E874F9 /* GameForum.swift */,
 				B22FD7D828C0709E00E874F9 /* Post.swift */,
+				B2D3086528C1FF6F00B64AAE /* Comment.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -79,6 +90,10 @@
 		B22FD7D328C0707A00E874F9 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				B2D3085F28C0B66100B64AAE /* MainPageViewModel.swift */,
+				B2D3086128C0C65300B64AAE /* GameForumViewModel.swift */,
+				B2D3086328C0CA1A00B64AAE /* ProfileViewModel.swift */,
+				B2D3086728C1FFCD00B64AAE /* PostViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -218,12 +233,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2D3086828C1FFCD00B64AAE /* PostViewModel.swift in Sources */,
 				FA51A4AC28C06D02008AF58F /* ContentView.swift in Sources */,
 				B22FD7D728C0709200E874F9 /* GameForum.swift in Sources */,
+				B2D3086028C0B66100B64AAE /* MainPageViewModel.swift in Sources */,
 				FA51A4D728C08789008AF58F /* SignUpView.swift in Sources */,
+				B2D3086428C0CA1A00B64AAE /* ProfileViewModel.swift in Sources */,
+				B2D3086228C0C65300B64AAE /* GameForumViewModel.swift in Sources */,
 				FA51A4D928C08797008AF58F /* SignInView.swift in Sources */,
 				FA51A4AA28C06D02008AF58F /* GMagnetApp.swift in Sources */,
 				B22FD7D528C0708600E874F9 /* User.swift in Sources */,
+				B2D3086628C1FF6F00B64AAE /* Comment.swift in Sources */,
 				B22FD7D928C0709E00E874F9 /* Post.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

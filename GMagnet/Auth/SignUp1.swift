@@ -1,57 +1,36 @@
 //
-//  SignInView.swift
+//  SignUp1.swift
 //  GMagnet
 //
-//  Created by Giang Le on 01/09/2022.
-// Acknowledgement: https://blckbirds.com/post/user-authentication-with-swiftui-and-firebase/
+//  Created by Dat Pham Thanh on 03/09/2022.
+//
 
 import SwiftUI
-import Firebase
 
-struct SignInView: View {
-    @State var signInProcessing = false
+struct SignUp1: View {
+    @State var fullname = ""
     @State var email = ""
     @State var password = ""
+    @State var confirmPassword = ""
     let gameColor = GameColor()
-    func signInUser(userEmail: String, userPassword: String) {
-        
-        signInProcessing = true
-        
-        Auth.auth().signIn(withEmail: userEmail, password: userPassword) { authResult, error in
-            
-            guard error == nil else {
-                signInProcessing = false
-                print(error?.localizedDescription ?? "")
-                return
-            }
-            switch authResult {
-            case .none:
-                print("Could not sign in user.")
-                signInProcessing = false
-            case .some(_):
-                print("User signed in")
-                signInProcessing = false
-            }
-            
-        }
-    }
-    
     var body: some View {
-//        Button(action: {
-//            signInUser(userEmail: "quynhgiangle206@gmail.com", userPassword: "abc1234")
-//        }) {
-//            Capsule()
-//                .overlay(Text("Sign Up"))
-//        }
         VStack{
             
-            Text("Sign in")
+            Text("Sign up")
                 .font(.title)
                 .fontWeight(.bold)
                 .foregroundColor(Color.black)
                 .kerning(1.9)
                 .frame(maxWidth: .infinity,  alignment: .leading)
             VStack(alignment: .leading, spacing: 8, content: {
+                Text("Fullname")
+                    .fontWeight(.bold)
+                    .foregroundColor(.gray)
+                TextField("Pham van A", text: $fullname)
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundColor(Color.black)
+                Divider()
+                    .padding(.top, 5)
                 Text("User Name")
                     .fontWeight(.bold)
                     .foregroundColor(.gray)
@@ -73,12 +52,17 @@ struct SignInView: View {
                     .padding(.top, 5)
             })
             .padding(.top,20)
-            
-            Button(action: {},label: {
-                Text("Forgot password?")
+            VStack(alignment: .leading, spacing: 8, content: {
+                Text("Retype password")
                     .fontWeight(.bold)
-                    .foregroundColor(Color.gray)
+                    .foregroundColor(.gray)
+                SecureField("12345", text: $confirmPassword)
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundColor(Color.black)
+                Divider()
+                    .padding(.top, 5)
             })
+            .padding(.top,20)
             .frame(maxWidth: .infinity, alignment: .trailing)
             .padding(.top, 10)
             
@@ -99,8 +83,8 @@ struct SignInView: View {
     }
 }
 
-struct SignInView_Previews: PreviewProvider {
+struct SignUp1_Previews: PreviewProvider {
     static var previews: some View {
-        SignInView()
+        SignUp1()
     }
 }

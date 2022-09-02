@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		93A8357128C24408005F3335 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A8357028C24408005F3335 /* Home.swift */; };
+		93A8357328C2499A005F3335 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A8357228C2499A005F3335 /* Color.swift */; };
+		93A8357528C27426005F3335 /* SignIn1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A8357428C27426005F3335 /* SignIn1.swift */; };
+		93A8357728C27444005F3335 /* SignUp1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A8357628C27444005F3335 /* SignUp1.swift */; };
 		B22FD7D528C0708600E874F9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D428C0708600E874F9 /* User.swift */; };
 		B22FD7D728C0709200E874F9 /* GameForum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D628C0709200E874F9 /* GameForum.swift */; };
 		B22FD7D928C0709E00E874F9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D828C0709E00E874F9 /* Post.swift */; };
@@ -31,6 +35,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		93A8357028C24408005F3335 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		93A8357228C2499A005F3335 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		93A8357428C27426005F3335 /* SignIn1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn1.swift; sourceTree = "<group>"; };
+		93A8357628C27444005F3335 /* SignUp1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp1.swift; sourceTree = "<group>"; };
 		B22FD7D428C0708600E874F9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B22FD7D628C0709200E874F9 /* GameForum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameForum.swift; sourceTree = "<group>"; };
 		B22FD7D828C0709E00E874F9 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -72,6 +80,7 @@
 				B22FD7D428C0708600E874F9 /* User.swift */,
 				B22FD7D628C0709200E874F9 /* GameForum.swift */,
 				B22FD7D828C0709E00E874F9 /* Post.swift */,
+				93A8357228C2499A005F3335 /* Color.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -127,6 +136,9 @@
 			children = (
 				FA51A4D628C08789008AF58F /* SignUpView.swift */,
 				FA51A4D828C08797008AF58F /* SignInView.swift */,
+				93A8357028C24408005F3335 /* Home.swift */,
+				93A8357428C27426005F3335 /* SignIn1.swift */,
+				93A8357628C27444005F3335 /* SignUp1.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -218,6 +230,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93A8357728C27444005F3335 /* SignUp1.swift in Sources */,
+				93A8357128C24408005F3335 /* Home.swift in Sources */,
 				FA51A4AC28C06D02008AF58F /* ContentView.swift in Sources */,
 				B22FD7D728C0709200E874F9 /* GameForum.swift in Sources */,
 				FA51A4D728C08789008AF58F /* SignUpView.swift in Sources */,
@@ -225,6 +239,8 @@
 				FA51A4AA28C06D02008AF58F /* GMagnetApp.swift in Sources */,
 				B22FD7D528C0708600E874F9 /* User.swift in Sources */,
 				B22FD7D928C0709E00E874F9 /* Post.swift in Sources */,
+				93A8357328C2499A005F3335 /* Color.swift in Sources */,
+				93A8357528C27426005F3335 /* SignIn1.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

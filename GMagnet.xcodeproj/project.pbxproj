@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D80A5CB28C2758B00A06889 /* ForumCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D80A5CA28C2758B00A06889 /* ForumCardView.swift */; };
 		B22FD7D528C0708600E874F9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D428C0708600E874F9 /* User.swift */; };
 		B22FD7D728C0709200E874F9 /* GameForum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D628C0709200E874F9 /* GameForum.swift */; };
 		B22FD7D928C0709E00E874F9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D828C0709E00E874F9 /* Post.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5D80A5CA28C2758B00A06889 /* ForumCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumCardView.swift; sourceTree = "<group>"; };
 		B22FD7D428C0708600E874F9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B22FD7D628C0709200E874F9 /* GameForum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameForum.swift; sourceTree = "<group>"; };
 		B22FD7D828C0709E00E874F9 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				FA51A4D528C08775008AF58F /* Auth */,
 				FA51A4BC28C0829E008AF58F /* GoogleService-Info.plist */,
 				FA51A4A928C06D02008AF58F /* GMagnetApp.swift */,
+				5D80A5CA28C2758B00A06889 /* ForumCardView.swift */,
 				FA51A4AB28C06D02008AF58F /* ContentView.swift */,
 				FA51A4AD28C06D05008AF58F /* Assets.xcassets */,
 				FA51A4AF28C06D05008AF58F /* Preview Content */,
@@ -222,6 +225,7 @@
 				B22FD7D728C0709200E874F9 /* GameForum.swift in Sources */,
 				FA51A4D728C08789008AF58F /* SignUpView.swift in Sources */,
 				FA51A4D928C08797008AF58F /* SignInView.swift in Sources */,
+				5D80A5CB28C2758B00A06889 /* ForumCardView.swift in Sources */,
 				FA51A4AA28C06D02008AF58F /* GMagnetApp.swift in Sources */,
 				B22FD7D528C0708600E874F9 /* User.swift in Sources */,
 				B22FD7D928C0709E00E874F9 /* Post.swift in Sources */,

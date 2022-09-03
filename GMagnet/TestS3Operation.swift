@@ -16,6 +16,11 @@ struct TestS3Operation: View {
     @State var image: UIImage?
     @State var secondImage: UIImage?
     
+    @State var showProgressPopUp = false
+    
+    @State var progressTitle = ""
+    @State var progressValue = 0.0
+    
     func uploadImage() {
         let houseImage = UIImage.init(named: "genshin-icon")!
         let houseImageData = houseImage.jpegData(compressionQuality: 1)!
@@ -50,18 +55,18 @@ struct TestS3Operation: View {
         
     }
     
-//    func downloadImage() {
-//        Amplify.Storage.downloadData(key: imageKey) { result in
-//            switch result {
-//            case .success(let data):
-//                DispatchQueue.main.async {
-//                    self.image = UIImage(data: data)
-//                }
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-//    }
+    func downloadImage() {
+        Amplify.Storage.downloadData(key: imageKey) { result in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    self.image = UIImage(data: data)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
     
     func removeImage() {
         Amplify.Storage.remove(key: imageKey) { event in

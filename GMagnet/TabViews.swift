@@ -89,7 +89,7 @@ struct TabViews: View {
                     TabItem(width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "homekit", tabName: "Home", tabbarRouter: tabbarRouter, assignedPage: .home)
 
                     Spacer()
-                    TabPlusButton(width: geometry.size.width/7, height: geometry.size.width/7, systemIconName: "plus.circle.fill", tabName: "plush")
+                    TabPlusButton(width: geometry.size.width/7, height: geometry.size.width/7, systemIconName: "plus.circle.fill", tabName: "plus")
                           .offset(y: -geometry.size.height/8/2)
                     Spacer()
                     TabItem(width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "person.crop.circle", tabName: "Profile", tabbarRouter: tabbarRouter, assignedPage: .profile)
@@ -145,15 +145,22 @@ struct TabPlusButton: View {
     
     var body: some View {
         ZStack {
-            Circle()
-                .foregroundColor(.white)
-                .frame(width: width, height: height)
-                .shadow(radius: 4)
-            Image(systemName: systemIconName)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: width-6 , height: height-6)
-                .foregroundColor(.blue)
+            Button(action: {
+                
+            }, label: {
+                Image(systemName: systemIconName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: width-6 , height: height-6)
+                    .foregroundColor(.blue)
+                    .background{
+                        Circle()
+                            .foregroundColor(.white)
+                            .frame(width: width, height: height)
+                            .shadow(radius: 4)
+                    }
+            })
+            
         }
         .padding(.horizontal, -4)
     }

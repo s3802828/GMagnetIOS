@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		414F61FEF8E28C1AB50491EF /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D537A7A370F8F45D65CAA44 /* awsconfiguration.json */; };
+		5D3CEFC928C4F5530091BA37 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 5D3CEFC828C4F5530091BA37 /* .gitignore */; };
 		5D80A5CB28C2758B00A06889 /* ForumCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D80A5CA28C2758B00A06889 /* ForumCardView.swift */; };
 		5D80A5CE28C2794600A06889 /* AWSCognitoAuthPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 5D80A5CD28C2794600A06889 /* AWSCognitoAuthPlugin */; };
 		5D80A5D028C2794600A06889 /* AWSS3StoragePlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 5D80A5CF28C2794600A06889 /* AWSS3StoragePlugin */; };
@@ -19,12 +20,12 @@
 		B22FD7D528C0708600E874F9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D428C0708600E874F9 /* User.swift */; };
 		B22FD7D728C0709200E874F9 /* GameForum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D628C0709200E874F9 /* GameForum.swift */; };
 		B22FD7D928C0709E00E874F9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D828C0709E00E874F9 /* Post.swift */; };
-		DB8441751B0858336087255B /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = AF20ABC314F563A8E5DC35B2 /* amplifyconfiguration.json */; };
 		B2D3086028C0B66100B64AAE /* MainPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3085F28C0B66100B64AAE /* MainPageViewModel.swift */; };
 		B2D3086228C0C65300B64AAE /* GameForumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3086128C0C65300B64AAE /* GameForumViewModel.swift */; };
 		B2D3086428C0CA1A00B64AAE /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3086328C0CA1A00B64AAE /* ProfileViewModel.swift */; };
 		B2D3086628C1FF6F00B64AAE /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3086528C1FF6F00B64AAE /* Comment.swift */; };
 		B2D3086828C1FFCD00B64AAE /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3086728C1FFCD00B64AAE /* PostViewModel.swift */; };
+		DB8441751B0858336087255B /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = AF20ABC314F563A8E5DC35B2 /* amplifyconfiguration.json */; };
 		FA51A4AA28C06D02008AF58F /* GMagnetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA51A4A928C06D02008AF58F /* GMagnetApp.swift */; };
 		FA51A4AC28C06D02008AF58F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA51A4AB28C06D02008AF58F /* ContentView.swift */; };
 		FA51A4AE28C06D05008AF58F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA51A4AD28C06D05008AF58F /* Assets.xcassets */; };
@@ -46,6 +47,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5D3CEFC828C4F5530091BA37 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		5D80A5CA28C2758B00A06889 /* ForumCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumCardView.swift; sourceTree = "<group>"; };
 		5D80A5D328C2797200A06889 /* TestS3Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestS3Operation.swift; sourceTree = "<group>"; };
 		5DAE6DF828C3908300C65835 /* TabViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViews.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				5DAE6DFA28C39D4300C65835 /* TabRouter.swift */,
 				5DAE6DF828C3908300C65835 /* TabViews.swift */,
 				5DAE6DFC28C3A0BE00C65835 /* MainView.swift */,
+				5D3CEFC828C4F5530091BA37 /* .gitignore */,
 				5D80A5D328C2797200A06889 /* TestS3Operation.swift */,
 				FA51A4AB28C06D02008AF58F /* ContentView.swift */,
 				FA51A4AD28C06D05008AF58F /* Assets.xcassets */,
@@ -263,6 +266,7 @@
 				FA51A4AE28C06D05008AF58F /* Assets.xcassets in Resources */,
 				FA51A4BD28C0829E008AF58F /* GoogleService-Info.plist in Resources */,
 				414F61FEF8E28C1AB50491EF /* awsconfiguration.json in Resources */,
+				5D3CEFC928C4F5530091BA37 /* .gitignore in Resources */,
 				DB8441751B0858336087255B /* amplifyconfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

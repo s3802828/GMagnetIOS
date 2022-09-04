@@ -13,6 +13,7 @@ struct TestS3Operation: View {
     let imageKey: String = "gameIcon/pencil-icon"
     let secondImageKey: String = "gameIcon/eraser-icon"
     
+    
     @State var image: UIImage?
     @State var secondImage: UIImage?
     
@@ -91,6 +92,7 @@ struct TestS3Operation: View {
             Button("Upload", action: uploadImage)
 //            Button("Download", action: downloadImage)
             Button("Remove", action: removeImage)
+            
         }
     }
 }

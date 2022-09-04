@@ -10,8 +10,8 @@ import Foundation
 struct User: Identifiable{
     let id: String
     let username: String
+    let email: String
     let name: String
-    let password: String
     let avatar: String
     let description: String
     let joined_forums: [GameForum]
@@ -33,7 +33,7 @@ struct User: Identifiable{
         return [
             "username": self.username,
             "name": self.name,
-            "password": self.password,
+            "email": self.email,
             "avatar": self.avatar,
             "description": self.description,
             "joined_forums": joined_forums_ids,

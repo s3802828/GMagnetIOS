@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		414F61FEF8E28C1AB50491EF /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D537A7A370F8F45D65CAA44 /* awsconfiguration.json */; };
 		5D3CEFC728C4F43D0091BA37 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 5D3CEFC628C4F43D0091BA37 /* .gitignore */; };
 		5D80A5CB28C2758B00A06889 /* ForumCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D80A5CA28C2758B00A06889 /* ForumCardView.swift */; };
 		5D80A5CE28C2794600A06889 /* AWSCognitoAuthPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 5D80A5CD28C2794600A06889 /* AWSCognitoAuthPlugin */; };
@@ -20,7 +19,9 @@
 		B22FD7D528C0708600E874F9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D428C0708600E874F9 /* User.swift */; };
 		B22FD7D728C0709200E874F9 /* GameForum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D628C0709200E874F9 /* GameForum.swift */; };
 		B22FD7D928C0709E00E874F9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D828C0709E00E874F9 /* Post.swift */; };
-		DB8441751B0858336087255B /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = AF20ABC314F563A8E5DC35B2 /* amplifyconfiguration.json */; };
+		FA1F544928C5029900748CF0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1F544828C5029900748CF0 /* Constants.swift */; };
+		FA1F544E28C5081F00748CF0 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = FA1F544C28C5081F00748CF0 /* amplifyconfiguration.json */; };
+		FA1F544F28C5081F00748CF0 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = FA1F544D28C5081F00748CF0 /* awsconfiguration.json */; };
 		FA51A4AA28C06D02008AF58F /* GMagnetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA51A4A928C06D02008AF58F /* GMagnetApp.swift */; };
 		FA51A4AC28C06D02008AF58F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA51A4AB28C06D02008AF58F /* ContentView.swift */; };
 		FA51A4AE28C06D05008AF58F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA51A4AD28C06D05008AF58F /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 		FA51A4D428C086BD008AF58F /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = FA51A4D328C086BD008AF58F /* FirebaseStorageCombine-Community */; };
 		FA51A4D728C08789008AF58F /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA51A4D628C08789008AF58F /* SignUpView.swift */; };
 		FA51A4D928C08797008AF58F /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA51A4D828C08797008AF58F /* SignInView.swift */; };
+		FA5BF11B28C50F9E000B5FE0 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5BF11A28C50F9E000B5FE0 /* Home.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,11 +50,12 @@
 		5DAE6DF828C3908300C65835 /* TabViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViews.swift; sourceTree = "<group>"; };
 		5DAE6DFA28C39D4300C65835 /* TabRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabRouter.swift; sourceTree = "<group>"; };
 		5DAE6DFC28C3A0BE00C65835 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		6D537A7A370F8F45D65CAA44 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
-		AF20ABC314F563A8E5DC35B2 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 		B22FD7D428C0708600E874F9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B22FD7D628C0709200E874F9 /* GameForum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameForum.swift; sourceTree = "<group>"; };
 		B22FD7D828C0709E00E874F9 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		FA1F544828C5029900748CF0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		FA1F544C28C5081F00748CF0 /* amplifyconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
+		FA1F544D28C5081F00748CF0 /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
 		FA51A4A628C06D02008AF58F /* GMagnet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GMagnet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA51A4A928C06D02008AF58F /* GMagnetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMagnetApp.swift; sourceTree = "<group>"; };
 		FA51A4AB28C06D02008AF58F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -61,6 +64,7 @@
 		FA51A4BC28C0829E008AF58F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FA51A4D628C08789008AF58F /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		FA51A4D828C08797008AF58F /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		FA5BF11A28C50F9E000B5FE0 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,8 +112,8 @@
 		F9D840E5906B4776F6A54963 /* AmplifyConfig */ = {
 			isa = PBXGroup;
 			children = (
-				6D537A7A370F8F45D65CAA44 /* awsconfiguration.json */,
-				AF20ABC314F563A8E5DC35B2 /* amplifyconfiguration.json */,
+				FA1F544C28C5081F00748CF0 /* amplifyconfiguration.json */,
+				FA1F544D28C5081F00748CF0 /* awsconfiguration.json */,
 			);
 			name = AmplifyConfig;
 			sourceTree = "<group>";
@@ -148,6 +152,7 @@
 				FA51A4AB28C06D02008AF58F /* ContentView.swift */,
 				FA51A4AD28C06D05008AF58F /* Assets.xcassets */,
 				FA51A4AF28C06D05008AF58F /* Preview Content */,
+				FA1F544828C5029900748CF0 /* Constants.swift */,
 			);
 			path = GMagnet;
 			sourceTree = "<group>";
@@ -165,6 +170,7 @@
 			children = (
 				FA51A4D628C08789008AF58F /* SignUpView.swift */,
 				FA51A4D828C08797008AF58F /* SignInView.swift */,
+				FA5BF11A28C50F9E000B5FE0 /* Home.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -249,10 +255,10 @@
 			files = (
 				FA51A4B128C06D05008AF58F /* Preview Assets.xcassets in Resources */,
 				FA51A4AE28C06D05008AF58F /* Assets.xcassets in Resources */,
+				FA1F544F28C5081F00748CF0 /* awsconfiguration.json in Resources */,
+				FA1F544E28C5081F00748CF0 /* amplifyconfiguration.json in Resources */,
 				FA51A4BD28C0829E008AF58F /* GoogleService-Info.plist in Resources */,
-				414F61FEF8E28C1AB50491EF /* awsconfiguration.json in Resources */,
 				5D3CEFC728C4F43D0091BA37 /* .gitignore in Resources */,
-				DB8441751B0858336087255B /* amplifyconfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,7 +275,9 @@
 				FA51A4D728C08789008AF58F /* SignUpView.swift in Sources */,
 				FA51A4D928C08797008AF58F /* SignInView.swift in Sources */,
 				5DAE6DFB28C39D4300C65835 /* TabRouter.swift in Sources */,
+				FA5BF11B28C50F9E000B5FE0 /* Home.swift in Sources */,
 				5D80A5CB28C2758B00A06889 /* ForumCardView.swift in Sources */,
+				FA1F544928C5029900748CF0 /* Constants.swift in Sources */,
 				FA51A4AA28C06D02008AF58F /* GMagnetApp.swift in Sources */,
 				5DAE6DF928C3908300C65835 /* TabViews.swift in Sources */,
 				B22FD7D528C0708600E874F9 /* User.swift in Sources */,

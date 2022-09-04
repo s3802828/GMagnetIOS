@@ -13,6 +13,7 @@ struct ContentView: View {
             .padding()
         //SignUpView()
 //        SignInView()
+        TestS3Operation()
     }
 }
 

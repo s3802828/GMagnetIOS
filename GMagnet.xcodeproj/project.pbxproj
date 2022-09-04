@@ -7,9 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		414F61FEF8E28C1AB50491EF /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D537A7A370F8F45D65CAA44 /* awsconfiguration.json */; };
+		5D80A5CB28C2758B00A06889 /* ForumCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D80A5CA28C2758B00A06889 /* ForumCardView.swift */; };
+		5D80A5CE28C2794600A06889 /* AWSCognitoAuthPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 5D80A5CD28C2794600A06889 /* AWSCognitoAuthPlugin */; };
+		5D80A5D028C2794600A06889 /* AWSS3StoragePlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 5D80A5CF28C2794600A06889 /* AWSS3StoragePlugin */; };
+		5D80A5D228C2794600A06889 /* Amplify in Frameworks */ = {isa = PBXBuildFile; productRef = 5D80A5D128C2794600A06889 /* Amplify */; };
+		5D80A5D428C2797200A06889 /* TestS3Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D80A5D328C2797200A06889 /* TestS3Operation.swift */; };
+		5DAE6DF928C3908300C65835 /* TabViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DAE6DF828C3908300C65835 /* TabViews.swift */; };
+		5DAE6DFB28C39D4300C65835 /* TabRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DAE6DFA28C39D4300C65835 /* TabRouter.swift */; };
+		5DAE6DFD28C3A0BE00C65835 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DAE6DFC28C3A0BE00C65835 /* MainView.swift */; };
 		B22FD7D528C0708600E874F9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D428C0708600E874F9 /* User.swift */; };
 		B22FD7D728C0709200E874F9 /* GameForum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D628C0709200E874F9 /* GameForum.swift */; };
 		B22FD7D928C0709E00E874F9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D828C0709E00E874F9 /* Post.swift */; };
+		DB8441751B0858336087255B /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = AF20ABC314F563A8E5DC35B2 /* amplifyconfiguration.json */; };
 		FA51A4AA28C06D02008AF58F /* GMagnetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA51A4A928C06D02008AF58F /* GMagnetApp.swift */; };
 		FA51A4AC28C06D02008AF58F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA51A4AB28C06D02008AF58F /* ContentView.swift */; };
 		FA51A4AE28C06D05008AF58F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA51A4AD28C06D05008AF58F /* Assets.xcassets */; };
@@ -31,6 +41,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5D80A5CA28C2758B00A06889 /* ForumCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumCardView.swift; sourceTree = "<group>"; };
+		5D80A5D328C2797200A06889 /* TestS3Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestS3Operation.swift; sourceTree = "<group>"; };
+		5DAE6DF828C3908300C65835 /* TabViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViews.swift; sourceTree = "<group>"; };
+		5DAE6DFA28C39D4300C65835 /* TabRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabRouter.swift; sourceTree = "<group>"; };
+		5DAE6DFC28C3A0BE00C65835 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		6D537A7A370F8F45D65CAA44 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
+		AF20ABC314F563A8E5DC35B2 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 		B22FD7D428C0708600E874F9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B22FD7D628C0709200E874F9 /* GameForum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameForum.swift; sourceTree = "<group>"; };
 		B22FD7D828C0709E00E874F9 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -50,8 +67,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA51A4D428C086BD008AF58F /* FirebaseStorageCombine-Community in Frameworks */,
+				5D80A5D228C2794600A06889 /* Amplify in Frameworks */,
 				FA51A4D028C086BD008AF58F /* FirebaseMessaging in Frameworks */,
 				FA51A4C828C086BD008AF58F /* FirebaseDatabaseSwift in Frameworks */,
+				5D80A5D028C2794600A06889 /* AWSS3StoragePlugin in Frameworks */,
 				FA51A4C028C086BD008AF58F /* FirebaseAppCheck in Frameworks */,
 				FA51A4D228C086BD008AF58F /* FirebaseStorage in Frameworks */,
 				FA51A4C428C086BD008AF58F /* FirebaseAuthCombine-Community in Frameworks */,
@@ -60,6 +79,7 @@
 				FA51A4CA28C086BD008AF58F /* FirebaseFirestore in Frameworks */,
 				FA51A4CC28C086BD008AF58F /* FirebaseFirestoreCombine-Community in Frameworks */,
 				FA51A4CE28C086BD008AF58F /* FirebaseFirestoreSwift in Frameworks */,
+				5D80A5CE28C2794600A06889 /* AWSCognitoAuthPlugin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,11 +103,21 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		F9D840E5906B4776F6A54963 /* AmplifyConfig */ = {
+			isa = PBXGroup;
+			children = (
+				6D537A7A370F8F45D65CAA44 /* awsconfiguration.json */,
+				AF20ABC314F563A8E5DC35B2 /* amplifyconfiguration.json */,
+			);
+			name = AmplifyConfig;
+			sourceTree = "<group>";
+		};
 		FA51A49D28C06D01008AF58F = {
 			isa = PBXGroup;
 			children = (
 				FA51A4A828C06D02008AF58F /* GMagnet */,
 				FA51A4A728C06D02008AF58F /* Products */,
+				F9D840E5906B4776F6A54963 /* AmplifyConfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -107,6 +137,11 @@
 				FA51A4D528C08775008AF58F /* Auth */,
 				FA51A4BC28C0829E008AF58F /* GoogleService-Info.plist */,
 				FA51A4A928C06D02008AF58F /* GMagnetApp.swift */,
+				5D80A5CA28C2758B00A06889 /* ForumCardView.swift */,
+				5DAE6DFA28C39D4300C65835 /* TabRouter.swift */,
+				5DAE6DF828C3908300C65835 /* TabViews.swift */,
+				5DAE6DFC28C3A0BE00C65835 /* MainView.swift */,
+				5D80A5D328C2797200A06889 /* TestS3Operation.swift */,
 				FA51A4AB28C06D02008AF58F /* ContentView.swift */,
 				FA51A4AD28C06D05008AF58F /* Assets.xcassets */,
 				FA51A4AF28C06D05008AF58F /* Preview Content */,
@@ -159,6 +194,9 @@
 				FA51A4CF28C086BD008AF58F /* FirebaseMessaging */,
 				FA51A4D128C086BD008AF58F /* FirebaseStorage */,
 				FA51A4D328C086BD008AF58F /* FirebaseStorageCombine-Community */,
+				5D80A5CD28C2794600A06889 /* AWSCognitoAuthPlugin */,
+				5D80A5CF28C2794600A06889 /* AWSS3StoragePlugin */,
+				5D80A5D128C2794600A06889 /* Amplify */,
 			);
 			productName = GMagnet;
 			productReference = FA51A4A628C06D02008AF58F /* GMagnet.app */;
@@ -190,6 +228,7 @@
 			mainGroup = FA51A49D28C06D01008AF58F;
 			packageReferences = (
 				FA51A4BE28C086BD008AF58F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				5D80A5CC28C2794600A06889 /* XCRemoteSwiftPackageReference "amplify-ios" */,
 			);
 			productRefGroup = FA51A4A728C06D02008AF58F /* Products */;
 			projectDirPath = "";
@@ -208,6 +247,8 @@
 				FA51A4B128C06D05008AF58F /* Preview Assets.xcassets in Resources */,
 				FA51A4AE28C06D05008AF58F /* Assets.xcassets in Resources */,
 				FA51A4BD28C0829E008AF58F /* GoogleService-Info.plist in Resources */,
+				414F61FEF8E28C1AB50491EF /* awsconfiguration.json in Resources */,
+				DB8441751B0858336087255B /* amplifyconfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,12 +260,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA51A4AC28C06D02008AF58F /* ContentView.swift in Sources */,
+				5DAE6DFD28C3A0BE00C65835 /* MainView.swift in Sources */,
 				B22FD7D728C0709200E874F9 /* GameForum.swift in Sources */,
 				FA51A4D728C08789008AF58F /* SignUpView.swift in Sources */,
 				FA51A4D928C08797008AF58F /* SignInView.swift in Sources */,
+				5DAE6DFB28C39D4300C65835 /* TabRouter.swift in Sources */,
+				5D80A5CB28C2758B00A06889 /* ForumCardView.swift in Sources */,
 				FA51A4AA28C06D02008AF58F /* GMagnetApp.swift in Sources */,
+				5DAE6DF928C3908300C65835 /* TabViews.swift in Sources */,
 				B22FD7D528C0708600E874F9 /* User.swift in Sources */,
 				B22FD7D928C0709E00E874F9 /* Post.swift in Sources */,
+				5D80A5D428C2797200A06889 /* TestS3Operation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,6 +473,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		5D80A5CC28C2794600A06889 /* XCRemoteSwiftPackageReference "amplify-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aws-amplify/amplify-ios";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		FA51A4BE28C086BD008AF58F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -438,6 +492,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		5D80A5CD28C2794600A06889 /* AWSCognitoAuthPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5D80A5CC28C2794600A06889 /* XCRemoteSwiftPackageReference "amplify-ios" */;
+			productName = AWSCognitoAuthPlugin;
+		};
+		5D80A5CF28C2794600A06889 /* AWSS3StoragePlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5D80A5CC28C2794600A06889 /* XCRemoteSwiftPackageReference "amplify-ios" */;
+			productName = AWSS3StoragePlugin;
+		};
+		5D80A5D128C2794600A06889 /* Amplify */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5D80A5CC28C2794600A06889 /* XCRemoteSwiftPackageReference "amplify-ios" */;
+			productName = Amplify;
+		};
 		FA51A4BF28C086BD008AF58F /* FirebaseAppCheck */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FA51A4BE28C086BD008AF58F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

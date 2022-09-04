@@ -88,6 +88,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5D3CEFCA28C4FB160091BA37 /* AmplifyConfig */ = {
+			isa = PBXGroup;
+			children = (
+				6D537A7A370F8F45D65CAA44 /* awsconfiguration.json */,
+				AF20ABC314F563A8E5DC35B2 /* amplifyconfiguration.json */,
+			);
+			path = AmplifyConfig;
+			sourceTree = "<group>";
+		};
 		B22FD7D228C0707200E874F9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,21 +114,11 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		F9D840E5906B4776F6A54963 /* AmplifyConfig */ = {
-			isa = PBXGroup;
-			children = (
-				6D537A7A370F8F45D65CAA44 /* awsconfiguration.json */,
-				AF20ABC314F563A8E5DC35B2 /* amplifyconfiguration.json */,
-			);
-			name = AmplifyConfig;
-			sourceTree = "<group>";
-		};
 		FA51A49D28C06D01008AF58F = {
 			isa = PBXGroup;
 			children = (
 				FA51A4A828C06D02008AF58F /* GMagnet */,
 				FA51A4A728C06D02008AF58F /* Products */,
-				F9D840E5906B4776F6A54963 /* AmplifyConfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -137,6 +136,7 @@
 				B22FD7D328C0707A00E874F9 /* ViewModels */,
 				B22FD7D228C0707200E874F9 /* Models */,
 				FA51A4D528C08775008AF58F /* Auth */,
+				5D3CEFCA28C4FB160091BA37 /* AmplifyConfig */,
 				FA51A4BC28C0829E008AF58F /* GoogleService-Info.plist */,
 				FA51A4A928C06D02008AF58F /* GMagnetApp.swift */,
 				5D3CEFC628C4F43D0091BA37 /* .gitignore */,

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		414F61FEF8E28C1AB50491EF /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D537A7A370F8F45D65CAA44 /* awsconfiguration.json */; };
+		5D3CEFCD28C50AB30091BA37 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 5D3CEFCC28C50AB30091BA37 /* .gitignore */; };
 		5D80A5CB28C2758B00A06889 /* ForumCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D80A5CA28C2758B00A06889 /* ForumCardView.swift */; };
 		5D80A5CE28C2794600A06889 /* AWSCognitoAuthPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 5D80A5CD28C2794600A06889 /* AWSCognitoAuthPlugin */; };
 		5D80A5D028C2794600A06889 /* AWSS3StoragePlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 5D80A5CF28C2794600A06889 /* AWSS3StoragePlugin */; };
@@ -41,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5D3CEFCC28C50AB30091BA37 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		5D80A5CA28C2758B00A06889 /* ForumCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumCardView.swift; sourceTree = "<group>"; };
 		5D80A5D328C2797200A06889 /* TestS3Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestS3Operation.swift; sourceTree = "<group>"; };
 		5DAE6DF828C3908300C65835 /* TabViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViews.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				FA51A4A928C06D02008AF58F /* GMagnetApp.swift */,
 				5D80A5CA28C2758B00A06889 /* ForumCardView.swift */,
 				5DAE6DFA28C39D4300C65835 /* TabRouter.swift */,
+				5D3CEFCC28C50AB30091BA37 /* .gitignore */,
 				5DAE6DF828C3908300C65835 /* TabViews.swift */,
 				5DAE6DFC28C3A0BE00C65835 /* MainView.swift */,
 				5D80A5D328C2797200A06889 /* TestS3Operation.swift */,
@@ -248,6 +251,7 @@
 				FA51A4AE28C06D05008AF58F /* Assets.xcassets in Resources */,
 				FA51A4BD28C0829E008AF58F /* GoogleService-Info.plist in Resources */,
 				414F61FEF8E28C1AB50491EF /* awsconfiguration.json in Resources */,
+				5D3CEFCD28C50AB30091BA37 /* .gitignore in Resources */,
 				DB8441751B0858336087255B /* amplifyconfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

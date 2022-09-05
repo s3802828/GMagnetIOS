@@ -111,7 +111,7 @@
 				FA1F544D28C5081F00748CF0 /* awsconfiguration.json */,
 			);
 			name = AmplifyConfig;
-
+		};
 		B22FD7D328C0707A00E874F9 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (

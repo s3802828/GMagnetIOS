@@ -150,7 +150,7 @@
 		FA51A4A828C06D02008AF58F /* GMagnet */ = {
 			isa = PBXGroup;
 			children = (
-				FA5BF11C28C638CC000B5FE0 /* ViewModels */,
+				B22FD7D328C0707A00E874F9 /* ViewModels */,
 				B22FD7D228C0707200E874F9 /* Models */,
 				FA51A4D528C08775008AF58F /* Auth */,
 				FA51A4BC28C0829E008AF58F /* GoogleService-Info.plist */,

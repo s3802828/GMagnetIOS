@@ -9,16 +9,20 @@ import Foundation
 
 // View Model for GamePage view and its children Views
 class ProfileViewModel: ObservableObject{
-    @Published var user: User
+    @Published var user: User = User()
     @Published var recent_posts: [Post] = []
     @Published var joined_forums: [GameForum] = []
     
     init(user_id: String){
-        self.user = User.get_user(user_id: user_id)
+        User.get_user(user_id: user_id){user in
+            self.user = user
+        }
     }
     
     func get_joined_forums(){
-        self.joined_forums = GameForum.get_forums(forum_ids: self.user.joined_forums)
+        GameForum.get_forums(forum_ids: self.user.joined_forums){ joined_forums in
+            self.joined_forums = joined_forums
+        }
     }
     
     func update_user(updated_user: User){
@@ -30,22 +34,27 @@ class ProfileViewModel: ObservableObject{
         Post.toggle_like_post(post: post, user: user)
         
         // reload to update UI
-        self.user = User.get_user(user_id: self.user.id)
-        self.recent_posts = Post.get_posts(post_ids: self.user.posts)
+        Post.get_posts(post_ids: self.user.posts){posts in
+            self.recent_posts = posts
+        }
     }
     
     func update_post(update_post: Post){
         Post.update_post(updated_post: update_post)
         
         // call get posts again to update UI
-        self.recent_posts = Post.get_posts(post_ids: self.user.posts)
+        Post.get_posts(post_ids: self.user.posts){posts in
+            self.recent_posts = posts
+        }
     }
     
     func delete_post(deleted_post: Post){
         Post.delete_post(deleted_post: deleted_post)
         
         // call get posts again to update UI
-        self.recent_posts = Post.get_posts(post_ids: self.user.posts)
+        Post.get_posts(post_ids: self.user.posts){posts in
+            self.recent_posts = posts
+        }
     }
 
     
@@ -54,8 +63,9 @@ class ProfileViewModel: ObservableObject{
         GameForum.toggle_join_forum(forum: forum, user: user)
         
         // reload to update UI
-        self.user = User.get_user(user_id: self.user.id)
-        self.joined_forums = GameForum.get_forums(forum_ids: self.user.joined_forums)
+        Post.get_posts(post_ids: self.user.posts){posts in
+            self.recent_posts = posts
+        }
     }
     
 }

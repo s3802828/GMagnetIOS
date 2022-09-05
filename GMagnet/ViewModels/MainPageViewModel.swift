@@ -14,7 +14,9 @@ class MainPageViewModel: ObservableObject {
     
     func fetch_all_forums(){
         //get database reference
-        gameforum_list = GameForum.get_all_forums()
+        GameForum.get_all_forums(){all_forums in
+            self.gameforum_list = all_forums
+        }
     }
     
     func update_forum(updated_forum: GameForum){

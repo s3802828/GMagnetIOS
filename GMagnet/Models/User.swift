@@ -43,16 +43,6 @@ struct User: Identifiable{
     func to_dictionary()->[String: Any]{
         //convert to dictionary to save to Firebase
 
-//        var joined_forums_ids: [String] = []
-//        var posts_ids: [String] = []
-//
-//        for forum in self.joined_forums{
-//            joined_forums_ids.append(forum.id)
-//        }
-//        for post in self.posts{
-//            posts_ids.append(post.id)
-//        }
-        
         return [
             "username": self.username,
             "name": self.name,
@@ -63,17 +53,26 @@ struct User: Identifiable{
         ]
     }
     
-    static func get_users(users_ids: [String])->[User]{
+    static func get_users(users_ids: [String], completion: @escaping ([User])->Void){
         var user_list: [User] = []
+//        var counter: Int = 0
         
-//        let db = Firestore.firestore()
         for member_id in users_ids {
-            user_list.append(User.get_user(user_id: member_id))
+            User.get_user(user_id: member_id){user in
+                user_list.append(user)
+                if user_list.count == users_ids.count{
+                    completion(user_list)
+                }
+            }
+            
         }
-        return user_list
+        if user_list.count == users_ids.count{
+            completion(user_list)
+        }
+//        return user_list
     }
     
-    static func get_user(user_id: String) -> User {
+    static func get_user(user_id: String, completion: @escaping (User) -> Void) {
         let db = Firestore.firestore()
         var user: User = User()
         
@@ -91,13 +90,13 @@ struct User: Identifiable{
                                 posts: data["posts"] as? [String] ?? [String]()
                         )
                 }
+                completion(user)
+//                print("User retrieved: \(user.id) \(user.username)")
             }else{
                 print("Doc does not exist")
-                return
+                completion(User())
             }
         }
-        
-        return user
     }
     
     static func add_user(added_user: User){

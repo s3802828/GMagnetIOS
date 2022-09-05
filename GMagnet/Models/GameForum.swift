@@ -46,12 +46,8 @@ struct GameForum: Identifiable{
     func to_dictionary()->[String: Any]{
         //convert to dictionary to save to Firebase
 
-//        var member_ids: [String] = []
         var category_ids: [String] = []
 
-//        for member in self.member_list{
-//            member_ids.append(member.id)
-//        }
         for category in self.category_list{
             category_ids.append(category.id)
         }
@@ -68,7 +64,7 @@ struct GameForum: Identifiable{
         ]
     }
     
-    static func get_all_forums()->[GameForum]{
+    static func get_all_forums(completion: @escaping ([GameForum])->Void){
         //get database reference
         let db = Firestore.firestore()
         var forum_list: [GameForum] = []
@@ -79,26 +75,36 @@ struct GameForum: Identifiable{
                 print(error)
             }else{
                 if let snapshot = snapshot {
-                    forum_list = snapshot.documents.map{doc in
-                        return GameForum(id: doc.documentID,
-                                         name: doc["name"] as? String ?? "",
-                                         description: doc["description"] as? String ?? "",
-                                         logo: doc["logo"] as? String ?? "",
-                                         banner: doc["banner"] as? String ?? "",
-                                         admin: User.get_user(user_id: doc["admin_id"] as? String ?? ""),
-                                         member_list: doc["member_lsit"] as? [String] ?? [String](),
-                                         post_list: doc["post_list"] as? [String] ?? [String](),
-                                         category_list: Category.get_categories(category_list: doc["category_list"] as? [String] ?? [String]())
-                                )
+                    snapshot.documents.map{doc in
+                        
+                        User.get_user(user_id: doc["admin_id"] as? String ?? ""){user in
+                            Category.get_categories(category_list: doc["category_list"] as? [String] ?? [String]()){categories in
+                                let new_forum = GameForum(id: doc.documentID,
+                                                 name: doc["name"] as? String ?? "",
+                                                 description: doc["description"] as? String ?? "",
+                                                 logo: doc["logo"] as? String ?? "",
+                                                 banner: doc["banner"] as? String ?? "",
+                                                 admin: user,
+                                                 member_list: doc["member_lsit"] as? [String] ?? [String](),
+                                                 post_list: doc["post_list"] as? [String] ?? [String](),
+                                                 category_list: categories)
+                                
+                                forum_list.append(new_forum)
+                                if snapshot.documents.count == forum_list.count{
+                                    completion(forum_list)
+                                }
+                            }
+                        }
+                        
                     }
                 }
             }
         }
         
-        return forum_list
+//        return forum_list
     }
     
-    static func get_forum(forum_id: String) -> GameForum {
+    static func get_forum(forum_id: String, completion: @escaping (GameForum)->Void) {
         let db = Firestore.firestore()
         var forum: GameForum = GameForum()
 
@@ -106,32 +112,50 @@ struct GameForum: Identifiable{
             if let doc = doc, doc.exists {
                 let data = doc.data()
                 if let data = data {
-                    forum = GameForum(id: doc.documentID,
-                                      name: data["name"] as? String ?? "",
-                                      description: data["description"] as? String ?? "",
-                                      logo: data["logo"] as? String ?? "",
-                                      banner: data["banner"] as? String ?? "",
-                                      admin: User.get_user(user_id: data["admin_id"] as? String ?? ""),
-                                      member_list: data["member_list"] as? [String] ?? [String](),
-                                      post_list: data["post_list"] as? [String] ?? [String](),
-                                      category_list: Category.get_categories(category_list: data["category_list"] as? [String] ?? [String]()))
-                    
+                    User.get_user(user_id: data["admin_id"] as? String ?? ""){user in
+//                        print("user in the forum \(user.username)")
+                        Category.get_categories(category_list: data["category_list"] as? [String] ?? [String]()){categories in
+//                            print("categories in the forum \(categories)")
+                            forum = GameForum(id: doc.documentID,
+                                              name: data["name"] as? String ?? "",
+                                              description: data["description"] as? String ?? "",
+                                              logo: data["logo"] as? String ?? "",
+                                              banner: data["banner"] as? String ?? "",
+                                              admin: user,
+                                              member_list: data["member_list"] as? [String] ?? [String](),
+                                              post_list: data["post_list"] as? [String] ?? [String](),
+                                              category_list: categories)
+                            
+                            completion(forum)
+                        }
+                    }
+
                 }
             }else{
                 print("Forum fetch error: Doc \(forum_id) does not exist")
-                return
+                completion(forum)
             }
         }
-        return forum
+//        return forum
     }
     
-    static func get_forums(forum_ids: [String])->[GameForum]{
+    static func get_forums(forum_ids: [String], completion: @escaping ([GameForum])->Void){
         var forum_list: [GameForum] = []
         
         for forum_id in forum_ids {
-            forum_list.append(GameForum.get_forum(forum_id: forum_id))
+            GameForum.get_forum(forum_id: forum_id){game_forum in
+                forum_list.append(game_forum)
+                
+                if forum_list.count == forum_ids.count {
+                    completion(forum_list)
+                }
+            }
         }
-        return forum_list
+        
+        if forum_list.count == forum_ids.count {
+            completion(forum_list)
+        }
+//        return forum_list
     }
     
     static func update_forum(updated_forum: GameForum){
@@ -160,19 +184,24 @@ struct GameForum: Identifiable{
         
         //remove the forum from users that joined the forum
         for user_id in deleted_forum.member_list{
-            var edit_user = User.get_user(user_id: user_id)
-            if let forum_index = edit_user.joined_forums.firstIndex(where: {$0 == deleted_forum.id}){
-                edit_user.joined_forums.remove(at: forum_index)
-                User.update_user(updated_user: edit_user)
+            User.get_user(user_id: user_id){edit_user in
+                //make it editable variable
+                var edit_user = edit_user
+                
+                if let forum_index = edit_user.joined_forums.firstIndex(where: {$0 == deleted_forum.id}){
+                    edit_user.joined_forums.remove(at: forum_index)
+                    User.update_user(updated_user: edit_user)
+                }
             }
         }
-        
+
         //remove the posts of the game forum
         for post_id in deleted_forum.post_list{
-            let deleted_post = Post.get_post(post_id: post_id)
-            Post.delete_post(deleted_post: deleted_post)
+            Post.get_post(post_id: post_id){deleted_post in
+                Post.delete_post(deleted_post: deleted_post)
+            }
         }
-        
+
         db.collection("gameforums").document(deleted_forum.id).delete{ error in
             if let error = error{
                 print(error)
@@ -181,35 +210,43 @@ struct GameForum: Identifiable{
     }
     
     static func toggle_join_forum(forum: GameForum, user: User){
-        var updated_forum = GameForum.get_forum(forum_id: forum.id)
-        var updated_user = User.get_user(user_id: user.id)
+//        var updated_forum = GameForum.get_forum(forum_id: forum.id)
+//        var updated_user = User.get_user(user_id: user.id)
         
-        // Call when user click Join/Unjoin on GamePage View
-        if let forum_index = updated_user.joined_forums.firstIndex(where: {$0 == updated_forum.id}){
-            
-            // if user have joined the post -> remove user and update post
-            // update User object's joined forum list
-            updated_user.joined_forums.remove(at: forum_index)
-            
-            if let user_id_index = updated_forum.member_list.firstIndex(where: {$0 == user.id}){
-                //get index of user id in list of members of gameforum to remove
-                updated_forum.member_list.remove(at: user_id_index)
+        GameForum.get_forum(forum_id: forum.id){updated_forum in
+            User.get_user(user_id: user.id){updated_user in
+                
+                var updated_forum = updated_forum
+                var updated_user = updated_user
+                
+                // Call when user click Join/Unjoin on GamePage View
+                if let forum_index = updated_user.joined_forums.firstIndex(where: {$0 == updated_forum.id}){
+
+                    // if user have joined the post -> remove user and update post
+                    // update User object's joined forum list
+                    updated_user.joined_forums.remove(at: forum_index)
+
+                    if let user_id_index = updated_forum.member_list.firstIndex(where: {$0 == user.id}){
+                        //get index of user id in list of members of gameforum to remove
+                        updated_forum.member_list.remove(at: user_id_index)
+                    }
+
+                    //update user's joined forums on User db
+                    User.update_user(updated_user: updated_user)
+                    //update list of members on GameForum db
+                    GameForum.update_forum(updated_forum: updated_forum)
+
+                }else{
+                    // add forum id to list of joined forum
+                    updated_user.joined_forums.append(forum.id)
+                    // add user to list of members of game forum
+                    updated_forum.member_list.append(updated_user.id)
+
+                    //save changes to db
+                    User.update_user(updated_user: updated_user)
+                    GameForum.update_forum(updated_forum: updated_forum)
+                }
             }
-            
-            //update user's joined forums on User db
-            User.update_user(updated_user: updated_user)
-            //update list of members on GameForum db
-            GameForum.update_forum(updated_forum: updated_forum)
-            
-        }else{
-            // add forum id to list of joined forum
-            updated_user.joined_forums.append(forum.id)
-            // add user to list of members of game forum
-            updated_forum.member_list.append(updated_user.id)
-            
-            //save changes to db
-            User.update_user(updated_user: updated_user)
-            GameForum.update_forum(updated_forum: updated_forum)
         }
     }
 }
@@ -224,7 +261,17 @@ struct Category: Identifiable{
         ]
     }
     
-    static func get_categories(category_list: [String])->[Category]{
+    static func add_category(added_category: Category){
+        let db = Firestore.firestore()
+        
+        db.collection("categories").addDocument(data: added_category.to_dictionary()){error in
+            if let error = error{
+                print(error)
+            }
+        }
+    }
+    
+    static func get_categories(category_list: [String], completion: @escaping ([Category]) -> Void){
         let db = Firestore.firestore()
         var cate_list: [Category] = []
         
@@ -236,12 +283,21 @@ struct Category: Identifiable{
                             Category(id: data["id"] as? String ?? "",
                                      category_name: data["category_name"] as? String ?? "")
                         )
+                        
+                        if cate_list.count == category_list.count{
+                            completion(cate_list)
+                        }
                     }
                 }else{
                     print("Doc for category \(cat) does not exist")
+                    completion(cate_list)
                 }
             }
         }
-        return cate_list
+        
+        if cate_list.count == category_list.count{
+            completion(cate_list)
+        }
+//        return cate_list
     }
 }

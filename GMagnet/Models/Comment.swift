@@ -35,70 +35,88 @@ struct Comment: Identifiable{
         ]
     }
     
-    static func get_comments(comment_ids: [String])-> [Comment]{
+    static func get_comments(comment_ids: [String], completion: @escaping ([Comment])->Void){
         var comment_list: [Comment] = []
         
 //        let db = Firestore.firestore()
         for comment_id in comment_ids {
-            comment_list.append(Comment.get_comment(comment_id: comment_id))
-        }
-        return comment_list
-    }
-                        
-    static func get_comment(comment_id: String)-> Comment{
-        let db = Firestore.firestore()
-        var comment: Comment = Comment()
-        
-        db.collection("Comment").document(comment_id).getDocument{doc, error in
-            if let doc = doc, doc.exists {
-                let data = doc.data()
-                if let data = data {
-                    comment = Comment(id: doc.documentID,
-                                      user: User.get_user(user_id: data["user_id"] as? String ?? ""), post: data["post_id"] as? String ?? "",
-                                      content: data["content"] as? String ?? "")
+            Comment.get_comment(comment_id: comment_id){comment in
+                comment_list.append(comment)
+                if comment_list.count == comment_ids.count{
+                    completion(comment_list)
                 }
-            }else{
-                print("Doc does not exist")
-                return
             }
         }
         
-        return comment
+        if comment_list.count == comment_ids.count{
+            completion(comment_list)
+        }
+//        return comment_list
+    }
+                        
+    static func get_comment(comment_id: String, completion: @escaping (Comment)->Void){
+        let db = Firestore.firestore()
+        var comment: Comment = Comment()
+        
+        db.collection("comments").document(comment_id).getDocument{doc, error in
+            if let doc = doc, doc.exists {
+                let data = doc.data()
+                if let data = data {
+                    User.get_user(user_id: data["user_id"] as? String ?? ""){user in
+                        comment = Comment(id: doc.documentID,
+                                          user: user,
+                                          post: data["post_id"] as? String ?? "",
+                                          content: data["content"] as? String ?? "")
+                        completion(comment)
+                    }
+                }
+            }else{
+                print("Doc does not exist")
+                completion(comment)
+            }
+        }
+        
+//        return comment
     }
     
     static func add_comment(added_comment: Comment){
         let db = Firestore.firestore()
         
-        var updated_post = Post.get_post(post_id: added_comment.post)
-        
-        //add post to Post collection
-        let new_id = db.collection("Comment").addDocument(data: added_comment.to_dictionary()){error in
-            if let error = error{
-                print(error)
+        Post.get_post(post_id: added_comment.post){updated_post in
+            var updated_post = updated_post
+            
+            //add post to Post collection
+            let new_id = db.collection("comments").addDocument(data: added_comment.to_dictionary()){error in
+                if let error = error{
+                    print(error)
+                }
+            }
+            
+            // update user and game forum with new post id
+            Comment.get_comment(comment_id: new_id.documentID){new_comment in
+                updated_post.comment_list.append(new_comment)
+                
+                //update user and game forum with the new post id
+                Post.update_post(updated_post: updated_post)
             }
         }
-        
-        // update user and game forum with new post id
-        updated_post.comment_list.append(Comment.get_comment(comment_id: new_id.documentID))
-        
-        //update user and game forum with the new post id
-        Post.update_post(updated_post: updated_post)
     }
     
     static func delete_comment(deleted_comment: Comment){
         let db = Firestore.firestore()
         
-        var updated_post = Post.get_post(post_id: deleted_comment.post)
-        
-        if let comment_index = updated_post.comment_list.firstIndex(where: {$0.id == deleted_comment.id}){
-            updated_post.comment_list.remove(at: comment_index)
-        }
-        
-        Post.update_post(updated_post: updated_post)
-        
-        db.collection("Comment").document(deleted_comment.id).delete{error in
-            if let error = error{
-                print(error)
+        Post.get_post(post_id: deleted_comment.post){updated_post in
+            var updated_post = updated_post
+            if let comment_index = updated_post.comment_list.firstIndex(where: {$0.id == deleted_comment.id}){
+                updated_post.comment_list.remove(at: comment_index)
+            }
+            
+            Post.update_post(updated_post: updated_post)
+            
+            db.collection("comments").document(deleted_comment.id).delete{error in
+                if let error = error{
+                    print(error)
+                }
             }
         }
     }
@@ -106,7 +124,7 @@ struct Comment: Identifiable{
     static func update_comment(updated_comment: Comment){
         let db = Firestore.firestore()
         
-        db.collection("Comment").document(updated_comment.id).setData(updated_comment.to_dictionary(), merge: true)
+        db.collection("comments").document(updated_comment.id).setData(updated_comment.to_dictionary(), merge: true)
         {error in
             if let error = error{
                 print(error)

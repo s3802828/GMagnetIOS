@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct ForumCardView: View {
+    let gameforum: GameForum
     var body: some View {
         ZStack{
             VStack {
                 
-                AsyncImage(url: URL(string: "https://cdn.oneesports.gg/cdn-data/2022/08/GenshinImpact_SumeruCharacters_Wallpaper2.jpg")) {phase in
+                AsyncImage(url: URL(string: gameforum.banner)) {phase in
                     if let image = phase.image {
                         image
                             .resizable()
@@ -79,7 +80,7 @@ struct ForumCardView: View {
 
             }.frame(width: 300, height: 160)
                 
-            AsyncImage(url: URL(string: "https://img.captain-droid.com/wp-content/uploads/com-mihoyo-genshinimpact-icon.png")) {phase in
+            AsyncImage(url: URL(string: gameforum.logo)) {phase in
                 if let image = phase.image {
                     image
                         .resizable()
@@ -115,6 +116,6 @@ struct ForumCardView: View {
 
 struct ForumCardView_Previews: PreviewProvider {
     static var previews: some View {
-        ForumCardView()
+        ForumCardView(gameforum: GameForum())
     }
 }

@@ -21,10 +21,10 @@ struct TestAdding: View {
 //                print("User retrieved in add forum: \(admin.id) \(admin.username)")
                 let new_forum = GameForum(
                     id: "1",
-                    name: "Genshin Impact",
-                    description: "Gacha the game",
-                    logo: "https://img.captain-droid.com/wp-content/uploads/com-mihoyo-genshinimpact-icon.png",
-                    banner: "https://cdn.oneesports.gg/cdn-data/2022/08/GenshinImpact_SumeruCharacters_Wallpaper2.jpg",
+                    name: "Persona 5",
+                    description: "One of da best JRPG",
+                    logo: "https://i.pinimg.com/originals/b0/e7/44/b0e744a164051c9be038c7e745e14ab6.jpg",
+                    banner: "https://cdn.tgdd.vn/GameApp/4/249808/Screentshots/persona-5-30-08-2021-2.jpg",
                     admin: admin,
                     member_list: [],
                     post_list: [],

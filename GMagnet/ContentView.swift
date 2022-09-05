@@ -9,13 +9,12 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
         //SignUpView()
 //        SignInView()
         VStack{
 //            TestS3Operation()
             TestAdding()
+            MainView()
         }
     }
 }

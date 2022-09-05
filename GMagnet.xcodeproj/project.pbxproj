@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		930AAA0628C39BA9000FFB88 /* CreateForumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930AAA0528C39BA9000FFB88 /* CreateForumView.swift */; };
+		930AAA0A28C59F94000FFB88 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930AAA0928C59F94000FFB88 /* ImagePicker.swift */; };
+		930AAA0C28C63A43000FFB88 /* ImageBannerPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930AAA0B28C63A43000FFB88 /* ImageBannerPicker.swift */; };
 		93A8357128C24408005F3335 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A8357028C24408005F3335 /* Home.swift */; };
 		93A8357328C2499A005F3335 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A8357228C2499A005F3335 /* Color.swift */; };
 		B22FD7D528C0708600E874F9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D428C0708600E874F9 /* User.swift */; };
@@ -33,6 +36,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		930AAA0528C39BA9000FFB88 /* CreateForumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateForumView.swift; sourceTree = "<group>"; };
+		930AAA0928C59F94000FFB88 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		930AAA0B28C63A43000FFB88 /* ImageBannerPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBannerPicker.swift; sourceTree = "<group>"; };
 		93A8357028C24408005F3335 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		93A8357228C2499A005F3335 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		B22FD7D428C0708600E874F9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -70,6 +76,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		93A8357828C39AD7005F3335 /* Forum */ = {
+			isa = PBXGroup;
+			children = (
+				930AAA0528C39BA9000FFB88 /* CreateForumView.swift */,
+				930AAA0928C59F94000FFB88 /* ImagePicker.swift */,
+				930AAA0B28C63A43000FFB88 /* ImageBannerPicker.swift */,
+			);
+			path = Forum;
+			sourceTree = "<group>";
+		};
 		B22FD7D228C0707200E874F9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +123,7 @@
 		FA51A4A828C06D02008AF58F /* GMagnet */ = {
 			isa = PBXGroup;
 			children = (
+				93A8357828C39AD7005F3335 /* Forum */,
 				B22FD7D328C0707A00E874F9 /* ViewModels */,
 				B22FD7D228C0707200E874F9 /* Models */,
 				FA51A4D528C08775008AF58F /* Auth */,
@@ -229,9 +246,12 @@
 				B22FD7D728C0709200E874F9 /* GameForum.swift in Sources */,
 				FA51A4D728C08789008AF58F /* SignUpView.swift in Sources */,
 				FA51A4D928C08797008AF58F /* SignInView.swift in Sources */,
+				930AAA0C28C63A43000FFB88 /* ImageBannerPicker.swift in Sources */,
 				FA51A4AA28C06D02008AF58F /* GMagnetApp.swift in Sources */,
 				B22FD7D528C0708600E874F9 /* User.swift in Sources */,
+				930AAA0A28C59F94000FFB88 /* ImagePicker.swift in Sources */,
 				B22FD7D928C0709E00E874F9 /* Post.swift in Sources */,
+				930AAA0628C39BA9000FFB88 /* CreateForumView.swift in Sources */,
 				93A8357328C2499A005F3335 /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

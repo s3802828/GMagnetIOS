@@ -1,1 +1,7 @@
+*.xcuserstate
+*.xcworkspace
+*xcworkspace/xcuserdata/*
+*xcworkspace/xcuserdata/*
+*.DC_store
+xcuserdata/
 

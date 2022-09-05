@@ -11,7 +11,7 @@ struct ContentView: View {
     @StateObject var currentUser = AuthenticateViewModel()
     var body: some View {
         if (currentUser.currentUser.id != ""){
-            MainView().environmentObject(currentUser)
+            TabViews().environmentObject(currentUser)
         } else {
             Home().environmentObject(currentUser)
         }

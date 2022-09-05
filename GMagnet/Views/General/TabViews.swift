@@ -21,6 +21,10 @@ struct TabViews: View {
                                   endPoint: .bottomTrailing)
     
     @StateObject var tabbarRouter = TabBarRouter()
+    @EnvironmentObject var currentUser: AuthenticateViewModel
+    
+    @State var showSearchBar = false
+    @State var searchInput = ""
     
     @ViewBuilder var contentView: some View {
         switch tabbarRouter.currentPage {
@@ -31,53 +35,89 @@ struct TabViews: View {
         case .videos:
             Text("Video")
         case .profile:
-            Text("Profile")
+            VStack {
+                Text("Profile")
+                Button(action: {
+                    currentUser.signOutUser()
+                }, label: {
+                    Text("Logout")
+                        .font(.system(size: 18, weight: .heavy , design: .monospaced))
+                        .frame(width: 75, height: 30)
+                        .background(.blue)
+                        .foregroundColor(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 9))
+                        .padding(.bottom, 15)
+                })
+            }
         case .plus:
             EmptyView()
         }
     }
     
-//    var body: some View {
-//        TabView {
-//            ZStack {
-//                Color.green
-//                    .opacity(0.1)
-//                    .ignoresSafeArea()
-//
-//                VStack {
-//                    Text("You can use gradients as the TabView's background color.")
-//                        .padding()
-//                        .frame(maxHeight: .infinity)
-//
-//                    Rectangle()
-//                        .fill(Color.clear)
-//                        .frame(height: 10)
-//                        .background(gradient)
-//                }
-//                .font(.title2)
-//            }
-//            .tabItem {
-//                Image(systemName: "star")
-//                Text("Tab 1")
-//            }
-//
-//            Text("Tab 2")
-//                .tabItem {
-//                    Image(systemName: "moon")
-//                    Text("Tab 2")
-//                }
-//
-//            Text("Tab 3")
-//                .tabItem {
-//                    Image(systemName: "sun.max")
-//                    Text("Tab 3")
-//                }
-//        }
-//    }
     
     var body: some View {
         GeometryReader { geometry in
             VStack {
+                
+                HStack {
+                    if !self.showSearchBar {
+                        Text("GMagnet").fontWeight(.bold).font(.title).foregroundColor(.white)
+                    }
+                    
+                    Spacer(minLength: 0)
+                    
+                    HStack {
+                        
+                        if self.showSearchBar {
+                            
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.black)
+                                .padding(.horizontal, 8)
+                            
+                            TextField("Search...", text: self.$searchInput)
+                            
+                            Button(action: {
+                                searchInput = ""
+                                withAnimation{
+                                    self.showSearchBar.toggle()
+                                }
+                                
+                            }, label: {
+                                
+                                Image(systemName: "xmark")
+                                    .foregroundColor(.black)
+                                
+                            })
+                            .padding(.horizontal, 8)
+                            
+                        } else {
+                            
+                            Button(action: {
+                                withAnimation{
+                                    self.showSearchBar.toggle()
+                                }
+                            }, label: {
+                                
+                                Image(systemName: "magnifyingglass")
+                                    .foregroundColor(.black)
+                                    .padding(10)
+                                
+                            })
+                            
+                            
+                        }
+                        
+                    }
+                    .padding(self.showSearchBar ? 10 : 0)
+                    .background(Color.white)
+                        .cornerRadius(20)
+                    
+                    
+                }.padding(.top, 40)
+                    .padding(.horizontal)
+                    .padding(.bottom,10)
+                    .background(Color.blue)
+                
                 Spacer()
                 // Contents
                 contentView
@@ -95,9 +135,10 @@ struct TabViews: View {
                     TabItem(width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "person.crop.circle", tabName: "Profile", tabbarRouter: tabbarRouter, assignedPage: .profile)
                     Spacer()
                 }
-                .frame(width: geometry.size.width, height: geometry.size.height/8)
+                .frame(width: geometry.size.width, height: geometry.size.height/10)
                 .background(Color(.black).shadow(radius: 2).opacity(0.03))
             }
+            .edgesIgnoringSafeArea(.top)
             .edgesIgnoringSafeArea(.bottom)
         }
     }

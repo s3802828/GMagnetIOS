@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import GoogleSignInSwift
 
 struct Home: View {
     @State var maxCircleHeight: CGFloat = 0
     @State var showSignUpView = false
+    
     let gameColor = GameColor()
     var body: some View {
         VStack{
@@ -48,6 +50,7 @@ struct Home: View {
                     SignInView()
                         .transition(.move(edge: .trailing))
                 }
+                
             }
             Spacer()
             

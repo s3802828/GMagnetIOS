@@ -8,18 +8,22 @@
 import SwiftUI
 
 struct MainView: View {
+    @ObservedObject var mainViewModels = MainPageViewModel()
+    
     var body: some View {
         ZStack {
             ScrollView {
                 VStack {
-                    ForEach (0..<10) {
-                        _ in
-                        ForumCardView()
+                    ForEach (mainViewModels.gameforum_list) {
+                        forum in
+                        ForumCardView(gameforum: forum)
                             .padding(.vertical, 5)
                     }
                 }
                 .frame(width: UIScreen.main.bounds.width)
             }
+        }.onAppear(){
+            mainViewModels.fetch_all_forums()
         }
     }
 }

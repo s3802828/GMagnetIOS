@@ -10,7 +10,7 @@ import Firebase
 import Amplify
 import AWSCognitoAuthPlugin
 import AWSS3StoragePlugin
-
+import GoogleSignIn
 
 @main
 struct GMagnetApp: App {
@@ -36,6 +36,9 @@ struct GMagnetApp: App {
         
         WindowGroup {
             ContentView()
+                .onOpenURL { url in
+                GIDSignIn.sharedInstance.handle(url)
+              }
         }
     }
 }

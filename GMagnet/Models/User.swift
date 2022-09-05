@@ -48,6 +48,7 @@ struct User: Identifiable{
             "name": self.name,
             "avatar": self.avatar,
             "description": self.description,
+            "email": self.email,
             "joined_forums": self.joined_forums,
             "posts": self.posts
         ]
@@ -91,8 +92,7 @@ struct User: Identifiable{
                         )
                 }
                 completion(user)
-//                print("User retrieved: \(user.id) \(user.username)")
-            }else{
+            } else {
                 print("Doc does not exist")
                 completion(User())
             }

@@ -37,7 +37,7 @@ struct GameForum: Identifiable{
         self.description = ""
         self.logo = ""
         self.banner = ""
-        self.admin = User(id: "", username: "", name: "", password: "", avatar: "", description: "", joined_forums: [""], posts: [""])
+        self.admin = User()
         self.member_list = [String]()
         self.post_list = [String]()
         self.category_list = [Category]()
@@ -74,7 +74,7 @@ struct GameForum: Identifiable{
         var forum_list: [GameForum] = []
         
         //fetch all the data from forums
-        db.collection("GameForum").getDocuments { snapshot, error in
+        db.collection("gameforums").getDocuments { snapshot, error in
             if let error = error {
                 print(error)
             }else{
@@ -102,7 +102,7 @@ struct GameForum: Identifiable{
         let db = Firestore.firestore()
         var forum: GameForum = GameForum()
 
-        db.collection("GameForum").document(forum_id).getDocument{doc, error in
+        db.collection("gameforums").document(forum_id).getDocument{doc, error in
             if let doc = doc, doc.exists {
                 let data = doc.data()
                 if let data = data {
@@ -137,7 +137,7 @@ struct GameForum: Identifiable{
     static func update_forum(updated_forum: GameForum){
         let db = Firestore.firestore()
         
-        db.collection("GameForum").document(updated_forum.id).setData(updated_forum.to_dictionary(), merge: true)
+        db.collection("gameforums").document(updated_forum.id).setData(updated_forum.to_dictionary(), merge: true)
         {error in
             if let error = error{
                 print(error)
@@ -148,7 +148,7 @@ struct GameForum: Identifiable{
     static func add_forum(added_forum: GameForum){
         let db = Firestore.firestore()
         
-        db.collection("GameForum").addDocument(data: added_forum.to_dictionary()){error in
+        db.collection("gameforums").addDocument(data: added_forum.to_dictionary()){error in
             if let error = error{
                 print(error)
             }
@@ -173,7 +173,7 @@ struct GameForum: Identifiable{
             Post.delete_post(deleted_post: deleted_post)
         }
         
-        db.collection("GameForum").document(deleted_forum.id).delete{ error in
+        db.collection("gameforums").document(deleted_forum.id).delete{ error in
             if let error = error{
                 print(error)
             }
@@ -229,7 +229,7 @@ struct Category: Identifiable{
         var cate_list: [Category] = []
         
         for cat in category_list{
-            db.collection("Category").document(cat).getDocument{doc, error in
+            db.collection("categories").document(cat).getDocument{doc, error in
                 if let doc = doc, doc.exists {
                     if let data = doc.data() {
                         cate_list.append(

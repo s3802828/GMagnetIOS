@@ -22,7 +22,7 @@ struct Comment: Identifiable{
     }
     init(){
         self.id = ""
-        self.user = User(id: "", username: "", name: "", password: "", avatar: "", description: "", joined_forums: [""], posts: [""])
+        self.user = User()
         self.post = ""
         self.content = ""
     }

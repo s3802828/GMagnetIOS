@@ -42,7 +42,7 @@ struct Post: Identifiable{
     
     init(){
         self.id = ""
-        self.user = User(id: "", username: "", name: "", password: "", avatar: "", description: "", joined_forums: [""], posts: [""])
+        self.user = User()
         self.game = GameForum()
         self.title = ""
         self.content = ""
@@ -92,7 +92,7 @@ struct Post: Identifiable{
         var updated_forum = GameForum.get_forum(forum_id: added_post.game.id)
         
         //add post to Post collection
-        let new_id = db.collection("Post").addDocument(data: added_post.to_dictionary()){error in
+        let new_id = db.collection("posts").addDocument(data: added_post.to_dictionary()){error in
             if let error = error{
                 print(error)
             }
@@ -111,7 +111,7 @@ struct Post: Identifiable{
     static func update_post(updated_post: Post){
         let db = Firestore.firestore()
         
-        db.collection("Post").document(updated_post.id).setData(updated_post.to_dictionary(), merge: true)
+        db.collection("posts").document(updated_post.id).setData(updated_post.to_dictionary(), merge: true)
         {error in
             if let error = error{
                 print(error)
@@ -137,7 +137,7 @@ struct Post: Identifiable{
         User.update_user(updated_user: post_owner)
         GameForum.update_forum(updated_forum: updated_forum)
         
-        db.collection("Post").document(deleted_post.id).delete{ error in
+        db.collection("posts").document(deleted_post.id).delete{ error in
             if let error = error{
                 print(error)
             }
@@ -148,7 +148,7 @@ struct Post: Identifiable{
         let db = Firestore.firestore()
         var post: Post = Post()
         
-        db.collection("Post").document(post_id).getDocument{doc, error in
+        db.collection("posts").document(post_id).getDocument{doc, error in
             if let doc = doc, doc.exists {
                 let data = doc.data()
                 if let data = data {

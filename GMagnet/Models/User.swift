@@ -12,11 +12,33 @@ struct User: Identifiable{
     let id: String
     let username: String
     let name: String
-    let password: String
+    let email: String
     let avatar: String
     let description: String
     var joined_forums: [String]
     var posts: [String]
+    
+    init(id:String, username:String, name: String, email:String, avatar: String, description: String, joined_forums: [String], posts: [String]){
+        self.id = id
+        self.username = username
+        self.name = name
+        self.email = email
+        self.avatar = avatar
+        self.description = description
+        self.joined_forums = joined_forums
+        self.posts = posts
+    }
+    
+    init(){
+        self.id = ""
+        self.username = ""
+        self.name = ""
+        self.email = ""
+        self.avatar = ""
+        self.description = ""
+        self.joined_forums = [String]()
+        self.posts = [String]()
+    }
 
     func to_dictionary()->[String: Any]{
         //convert to dictionary to save to Firebase
@@ -34,7 +56,6 @@ struct User: Identifiable{
         return [
             "username": self.username,
             "name": self.name,
-            "password": self.password,
             "avatar": self.avatar,
             "description": self.description,
             "joined_forums": self.joined_forums,
@@ -54,16 +75,16 @@ struct User: Identifiable{
     
     static func get_user(user_id: String) -> User {
         let db = Firestore.firestore()
-        var user: User = User(id: "", username: "", name: "", password: "", avatar: "", description: "", joined_forums: [""], posts: [""])
+        var user: User = User()
         
-        db.collection("User").document(user_id).getDocument{doc, error in
+        db.collection("users").document(user_id).getDocument{doc, error in
             if let doc = doc, doc.exists {
                 let data = doc.data()
                 if let data = data {
                     user =  User(id: doc.documentID,
                                 username: data["username"] as? String ?? "",
                                 name: data["name"] as? String ?? "",
-                                password: data["password"] as? String ?? "",
+                                email: data["email"] as? String ?? "",
                                 avatar: data["avatar"] as? String ?? "",
                                 description: data["description"] as? String ?? "",
                                 joined_forums: data["joined_forums"] as? [String] ?? [String](),
@@ -82,7 +103,7 @@ struct User: Identifiable{
     static func add_user(added_user: User){
         let db = Firestore.firestore()
         
-        db.collection("User").addDocument(data: added_user.to_dictionary()){error in
+        db.collection("users").addDocument(data: added_user.to_dictionary()){error in
             if let error = error{
                 print(error)
             }
@@ -92,7 +113,7 @@ struct User: Identifiable{
     static func update_user(updated_user: User){
         let db = Firestore.firestore()
         
-        db.collection("User").document(updated_user.id).setData(updated_user.to_dictionary(), merge: true)
+        db.collection("users").document(updated_user.id).setData(updated_user.to_dictionary(), merge: true)
         {error in
             if let error = error{
                 print(error)
@@ -103,7 +124,7 @@ struct User: Identifiable{
     static func delete_user(deleted_user: User){
         let db = Firestore.firestore()
         
-        db.collection("User").document(deleted_user.id).delete{ error in
+        db.collection("users").document(deleted_user.id).delete{ error in
             if let error = error{
                 print(error)
             }

@@ -16,36 +16,9 @@ struct SignUpView: View {
     @State var email = ""
     @State var password = ""
     @State var confirmPassword = ""
-    let db = Firestore.firestore()
+    @EnvironmentObject var currentUser : AuthenticateViewModel
     let gameColor = GameColor()
-    func signUpUser() {
-        signUpProcessing = true
-        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-            guard error == nil else {
-                signUpProcessing = false
-                return
-            }
-            
-            switch authResult {
-            case .none:
-                print("Could not create account.")
-                signUpProcessing = false
-            case .some(_):
-                print("User created")
-                // Add a new document in collection "users"
-                let userId = Auth.auth().currentUser?.uid
-                let newUser = User(id: userId ?? "", username: username, email: email, name: fullname, avatar: "", description: "", joined_forums: [], posts: [])
-                db.collection("users").document(userId ?? "").setData(newUser.to_dictionary()) { err in
-                    if let err = err {
-                        print("Error writing document: \(err)")
-                    } else {
-                        print("User successfully added!")
-                    }
-                }
-                signUpProcessing = false
-            }
-        }
-    }
+
     var body: some View {
         
         VStack{
@@ -107,7 +80,7 @@ struct SignUpView: View {
             .padding(.top, 10)
             
             Button(action: {
-                signUpUser()
+                currentUser.signUpUser(userEmail: email, userPassword: password, username: username, fullname: fullname)
             }, label:{
                 Image(systemName: "arrow.right")
                     .font(.system(size: 24, weight: .bold))

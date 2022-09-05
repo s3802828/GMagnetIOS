@@ -74,13 +74,6 @@ struct Home: View {
         }
     }
 
-
-struct Home_Previews: PreviewProvider {
-    static var previews: some View {
-        Home()
-    }
-}
-
 extension View{
     func getRect()->CGRect{
         return UIScreen.main.bounds

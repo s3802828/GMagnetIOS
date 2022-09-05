@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var currentUser = AuthenticateViewModel()
     var body: some View {
-//        Text("Hello, world!")
-//            .padding()
-        //SignUpView()
-        Home()
-//        TestS3Operation()
+        if (currentUser.currentUser.id != ""){
+            MainView().environmentObject(currentUser)
+        } else {
+            Home().environmentObject(currentUser)
+        }
     }
 }
 

@@ -9,34 +9,10 @@ import SwiftUI
 import Firebase
 
 struct SignInView: View {
-    @State var signInProcessing = false
     @State var email = ""
     @State var password = ""
     let gameColor = GameColor()
-    func signInUser(userEmail: String, userPassword: String) {
-        
-        signInProcessing = true
-        
-        Auth.auth().signIn(withEmail: userEmail, password: userPassword) { authResult, error in
-            
-            guard error == nil else {
-                signInProcessing = false
-                print(error?.localizedDescription ?? "")
-                return
-            }
-            switch authResult {
-            case .none:
-                print("Could not sign in user.")
-                signInProcessing = false
-            case .some(_):
-                print("User signed in")
-                print(authResult ?? "")
-                print(Auth.auth().currentUser?.uid ?? "")
-                signInProcessing = false
-            }
-            
-        }
-    }
+    @EnvironmentObject var currentUser: AuthenticateViewModel
     
     var body: some View {
         VStack{
@@ -79,7 +55,7 @@ struct SignInView: View {
             .padding(.top, 10)
             
             Button(action: {
-                signInUser(userEmail: email, userPassword: password)
+                currentUser.signInUser(userEmail: email, userPassword: password)
             }, label:{
                 Image(systemName: "arrow.right")
                     .font(.system(size: 24, weight: .bold))

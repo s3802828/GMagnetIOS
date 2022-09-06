@@ -1,0 +1,18 @@
+[
+    {
+      
+      "id": 1,
+      "imageName": "nobita",
+      "name": "Nobita"
+    },
+    {
+        "id": 2,
+        "imageName": "xixuka",
+        "name": "Xixuka"
+    },
+    {
+        "id": 3,
+        "imageName": "doraemon",
+        "name": "Doremon"
+    }
+]

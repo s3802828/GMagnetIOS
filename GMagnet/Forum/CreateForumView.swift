@@ -9,7 +9,9 @@ import SwiftUI
 
 struct CreateForumView: View {
     @State private var isShowPhotoLibrary = false
+    @State private var isShowBannerLibrary = false
     @State private var image = UIImage()
+    @State private var imageBanner = UIImage()
     @State var forumName = ""
     @State var description = ""
     @State var password = ""
@@ -74,10 +76,9 @@ struct CreateForumView: View {
                     }
                     Image(uiImage: self.image)
                         .resizable()
-                        .scaledToFill()
-                        .frame(width: 100, height: 0)
-                        .edgesIgnoringSafeArea(.all)
-                        .padding()
+                        .clipShape(Circle())
+                        .shadow(radius: 10)
+                        
                 }
                 Spacer()
                 .sheet(isPresented: $isShowPhotoLibrary) {
@@ -86,7 +87,7 @@ struct CreateForumView: View {
                 
                 HStack {
                     Button(action: {
-                        self.isShowPhotoLibrary = true
+                        self.isShowBannerLibrary = true
                     }) {
                         HStack {
                             Image(systemName: "photo")
@@ -101,17 +102,15 @@ struct CreateForumView: View {
                         .cornerRadius(20)
                         .padding(.horizontal)
                     }
-                    Image(uiImage: self.image)
+                    Image(uiImage: self.imageBanner)
                     
                         .resizable()
-                        .scaledToFill()
-                        .frame(width: 100, height: 0)
-                        .edgesIgnoringSafeArea(.all)
-                        .padding()
+                        .clipShape(RoundedRectangle(cornerRadius: 20.0))
+                        
                 }
                 Spacer()
-                .sheet(isPresented: $isShowPhotoLibrary) {
-                    ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
+                .sheet(isPresented: $isShowBannerLibrary) {
+                    BannerPicker(sourceType: .photoLibrary, selectedBanner: self.$imageBanner)
                 }
                 
             }

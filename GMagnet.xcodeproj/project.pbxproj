@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		930AAA0628C39BA9000FFB88 /* CreateForumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930AAA0528C39BA9000FFB88 /* CreateForumView.swift */; };
 		930AAA0A28C59F94000FFB88 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930AAA0928C59F94000FFB88 /* ImagePicker.swift */; };
-		930AAA0C28C63A43000FFB88 /* ImageBannerPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930AAA0B28C63A43000FFB88 /* ImageBannerPicker.swift */; };
+		930AAA0F28C6F712000FFB88 /* BannerPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930AAA0E28C6F712000FFB88 /* BannerPicker.swift */; };
 		93A8357128C24408005F3335 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A8357028C24408005F3335 /* Home.swift */; };
 		93A8357328C2499A005F3335 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A8357228C2499A005F3335 /* Color.swift */; };
 		B22FD7D528C0708600E874F9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D428C0708600E874F9 /* User.swift */; };
@@ -38,7 +38,7 @@
 /* Begin PBXFileReference section */
 		930AAA0528C39BA9000FFB88 /* CreateForumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateForumView.swift; sourceTree = "<group>"; };
 		930AAA0928C59F94000FFB88 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
-		930AAA0B28C63A43000FFB88 /* ImageBannerPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBannerPicker.swift; sourceTree = "<group>"; };
+		930AAA0E28C6F712000FFB88 /* BannerPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerPicker.swift; sourceTree = "<group>"; };
 		93A8357028C24408005F3335 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		93A8357228C2499A005F3335 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		B22FD7D428C0708600E874F9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -81,7 +81,7 @@
 			children = (
 				930AAA0528C39BA9000FFB88 /* CreateForumView.swift */,
 				930AAA0928C59F94000FFB88 /* ImagePicker.swift */,
-				930AAA0B28C63A43000FFB88 /* ImageBannerPicker.swift */,
+				930AAA0E28C6F712000FFB88 /* BannerPicker.swift */,
 			);
 			path = Forum;
 			sourceTree = "<group>";
@@ -246,11 +246,11 @@
 				B22FD7D728C0709200E874F9 /* GameForum.swift in Sources */,
 				FA51A4D728C08789008AF58F /* SignUpView.swift in Sources */,
 				FA51A4D928C08797008AF58F /* SignInView.swift in Sources */,
-				930AAA0C28C63A43000FFB88 /* ImageBannerPicker.swift in Sources */,
 				FA51A4AA28C06D02008AF58F /* GMagnetApp.swift in Sources */,
 				B22FD7D528C0708600E874F9 /* User.swift in Sources */,
 				930AAA0A28C59F94000FFB88 /* ImagePicker.swift in Sources */,
 				B22FD7D928C0709E00E874F9 /* Post.swift in Sources */,
+				930AAA0F28C6F712000FFB88 /* BannerPicker.swift in Sources */,
 				930AAA0628C39BA9000FFB88 /* CreateForumView.swift in Sources */,
 				93A8357328C2499A005F3335 /* Color.swift in Sources */,
 			);

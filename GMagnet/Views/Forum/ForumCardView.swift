@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct ForumCardView: View {
-    let gameforum: GameForum
+    @EnvironmentObject var gameForum: GameForumViewModel
+    @State var showForumDetail = false
     var body: some View {
         ZStack{
             VStack {
                 
-                AsyncImage(url: URL(string: gameforum.banner)) {phase in
+                AsyncImage(url: URL(string: gameForum.gameforum.banner)) {phase in
                     if let image = phase.image {
                         image
                             .resizable()
@@ -52,7 +53,7 @@ struct ForumCardView: View {
                     Spacer()
                     
                     Button(action: {
-                        
+                        showForumDetail = true
                     }, label: {
                         Text("Visit")
                             .font(.system(size: 18, weight: .heavy , design: .monospaced))
@@ -61,7 +62,9 @@ struct ForumCardView: View {
                             .foregroundColor(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 9))
                             .padding(.bottom, 15)
-                    })
+                    }).fullScreenCover(isPresented: $showForumDetail){
+                        GameForumTabView()
+                    }
                     
                     Button(action: {
                         
@@ -80,7 +83,7 @@ struct ForumCardView: View {
 
             }.frame(width: 300, height: 160)
                 
-            AsyncImage(url: URL(string: gameforum.logo)) {phase in
+            AsyncImage(url: URL(string: gameForum.gameforum.logo)) {phase in
                 if let image = phase.image {
                     image
                         .resizable()
@@ -110,12 +113,15 @@ struct ForumCardView: View {
                 .fill(.white)
                 .shadow(radius: 5)
         }
+//        .onAppear(){
+//            gameForum.get_posts()
+//        }
         
     }
 }
 
-struct ForumCardView_Previews: PreviewProvider {
-    static var previews: some View {
-        ForumCardView(gameforum: GameForum())
-    }
-}
+//struct ForumCardView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ForumCardView(gameforum: GameForum())
+//    }
+//}

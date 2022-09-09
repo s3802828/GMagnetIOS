@@ -12,16 +12,17 @@ struct MainView: View {
     
     var body: some View {
         ZStack {
-            ScrollView {
-                VStack {
-                    ForEach (mainViewModels.gameforum_list) {
-                        forum in
-                        ForumCardView(gameforum: forum)
-                            .padding(.vertical, 5)
+                ScrollView {
+                    VStack {
+                        ForEach (mainViewModels.gameforum_list) {
+                            forum in
+                            ForumCardView()
+                                .environmentObject(GameForumViewModel(gameforum_id: forum.id))
+                                .padding(.vertical, 5)
+                        }
                     }
-                }
-                .frame(width: UIScreen.main.bounds.width)
-            }
+                    .frame(width: UIScreen.main.bounds.width)
+                }            
         }.onAppear(){
             mainViewModels.fetch_all_forums()
         }

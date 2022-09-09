@@ -17,6 +17,8 @@ class GameForumViewModel: ObservableObject{
     init(gameforum_id: String){
         GameForum.get_forum(forum_id: gameforum_id){game_forum in
             self.gameforum = game_forum
+            self.get_posts()
+            self.get_members(forum_id: gameforum_id)
         }
     }
     

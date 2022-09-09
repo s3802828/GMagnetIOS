@@ -9,8 +9,8 @@ import SwiftUI
 
 enum Page {
     case home
-    case map
-    case videos
+    case post
+    case member
     case profile
     case plus
 }
@@ -30,10 +30,10 @@ struct TabViews: View {
         switch tabbarRouter.currentPage {
         case .home:
             MainView()
-        case .map:
-            Text("Map")
-        case .videos:
-            Text("Video")
+        case .post:
+            Text("Post")
+        case .member:
+            Text("member")
         case .profile:
             VStack {
                 Text("Profile")

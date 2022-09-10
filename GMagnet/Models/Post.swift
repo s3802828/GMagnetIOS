@@ -178,7 +178,7 @@ struct Post: Identifiable{
                     User.get_user(user_id: data["user_id"] as? String ?? ""){user in
                         GameForum.get_forum(forum_id: data["game_id"] as? String ?? ""){forum in
                             User.get_users(users_ids: data["liked_users"] as? [String] ?? [String]()){liked_users in
-                                Comment.get_comments(comment_ids: data["liked_users"] as? [String] ?? [String]()){comment_list in
+                                Comment.get_comments(comment_ids: data["comment_list"] as? [String] ?? [String]()){comment_list in
                                     post =  Post(id: doc.documentID,
                                                  user: user,
                                                  game: forum,

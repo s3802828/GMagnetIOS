@@ -22,6 +22,14 @@ class GameForumViewModel: ObservableObject{
         }
     }
     
+    func refreshGameForum() {
+        GameForum.get_forum(forum_id: self.gameforum.id){ game_forum in
+            self.gameforum = game_forum
+            self.get_posts()
+            self.get_members(forum_id: self.gameforum.id)
+        }
+    }
+    
     func get_posts(){
         Post.get_posts(post_ids: self.gameforum.post_list){post_list in
             self.posts = post_list

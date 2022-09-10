@@ -113,15 +113,7 @@ struct ForumCardView: View {
                 .fill(.white)
                 .shadow(radius: 5)
         }
-//        .onAppear(){
-//            gameForum.get_posts()
-//        }
         
     }
 }
 
-//struct ForumCardView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ForumCardView(gameforum: GameForum())
-//    }
-//}

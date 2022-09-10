@@ -13,6 +13,7 @@ class PostViewModel: ObservableObject{
     
     init(post: Post){
         self.post = post
+        self.fetch_comments()
     }
     
     func fetch_comments(){

@@ -13,6 +13,9 @@ struct MainView: View {
     var body: some View {
         ZStack {
                 ScrollView {
+                    PullToRefresh(coordinateSpaceName: "pullToRefreshMainView") {
+                        mainViewModels.fetch_all_forums()
+                    }
                     VStack {
                         ForEach (mainViewModels.gameforum_list) {
                             forum in
@@ -22,9 +25,7 @@ struct MainView: View {
                         }
                     }
                     .frame(width: UIScreen.main.bounds.width)
-                }            
-        }.onAppear(){
-            mainViewModels.fetch_all_forums()
+                }.coordinateSpace(name: "pullToRefreshMainView")
         }
     }
 }

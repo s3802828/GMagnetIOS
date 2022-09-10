@@ -75,7 +75,7 @@ struct GameForum: Identifiable{
                 print(error)
             }else{
                 if let snapshot = snapshot {
-                    snapshot.documents.map{doc in
+                    snapshot.documents.map {doc in
                         
                         User.get_user(user_id: doc["admin_id"] as? String ?? ""){user in
                             Category.get_categories(category_list: doc["category_list"] as? [String] ?? [String]()){categories in

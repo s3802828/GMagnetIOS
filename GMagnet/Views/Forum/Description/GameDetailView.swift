@@ -9,26 +9,25 @@ import SwiftUI
 
 struct GameDetailView: View {
     @State var offset: CGFloat = 0
-    let gameName: String
-    let gameDescription: String
+    @EnvironmentObject var gameForum : GameForumViewModel
     let gameColor = GameColor()
     var body: some View {
         VStack(alignment: .leading, spacing: 10, content:{
-            Text(gameName)
+            Text(gameForum.gameforum.name)
                 .fontWeight(.bold)
                 .foregroundColor(gameColor.black)
                 .font(.system(size: 30))
-            Text(gameDescription)
+            Text(gameForum.gameforum.description)
                 .font(.system(size: 20))
             HStack(spacing: 10){
-                Text("13")
+                Text(String(gameForum.members.count))
                     .foregroundColor(gameColor.black)
                     .fontWeight(.semibold)
                     .font(.system(size: 20))
-                Text("Followers")
+                Text("Members")
                     .foregroundColor(gameColor.gray)
                     .font(.system(size: 20))
-                Text("35")
+                Text(String(gameForum.posts.count))
                     .foregroundColor(gameColor.black)
                     .fontWeight(.semibold)
                     .font(.system(size: 20))
@@ -37,6 +36,12 @@ struct GameDetailView: View {
                     .font(.system(size: 20))
                 
             }
+            Divider()
+            Text("Admin")
+                .fontWeight(.bold)
+                .foregroundColor(gameColor.black)
+                .font(.system(size: 20))
+            MemberRow(member: gameForum.gameforum.admin)
         }
         )
     }

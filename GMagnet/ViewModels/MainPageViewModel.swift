@@ -12,6 +12,10 @@ import Firebase
 class MainPageViewModel: ObservableObject {
     @Published var gameforum_list: [GameForum] = []
     
+    init(){
+        self.fetch_all_forums()
+    }
+    
     func fetch_all_forums(){
         //get database reference
         GameForum.get_all_forums(){all_forums in

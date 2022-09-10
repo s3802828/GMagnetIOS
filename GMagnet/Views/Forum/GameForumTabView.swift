@@ -25,11 +25,11 @@ struct GameForumTabView: View {
     @ViewBuilder var contentView: some View {
         switch tabbarRouter.currentPage {
         case .home:
-            GameDetailView(gameName: gameForum.gameforum.name, gameDescription: gameForum.gameforum.description)
+            GameDetailView()
         case .post:
-            PostList(listPost: gameForum.posts)
+            PostList()
         case .member:
-            Text("Member")
+            MemberList()
         case .profile:
             VStack {
                 Text("Profile")
@@ -56,6 +56,9 @@ struct GameForumTabView: View {
             VStack {
                 ScrollView(.vertical,showsIndicators: false,
                            content: {
+                    PullToRefresh(coordinateSpaceName: "pullToRefresh") {
+                        gameForum.refreshGameForum()
+                    }
                     VStack(spacing: 15){
                         GeometryReader{proxy -> AnyView in
                             
@@ -187,9 +190,7 @@ struct GameForumTabView: View {
             }
             .edgesIgnoringSafeArea(.top)
             .edgesIgnoringSafeArea(.bottom)
-            .onAppear(){
-                print(gameForum.posts)
-            }
+            .coordinateSpace(name: "pullToRefresh")
         }
     }
 }

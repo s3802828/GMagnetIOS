@@ -10,11 +10,16 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var currentUser = AuthenticateViewModel()
     var body: some View {
-        if (currentUser.currentUser.id != ""){
-            TabViews().environmentObject(currentUser)
+        if !currentUser.isLoggingIn {
+            if (currentUser.currentUser.id != ""){
+                TabViews().environmentObject(currentUser)
+            } else {
+                Home().environmentObject(currentUser)
+            }
         } else {
-            Home().environmentObject(currentUser)
+            ProgressView()
         }
+        
     }
 }
 

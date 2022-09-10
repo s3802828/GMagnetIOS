@@ -13,27 +13,27 @@
 import SwiftUI
 
 struct PostList: View {
-    var listPost : [Post]
     @State private var searchText=""
+    @State var showPostDetail = false
+    @EnvironmentObject var gameForum : GameForumViewModel
     var filteredPost: [Post] {
-        if searchText == "" {return listPost}
-        return listPost.filter {
+        if searchText == "" {return gameForum.posts}
+        return gameForum.posts.filter {
             $0.title.lowercased()
+                .contains(searchText.lowercased()) || $0.content.lowercased()
                 .contains(searchText.lowercased())
         }
     }
     
     var body: some View {
-        VStack{
-            TextField("Search...", text: $searchText)
+        VStack {
+            SearchBar(text: $searchText)
+                .padding(.bottom, 10)
             ForEach(filteredPost, id: \.id) { post in
-                Button(action: {}){
-                    PostRow(post: post)
-                }
+                PostRow(post: post)
+                Spacer()
             }
         }
-        
-        
     }
 }
 

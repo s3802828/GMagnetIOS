@@ -11,39 +11,49 @@ import GoogleSignIn
 
 class AuthenticateViewModel : ObservableObject {
     @Published var currentUser : User
+    @Published var isLoggingIn : Bool
     let db = Firestore.firestore()
     let signInConfig = GIDConfiguration(clientID: "722163187237-vq7308i0o17skikm6t8eag54ed1bj3te.apps.googleusercontent.com")
     init(){
         currentUser = User()
+        isLoggingIn = false
     }
     
     func signInUser(userEmail: String, userPassword: String, completion: @escaping (Bool) -> Void) {
+        self.isLoggingIn = true
         Auth.auth().signIn(withEmail: userEmail, password: userPassword) { authResult, error in
             guard error == nil else {
                 print(error?.localizedDescription ?? "")
                 if error?.localizedDescription == "The password is invalid or the user does not have a password."{
                     completion(false)
+                    self.isLoggingIn = false
                 }
                 return
             }
             switch authResult {
             case .none:
                 print("Could not sign in user.")
+                self.isLoggingIn = false
             case .some(_):
                 print("User signed in")
                 self.refreshCurrentUser()
+                self.isLoggingIn = false
             }
             
         }
     }
     
     func signInWithGoogle() {
+        self.isLoggingIn = true
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
         guard let rootViewController = windowScene.windows.first?.rootViewController else { return }
         GIDSignIn.sharedInstance.signIn(
             with: signInConfig, presenting: rootViewController) { user, error in
                 
-                guard let authentication = user?.authentication, let idToken = authentication.idToken else { return }
+                guard let authentication = user?.authentication, let idToken = authentication.idToken else {
+                    self.isLoggingIn = false
+                    return
+                }
                 let emailAddress = user?.profile?.email
                 let fullName = user?.profile?.name
                 let profilePicUrl = user?.profile?.imageURL(withDimension: 320)?.absoluteString
@@ -53,6 +63,7 @@ class AuthenticateViewModel : ObservableObject {
                 Auth.auth().signIn(with: credential) { (_, error) in
                     if let error = error {
                         print(error.localizedDescription)
+                        self.isLoggingIn = false
                     } else {
                         User.get_user(user_id: Auth.auth().currentUser?.uid ?? "") { user in
                             if user.id == "" {
@@ -62,13 +73,16 @@ class AuthenticateViewModel : ObservableObject {
                                 self.db.collection("users").document(userId ?? "").setData(newUser.to_dictionary()) { [self] err in
                                     if let err = err {
                                         print("Error writing document: \(err)")
+                                        self.isLoggingIn = false
                                     } else {
                                         print("User successfully added!")
                                         self.currentUser = newUser
+                                        self.isLoggingIn = false
                                     }
                                 }
                             } else {
                                 self.refreshCurrentUser()
+                                self.isLoggingIn = false
                             }
                         }
                     }
@@ -118,14 +132,17 @@ class AuthenticateViewModel : ObservableObject {
     }
     
     func signUpUser(userEmail: String, userPassword: String, username: String, fullname: String) {
+        self.isLoggingIn = true
         Auth.auth().createUser(withEmail: userEmail, password: userPassword) { authResult, error in
             guard error == nil else {
                 print(error?.localizedDescription ?? "")
+                self.isLoggingIn = false
                 return
             }
             switch authResult {
             case .none:
                 print("Could not create account.")
+                self.isLoggingIn = false
             case .some(_):
                 print("User created")
                 // Add a new document in collection "users"
@@ -134,9 +151,11 @@ class AuthenticateViewModel : ObservableObject {
                 self.db.collection("users").document(userId ?? "").setData(newUser.to_dictionary()) { [self] err in
                     if let err = err {
                         print("Error writing document: \(err)")
+                        self.isLoggingIn = false
                     } else {
                         print("User successfully added!")
                         self.currentUser = newUser
+                        self.isLoggingIn = false
                     }
                 }
             }

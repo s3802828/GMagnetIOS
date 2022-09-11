@@ -21,7 +21,7 @@ struct TabViews: View {
                                   endPoint: .bottomTrailing)
     
     @StateObject var tabbarRouter = TabBarRouter()
-    @ObservedObject var mainViewModels = MainPageViewModel()
+    @StateObject var mainViewModels = MainPageViewModel()
     @EnvironmentObject var currentUser: AuthenticateViewModel
     
     @State var showSearchBar = false

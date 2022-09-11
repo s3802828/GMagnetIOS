@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ForumCardView: View {
     @EnvironmentObject var gameForum: GameForumViewModel
+    @EnvironmentObject var currentUser: AuthenticateViewModel
     @State var showForumDetail = false
     var body: some View {
         ZStack{
@@ -67,12 +68,12 @@ struct ForumCardView: View {
                     }
                     
                     Button(action: {
-                        
+                        gameForum.toggle_join_forum(forum: gameForum.gameforum, user: currentUser.currentUser)
                     }, label: {
-                        Text("Join")
+                        Text(gameForum.members.contains(where: {$0.id == currentUser.currentUser.id}) ? "Joined" : "Join")
                             .font(.system(size: 18, weight: .heavy , design: .monospaced))
                             .frame(width: 75, height: 30)
-                            .background(.blue)
+                            .background(gameForum.members.contains(where: {$0.id == currentUser.currentUser.id}) ? .gray : .blue)
                             .foregroundColor(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 9))
                             .padding(.horizontal, 10)

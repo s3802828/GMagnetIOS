@@ -13,25 +13,29 @@ struct Comment: Identifiable{
     let user: User
     let post: String
     let content: String
+    let createdAt: Timestamp
     
-    init(id: String, user: User, post: String, content: String){
+    init(id: String, user: User, post: String, content: String, createdAt: Timestamp){
         self.id = id
         self.user = user
         self.post = post
         self.content = content
+        self.createdAt = createdAt
     }
     init(){
         self.id = ""
         self.user = User()
         self.post = ""
         self.content = ""
+        self.createdAt = Timestamp.init()
     }
     
     func to_dictionary()->[String: Any]{
         return [
             "user_id": self.user.id,
             "post_id": self.post,
-            "content": self.content
+            "content": self.content,
+            "createdAt": self.createdAt
         ]
     }
     
@@ -66,7 +70,8 @@ struct Comment: Identifiable{
                         comment = Comment(id: doc.documentID,
                                           user: user,
                                           post: data["post_id"] as? String ?? "",
-                                          content: data["content"] as? String ?? "")
+                                          content: data["content"] as? String ?? "",
+                                          createdAt: data["createdAt"] as? Timestamp ?? Timestamp.init())
                         completion(comment)
                     }
                 }

@@ -178,7 +178,9 @@ struct GameForumTabView: View {
                     TabItem(width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "info.circle", tabName: "Description", tabbarRouter: tabbarRouter, assignedPage: .home)
                     
                     Spacer()
-                    TabPlusButton(width: geometry.size.width/7, height: geometry.size.width/7, systemIconName: "plus.circle.fill", tabName: "plus")
+                    TabPlusButton(width: geometry.size.width/7, height: geometry.size.width/7, systemIconName: "plus.circle.fill", tabName: "plus"){
+                        CreatePost()
+                    }
                         .offset(y: -geometry.size.height/8/2)
                     Spacer()
                     TabItem(width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "message.circle", tabName: "Discussion", tabbarRouter: tabbarRouter, assignedPage: .post)

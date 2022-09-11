@@ -15,7 +15,12 @@ class PostViewModel: ObservableObject{
         self.post = post
         self.fetch_comments()
     }
-    
+    func refreshPostViewModel(){
+        Post.get_post(post_id: self.post.id){ post in
+            self.post = post
+            self.fetch_comments()
+        }
+    }
     func fetch_comments(){
         self.comment_list = self.post.comment_list
     }

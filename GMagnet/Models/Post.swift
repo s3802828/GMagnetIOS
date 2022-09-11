@@ -17,8 +17,9 @@ struct Post: Identifiable{
     let image: String
     var liked_users: [User]
     var comment_list: [Comment]
+    var createdAt: Timestamp
     
-    init(id: String, user: User, game: GameForum, title: String, content: String, image: String, liked_users: [User], comment_list: [Comment]){
+    init(id: String, user: User, game: GameForum, title: String, content: String, image: String, liked_users: [User], comment_list: [Comment], createdAt: Timestamp){
         self.id = id
         self.user = user
         self.game = game
@@ -27,9 +28,10 @@ struct Post: Identifiable{
         self.image = image
         self.liked_users = liked_users
         self.comment_list = comment_list
+        self.createdAt = createdAt
     }
     
-    init(user: User, game: GameForum, title: String, content: String, image: String, liked_users: [User], comment_list: [Comment]){
+    init(user: User, game: GameForum, title: String, content: String, image: String, liked_users: [User], comment_list: [Comment], createdAt: Timestamp){
         self.id = "\(UUID())"
         self.user = user
         self.game = game
@@ -38,6 +40,7 @@ struct Post: Identifiable{
         self.image = image
         self.liked_users = liked_users
         self.comment_list = comment_list
+        self.createdAt = createdAt
     }
     
     init(){
@@ -49,6 +52,7 @@ struct Post: Identifiable{
         self.image = ""
         self.liked_users = [User]()
         self.comment_list = [Comment]()
+        self.createdAt = Timestamp.init()
     }
     
     func to_dictionary()->[String: Any]{
@@ -71,7 +75,8 @@ struct Post: Identifiable{
             "content": self.content,
             "image": self.image,
             "liked_user": liked_users_id,
-            "comment_list": comment_list_id
+            "comment_list": comment_list_id,
+            "createdAt": self.createdAt
         ]
     }
     
@@ -186,7 +191,8 @@ struct Post: Identifiable{
                                                  content: data["content"] as? String ?? "",
                                                  image: data["image"] as? String ?? "",
                                                  liked_users: liked_users,
-                                                 comment_list: comment_list)
+                                                 comment_list: comment_list,
+                                                 createdAt: data["createdAt"] as? Timestamp ?? Timestamp.init())
                                     completion(post)
                                 }
                             }

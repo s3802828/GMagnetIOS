@@ -8,108 +8,112 @@
 import SwiftUI
 
 struct PostRow: View {
-    var post: Post
+    @ObservedObject var post : PostViewModel
+    @EnvironmentObject var currentUser: AuthenticateViewModel
+    init(post: Post){
+        self.post = PostViewModel(post: post)
+    }
     @State var showPostDetail = false
     var body: some View {
-        Button(action: {
-            showPostDetail = true
-        }){
-            VStack(alignment: .leading) {
+        
+        VStack(alignment: .leading) {
+            
+            HStack(alignment: .top, spacing: 5) {
                 
-                HStack(alignment: .top, spacing: 5) {
-                   
-                    AsyncImage(url: URL(string: post.user.avatar)) {phase in
-                        if let image = phase.image {
-                            image
-                                .resizable()
-                                .clipShape(Circle())
-                                .frame(width: 40, height: 40)
-                                .foregroundColor(Color.gray)
-                            
-                        } else if phase.error != nil {
-                            Image(systemName: "x.circle")
-                                .resizable()
-                                .frame(width: 280, height: 100)
-                                .clipShape(RoundedRectangle(cornerRadius: 9))
-                                .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                                .padding(.horizontal, 10)
-                                .padding(.top, 10)
-                            
-                        } else {
-                            ProgressView()
-                                .frame(width: 280, height: 100)
-                                .clipShape(RoundedRectangle(cornerRadius: 9))
-                                .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                                .padding(.horizontal, 10)
-                                .padding(.top, 10)
-                            
-                            
-                        }
+                AsyncImage(url: URL(string: post.post.user.avatar)) {phase in
+                    if let image = phase.image {
+                        image
+                            .resizable()
+                            .clipShape(Circle())
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(Color.gray)
+                        
+                    } else if phase.error != nil {
+                        Image(systemName: "x.circle")
+                            .resizable()
+                            .frame(width: 280, height: 100)
+                            .clipShape(RoundedRectangle(cornerRadius: 9))
+                            .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
+                            .padding(.horizontal, 10)
+                            .padding(.top, 10)
+                        
+                    } else {
+                        ProgressView()
+                            .frame(width: 280, height: 100)
+                            .clipShape(RoundedRectangle(cornerRadius: 9))
+                            .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
+                            .padding(.horizontal, 10)
+                            .padding(.top, 10)
+                        
+                        
                     }
-                    Text(post.user.name)
-                        .padding()
-                        .font(.system(size: 15, weight: .semibold))
-                        .foregroundColor(Color.black)
-                    Spacer()
-                    Text(post.createdAt.getDateDifference())
-                        .padding()
-                        .font(.system(size: 15, weight: .semibold))
-                        .foregroundColor(Color.black)
-                    
                 }
+                Text(post.post.user.name)
+                    .padding()
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundColor(Color.black)
+                Spacer()
+                Text(post.post.createdAt.getDateDifference())
+                    .padding()
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundColor(Color.black)
+                
+            }
+            Button(action: {
+                showPostDetail = true
+            }){
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(post.title)
+                    Text(post.post.title)
                         .font(.system(size: 25))
                         .bold()
                         .frame(height: 30)
                         .foregroundColor(Color.black)
                         .fixedSize(horizontal: false, vertical: true)
-                    Text(post.content)
+                    Text(post.post.content)
                         .font(.subheadline)
                         .frame(height: 20)
                         .foregroundColor(Color.black)
                         .fixedSize(horizontal: false, vertical: true)
                     
+                } }.fullScreenCover(isPresented: $showPostDetail){
+                    PostDetailsView().environmentObject(post)
                 }
+            
+            Spacer()
+            //Bottom button action
+            HStack {
+                Spacer()
+                Button {
+                    post.toggle_like_post(post: post.post, user: currentUser.currentUser)
+                } label: {
+                    VStack{
+                        Image(systemName: "hand.thumbsup")
+                            .font(.subheadline)
+                            
+                        Text("\(String(post.post.liked_users.count)) Like")
+                    }
+                }.foregroundColor(post.post.liked_users.contains(where: {$0.id == currentUser.currentUser.id}) ? Color.blue : .gray)
                 
                 Spacer()
-                //Bottom button action
-                HStack {
-                    Spacer()
-                    Button {
-                        
-                    } label: {
-                        VStack{
-                            Image(systemName: "hand.thumbsup")
-                                .font(.subheadline)
-                            Text("\(String(post.liked_users.count)) Like")
-                        }
+                
+                Button {
+                    showPostDetail = true
+                } label: {
+                    VStack{
+                        Image(systemName: "bubble.left")
+                            .font(.subheadline)
+                        Text("\(String(post.post.comment_list.count)) Comment")
                     }
-                    
-                    Spacer()
-                    
-                    Button {
-                        //Action here
-                    } label: {
-                        VStack{
-                            Image(systemName: "bubble.left")
-                                .font(.subheadline)
-                            Text("\(String(post.comment_list.count)) Comment")
-                        }
-                    }
-                    Spacer()
-                }
-                .foregroundColor(.gray)
+                }.foregroundColor(.gray)
+                Spacer()
             }
-            .padding(.all)
-            .background{
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(.white)
-                    .shadow(radius: 5)
-                    .frame(width: UIScreen.main.bounds.width)
-            }
-        }.fullScreenCover(isPresented: $showPostDetail){
-            PostDetailsView().environmentObject(PostViewModel(post: post))
+        }
+        .padding(.all)
+        .background{
+            RoundedRectangle(cornerRadius: 8)
+                .fill(.white)
+                .shadow(radius: 5)
+                .frame(width: UIScreen.main.bounds.width)
         }
     }
 }

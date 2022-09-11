@@ -21,6 +21,30 @@ class PostViewModel: ObservableObject{
             self.fetch_comments()
         }
     }
+    func update_post(update_post: Post){
+        Post.update_post(updated_post: update_post)
+        
+        // call get posts again to update UI
+        self.refreshPostViewModel()
+    }
+    
+    func delete_post(deleted_post: Post){
+        Post.delete_post(deleted_post: deleted_post)
+        
+        // call get posts again to update UI
+        self.refreshPostViewModel()
+    }
+    
+    func toggle_like_post(post: Post, user: User){
+        // Call when user click Like/Unlike on GamePage View
+        Post.toggle_like_post(post: post, user: user)
+        
+        // call get posts again to update UI
+        Post.get_post(post_id: self.post.id){ post in
+            self.post = post
+            print("hello")
+        }
+    }
     func fetch_comments(){
         self.comment_list = self.post.comment_list
     }

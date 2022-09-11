@@ -8,16 +8,39 @@
 import SwiftUI
 
 struct CreateForumView: View {
+    @EnvironmentObject var mainViewModels: MainPageViewModel
+
+    let curr_user: User
     @State private var isShowPhotoLibrary = false
     @State private var isShowBannerLibrary = false
     @State private var image = UIImage()
     @State private var imageBanner = UIImage()
     @State var forumName = ""
     @State var description = ""
-    @State var password = ""
-    @State var confirmPassword = ""
+    @State var selectedTags: [Category] = []
     @Environment(\.dismiss) var dismiss
     let gameColor = GameColor()
+    
+    func submit_addform(){
+        let new_forum = GameForum(
+            id: "henloo",
+            name: forumName,
+            description: description,
+            logo: "https://trainghiemso.vn/wp-content/uploads/2021/08/hades-thumb.webp",
+            banner: "https://i0.wp.com/d9n64ieh9hz8y.cloudfront.net/wp-content/uploads/20201020214745/hades-danh-gia-game-1.jpg?fit=1920%2C870&ssl=1",
+            admin: curr_user,
+            member_list: [],
+            post_list: [],
+            category_list: selectedTags
+        )
+        
+        mainViewModels.add_forum(added_forum: new_forum)
+    }
+    
+    func validate_form(){
+        
+    }
+    
     var body: some View {
         VStack {
             HStack{
@@ -53,7 +76,7 @@ struct CreateForumView: View {
                         .foregroundColor(Color.black)
                     VStack {
                         Text("Select your forum tag")
-                        TagSelectionView()
+                        TagSelectionView(selectedTags: self.$selectedTags)
                             .frame(height: 200)
                     }.padding()
                         .background(Color.gray.opacity(0.3).cornerRadius(10))
@@ -123,6 +146,7 @@ struct CreateForumView: View {
             }
             Spacer()
             Button(action: {
+                self.submit_addform()
                 dismiss()
             }, label:{
                 Image(systemName: "checkmark")
@@ -143,6 +167,7 @@ struct CreateForumView: View {
 
 struct CreateForumView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateForumView()
+//        CreateForumView()
+        HStack{}
     }
 }

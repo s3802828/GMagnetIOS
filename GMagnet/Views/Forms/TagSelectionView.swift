@@ -14,7 +14,7 @@ struct TagSelectionView: View {
         GridItem(.flexible(), spacing: 3, alignment: nil),
     ]
     
-    @State var selectedTags: [Category] = []
+    @Binding var selectedTags: [Category] 
     @State var tagList: [Category] = []
     
     //MARK: - GET INDEX
@@ -72,6 +72,7 @@ struct TagSelectionView: View {
 
 struct TagSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        TagSelectionView()
+//        TagSelectionView()
+        HStack{}
     }
 }

@@ -21,6 +21,7 @@ struct TabViews: View {
                                   endPoint: .bottomTrailing)
     
     @StateObject var tabbarRouter = TabBarRouter()
+    @ObservedObject var mainViewModels = MainPageViewModel()
     @EnvironmentObject var currentUser: AuthenticateViewModel
     
     @State var showSearchBar = false
@@ -29,7 +30,7 @@ struct TabViews: View {
     @ViewBuilder var contentView: some View {
         switch tabbarRouter.currentPage {
         case .home:
-            MainView()
+            MainView().environmentObject(mainViewModels)
         case .post:
             Text("Post")
         case .member:
@@ -84,7 +85,7 @@ struct TabViews: View {
 
                     Spacer()
                     TabPlusButton(width: geometry.size.width/7, height: geometry.size.width/7, systemIconName: "plus.circle.fill", tabName: "plus"){
-                        CreateForumView()
+                        CreateForumView(curr_user: currentUser.currentUser).environmentObject(mainViewModels)
                     }
                           .offset(y: -geometry.size.height/8/2)
                     Spacer()

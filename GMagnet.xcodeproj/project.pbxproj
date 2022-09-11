@@ -22,8 +22,9 @@
 		FA18EC7D28CDCC0600044EDC /* BannerPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC7C28CDCC0600044EDC /* BannerPicker.swift */; };
 		FA18EC7F28CDCC2500044EDC /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC7E28CDCC2500044EDC /* ImagePicker.swift */; };
 		FA18EC8128CDCC7900044EDC /* CreateForumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC8028CDCC7900044EDC /* CreateForumView.swift */; };
-		FA18EC8328CDD0CC00044EDC /* CreatePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC8228CDD0CC00044EDC /* CreatePost.swift */; };
+		FA18EC8328CDD0CC00044EDC /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC8228CDD0CC00044EDC /* CreatePostView.swift */; };
 		FA18EC8528CDF86700044EDC /* TagSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC8428CDF86600044EDC /* TagSelectionView.swift */; };
+		FA18EC8728CE448300044EDC /* PostImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC8628CE448300044EDC /* PostImagePicker.swift */; };
 		FA1F544928C5029900748CF0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1F544828C5029900748CF0 /* Constants.swift */; };
 		FA26A2FD28CB33EC005DA76F /* PostRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A2FA28CB33EC005DA76F /* PostRow.swift */; };
 		FA26A2FE28CB33EC005DA76F /* PostDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A2FB28CB33EC005DA76F /* PostDetailsView.swift */; };
@@ -81,8 +82,9 @@
 		FA18EC7C28CDCC0600044EDC /* BannerPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerPicker.swift; sourceTree = "<group>"; };
 		FA18EC7E28CDCC2500044EDC /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		FA18EC8028CDCC7900044EDC /* CreateForumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateForumView.swift; sourceTree = "<group>"; };
-		FA18EC8228CDD0CC00044EDC /* CreatePost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePost.swift; sourceTree = "<group>"; };
+		FA18EC8228CDD0CC00044EDC /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
 		FA18EC8428CDF86600044EDC /* TagSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSelectionView.swift; sourceTree = "<group>"; };
+		FA18EC8628CE448300044EDC /* PostImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImagePicker.swift; sourceTree = "<group>"; };
 		FA1F544828C5029900748CF0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		FA26A2FA28CB33EC005DA76F /* PostRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRow.swift; sourceTree = "<group>"; };
 		FA26A2FB28CB33EC005DA76F /* PostDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailsView.swift; sourceTree = "<group>"; };
@@ -209,8 +211,9 @@
 				FA18EC7C28CDCC0600044EDC /* BannerPicker.swift */,
 				FA18EC7E28CDCC2500044EDC /* ImagePicker.swift */,
 				FA18EC8028CDCC7900044EDC /* CreateForumView.swift */,
-				FA18EC8228CDD0CC00044EDC /* CreatePost.swift */,
+				FA18EC8228CDD0CC00044EDC /* CreatePostView.swift */,
 				FA18EC8428CDF86600044EDC /* TagSelectionView.swift */,
+				FA18EC8628CE448300044EDC /* PostImagePicker.swift */,
 			);
 			path = Forms;
 			sourceTree = "<group>";
@@ -420,7 +423,7 @@
 				FACEFFBE28C64EBE000CD5CC /* GameForumViewModel.swift in Sources */,
 				5DAE6DFD28C3A0BE00C65835 /* MainView.swift in Sources */,
 				B22FD7D728C0709200E874F9 /* GameForum.swift in Sources */,
-				FA18EC8328CDD0CC00044EDC /* CreatePost.swift in Sources */,
+				FA18EC8328CDD0CC00044EDC /* CreatePostView.swift in Sources */,
 				FA51A4D728C08789008AF58F /* SignUpView.swift in Sources */,
 				FA26A31228CD029C005DA76F /* CommentList.swift in Sources */,
 				FACEFFC228C64F45000CD5CC /* PostViewModel.swift in Sources */,
@@ -432,6 +435,7 @@
 				FA26A30528CB7B8E005DA76F /* GameDetailView.swift in Sources */,
 				5D80A5CB28C2758B00A06889 /* ForumCardView.swift in Sources */,
 				FA26A30328CB7AB0005DA76F /* GameForumTabView.swift in Sources */,
+				FA18EC8728CE448300044EDC /* PostImagePicker.swift in Sources */,
 				FA26A30B28CCE230005DA76F /* MemberRow.swift in Sources */,
 				FA1F544928C5029900748CF0 /* Constants.swift in Sources */,
 				FA26A31828CD1C98005DA76F /* SearchBar.swift in Sources */,

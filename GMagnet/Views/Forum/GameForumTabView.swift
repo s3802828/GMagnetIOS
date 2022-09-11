@@ -178,7 +178,7 @@ struct GameForumTabView: View {
                     
                     Spacer()
                     TabPlusButton(width: geometry.size.width/7, height: geometry.size.width/7, systemIconName: "plus.circle.fill", tabName: "plus"){
-                        CreatePost()
+                        CreatePostView()
                     }
                         .offset(y: -geometry.size.height/8/2)
                     Spacer()

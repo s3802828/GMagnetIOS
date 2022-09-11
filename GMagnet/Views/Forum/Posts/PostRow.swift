@@ -8,11 +8,8 @@
 import SwiftUI
 
 struct PostRow: View {
-    @ObservedObject var post : PostViewModel
+    @EnvironmentObject var post : PostViewModel
     @EnvironmentObject var currentUser: AuthenticateViewModel
-    init(post: Post){
-        self.post = PostViewModel(post: post)
-    }
     @State var showPostDetail = false
     var body: some View {
         
@@ -84,7 +81,7 @@ struct PostRow: View {
             HStack {
                 Spacer()
                 Button {
-                    post.toggle_like_post(post: post.post, user: currentUser.currentUser)
+                    post.toggle_like_post(user: currentUser.currentUser)
                 } label: {
                     VStack{
                         Image(systemName: "hand.thumbsup")

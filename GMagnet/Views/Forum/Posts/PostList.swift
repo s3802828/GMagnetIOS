@@ -38,7 +38,7 @@ struct PostList: View {
                 .padding(.bottom, 10)
             if filteredPost.count > 0 {
                 ForEach(filteredPost, id: \.id) { post in
-                    PostRow(post: post)
+                    PostRow().environmentObject(PostViewModel(post: post))
                     Spacer()
                 }
             } else {

@@ -127,20 +127,18 @@ struct Post: Identifiable{
         
     }
     
-    static func update_post(updated_post: Post, completion: @escaping (Post)->Void){
+    static func update_post(updated_post: Post){
         let db = Firestore.firestore()
         
         db.collection("posts").document(updated_post.id).setData(updated_post.to_dictionary(), merge: true)
         {error in
             if let error = error{
                 print(error)
-            } else {
-                completion(updated_post)
             }
         }
     }
     
-    static func delete_post(deleted_post: Post, completion: @escaping (Post)->Void){
+    static func delete_post(deleted_post: Post){
 //        var post_owner = User.get_user(user_id: deleted_post.user.id)
 //        var updated_forum = GameForum.get_forum(forum_id: deleted_post.game.id)
         
@@ -212,25 +210,18 @@ struct Post: Identifiable{
 //        return post
     }
     
-    static func toggle_like_post(post: Post, user: User, completion: @escaping (Post)->Void) {
+    static func toggle_like_post(post: Post, user: User) {
         // Call when user click Like/Unlike a post
-        Post.get_post(post_id: post.id){updated_post in
-            var updated_post = updated_post
+            var updated_post = post
             if let user_index = updated_post.liked_users.firstIndex(where: {$0.id == user.id}){
                 // if user have liked the post -> remove user and update post
                 updated_post.liked_users.remove(at: user_index)
-                Post.update_post(updated_post: updated_post){post in
-                    completion(post)
-                }
-                
+                Post.update_post(updated_post: updated_post)
             } else{
                 // if user have not liked the post -> add user and update post
                 updated_post.liked_users.append(user)
-                Post.update_post(updated_post: updated_post){post in
-                    completion(post)
-                }
+                Post.update_post(updated_post: updated_post)
             }
-        }
         
     }
 }

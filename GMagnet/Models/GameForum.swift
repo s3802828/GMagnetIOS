@@ -85,7 +85,7 @@ struct GameForum: Identifiable{
                                                  logo: doc["logo"] as? String ?? "",
                                                  banner: doc["banner"] as? String ?? "",
                                                  admin: user,
-                                                 member_list: doc["member_lsit"] as? [String] ?? [String](),
+                                                 member_list: doc["member_list"] as? [String] ?? [String](),
                                                  post_list: doc["post_list"] as? [String] ?? [String](),
                                                  category_list: categories)
                                 
@@ -271,25 +271,57 @@ struct Category: Identifiable{
         }
     }
     
+    static func get_all_categories(completion: @escaping ([Category])->Void){
+        //get database reference
+        let db = Firestore.firestore()
+        var categories_list: [Category] = []
+        
+        //fetch all the data from forums
+        db.collection("categories").getDocuments { snapshot, error in
+            if let error = error {
+                print(error)
+            }else{
+                if let snapshot = snapshot {
+                    snapshot.documents.map{doc in
+                        categories_list.append(Category(id: doc.documentID, category_name: doc["category_name"] as? String ?? ""))
+                        
+                        if categories_list.count == snapshot.documents.count{
+                            completion(categories_list)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    static func get_category(category_id: String, completion: @escaping (Category)->Void){
+        let db = Firestore.firestore()
+        var category: Category = Category(id: "", category_name: "")
+
+        db.collection("categories").document(category_id).getDocument{doc, error in
+            if let doc = doc, doc.exists {
+                if let data = doc.data() {
+                    category = Category(id: data["id"] as? String ?? "",
+                                        category_name: data["category_name"] as? String ?? "")
+                    
+                    completion(category)
+                }
+            }else{
+                print("Doc for category \(category_id) does not exist")
+                completion(category)
+            }
+        }
+    }
+    
     static func get_categories(category_list: [String], completion: @escaping ([Category]) -> Void){
         let db = Firestore.firestore()
         var cate_list: [Category] = []
         
         for cat in category_list{
-            db.collection("categories").document(cat).getDocument{doc, error in
-                if let doc = doc, doc.exists {
-                    if let data = doc.data() {
-                        cate_list.append(
-                            Category(id: data["id"] as? String ?? "",
-                                     category_name: data["category_name"] as? String ?? "")
-                        )
-                        
-                        if cate_list.count == category_list.count{
-                            completion(cate_list)
-                        }
-                    }
-                }else{
-                    print("Doc for category \(cat) does not exist")
+            Category.get_category(category_id: cat){category in
+                cate_list.append(category)
+                
+                if cate_list.count == category_list.count {
                     completion(cate_list)
                 }
             }

@@ -23,6 +23,7 @@ struct AddComment: View {
                 createdAt: Timestamp.init()
             )
             postDetail.add_comment(added_comment: new_comment)
+            commentInput = ""
         }
     }
     var body: some View {

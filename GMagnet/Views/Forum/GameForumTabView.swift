@@ -134,7 +134,7 @@ struct GameForumTabView: View {
                                 
                                 Spacer()
                                 Button(action: {
-                                    gameForum.toggle_join_forum(forum: gameForum.gameforum, user: currentUser.currentUser)
+                                    gameForum.toggle_join_forum(forum: gameForum.gameforum, authViewModel: currentUser)
                                 }, label: {
                                     Text(gameForum.members.contains(where: {$0.id == currentUser.currentUser.id}) ? "Joined" : "Join")
                                         .font(.system(size: 18, weight: .heavy , design: .monospaced))
@@ -178,7 +178,7 @@ struct GameForumTabView: View {
                     
                     Spacer()
                     TabPlusButton(width: geometry.size.width/7, height: geometry.size.width/7, systemIconName: "plus.circle.fill", tabName: "plus"){
-                        CreatePostView()
+                        CreatePostView(tabRouter: tabbarRouter)
                     }
                         .offset(y: -geometry.size.height/8/2)
                     Spacer()

@@ -215,7 +215,6 @@ struct GameForum: Identifiable{
     }
     
     static func toggle_join_forum(forum: GameForum, user: User, completion: @escaping (GameForum)->Void){
-        
         var updated_forum = forum
         var updated_user = user
         
@@ -238,7 +237,6 @@ struct GameForum: Identifiable{
                     completion(forum)
                 }
             }
-            
         }else{
             // add forum id to list of joined forum
             updated_user.joined_forums.append(forum.id)

@@ -15,7 +15,7 @@ struct PostRow: View {
         
         VStack(alignment: .leading) {
             
-            HStack(alignment: .top, spacing: 5) {
+            HStack(alignment: .top, spacing: 3) {
                 
                 AsyncImage(url: URL(string: post.post.user.avatar)) {phase in
                     if let image = phase.image {

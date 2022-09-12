@@ -11,6 +11,7 @@ import Firebase
 struct CreatePostView: View {
     @EnvironmentObject var gameForum : GameForumViewModel
     @EnvironmentObject var currentUser : AuthenticateViewModel
+    @StateObject var tabRouter : TabBarRouter
     @State var titleInput = ""
     @State var contentInput = ""
     @State var isShowPostImageLibrary = false
@@ -29,6 +30,7 @@ struct CreatePostView: View {
             comment_list: [],
             createdAt: Timestamp.init())
         self.gameForum.add_post(new_post: new_post)
+        tabRouter.currentPage = .post
     }
 
     var body: some View {
@@ -170,6 +172,7 @@ struct CreatePostView: View {
                 Spacer()
                 
                 Button(action: {
+                    self.add_post()
                     dismiss()
                 }, label: {
                     Image(systemName: "checkmark")
@@ -185,11 +188,5 @@ struct CreatePostView: View {
 
 
         }
-    }
-}
-
-struct CreatePostView_Previews: PreviewProvider {
-    static var previews: some View {
-        CreatePostView()
     }
 }

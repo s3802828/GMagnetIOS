@@ -68,7 +68,7 @@ struct ForumCardView: View {
                     }
                     
                     Button(action: {
-                        gameForum.toggle_join_forum(forum: gameForum.gameforum, user: currentUser.currentUser)
+                        gameForum.toggle_join_forum(forum: gameForum.gameforum, authViewModel: currentUser)
                     }, label: {
                         Text(gameForum.members.contains(where: {$0.id == currentUser.currentUser.id}) ? "Joined" : "Join")
                             .font(.system(size: 18, weight: .heavy , design: .monospaced))

@@ -25,8 +25,8 @@ extension Int {
 }
 
 struct PostDetailsView: View {
-    @EnvironmentObject var postDetail : PostViewModel
     @EnvironmentObject var currentUser: AuthenticateViewModel
+    @EnvironmentObject var postDetail : PostViewModel
     @Environment(\.dismiss) var dismiss
     @State var expanded: Bool = false
     @State private var showViewButton: Bool = false
@@ -234,6 +234,8 @@ struct PostDetailsView: View {
                 }.coordinateSpace(name: "pullToRefreshPostDetail")
                 Spacer()
                 AddComment()
+                    .environmentObject(postDetail)
+                    .environmentObject(currentUser)
             }
         }
     }

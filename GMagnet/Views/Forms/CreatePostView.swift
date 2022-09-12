@@ -6,15 +6,30 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct CreatePostView: View {
     @EnvironmentObject var gameForum : GameForumViewModel
+    @EnvironmentObject var currentUser : AuthenticateViewModel
     @State var titleInput = ""
     @State var contentInput = ""
     @State var isShowPostImageLibrary = false
     @State var postImage = UIImage()
     @State var isPostingImage = false
     @Environment(\.dismiss) var dismiss
+    
+    func add_post(){
+        let new_post = Post(
+            user: currentUser.currentUser,
+            game: gameForum.gameforum,
+            title: titleInput,
+            content: contentInput,
+            image: "",
+            liked_users: [],
+            comment_list: [],
+            createdAt: Timestamp.init())
+        self.gameForum.add_post(new_post: new_post)
+    }
 
     var body: some View {
         ZStack {

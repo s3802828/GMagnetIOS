@@ -85,7 +85,9 @@ struct TabViews: View {
 
                     Spacer()
                     TabPlusButton(width: geometry.size.width/7, height: geometry.size.width/7, systemIconName: "plus.circle.fill", tabName: "plus"){
-                        CreateForumView(curr_user: currentUser.currentUser).environmentObject(mainViewModels)
+                        CreateForumView(curr_user: currentUser.currentUser)
+                            .environmentObject(mainViewModels)
+                            .environmentObject(currentUser)
                     }
                           .offset(y: -geometry.size.height/8/2)
                     Spacer()

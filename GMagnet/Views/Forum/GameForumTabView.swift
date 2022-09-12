@@ -161,7 +161,7 @@ struct GameForumTabView: View {
                                     EditButtonSelection(deleteFunction: {
                                         
                                     }, content: {
-                                        UpdateForumView()
+                                        UpdateForumView(updated_forum: gameForum.gameforum)
                                     })
 
                                 }

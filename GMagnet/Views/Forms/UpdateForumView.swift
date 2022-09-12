@@ -103,51 +103,132 @@ struct UpdateForumView: View {
         let bannerData = imageBanner.jpegData(compressionQuality: 1)!
 
         isProgressing = true
-        Amplify.Storage.uploadData(key: imageKey, data: imageData, progressListener: { progress in
-            print("Progress: \(progress)")
-            
-        }, resultListener: { event in
-            switch event {
-            case .success(let data):
-                print("Completed: \(data)")
-//                isProgressing = false
-            case .failure(let storageError):
-                print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-            }
-        }
-        )
         
-        Amplify.Storage.uploadData(key: bannerKey, data: bannerData, progressListener: { progress in
-            print("Progress: \(progress)")
-//            isProgressing = true
-        }, resultListener: { event in
-            switch event {
-            case .success(let data):
-                print("Completed: \(data)")
+        if self.imageKey.contains("gameIcon/") && self.bannerKey.contains("gameBanner/"){
+            Amplify.Storage.uploadData(key: imageKey, data: imageData, progressListener: { progress in
+                print("Progress: \(progress)")
                 
-                let updated_forum = GameForum(
-                    id: "henloo",
-                    name: forumName,
-                    description: description,
-                    logo: "https://gmagnet-ios-storage03509-dev.s3.amazonaws.com/public/\(imageKey)",
-                    banner: "https://gmagnet-ios-storage03509-dev.s3.amazonaws.com/public/\(bannerKey)",
-                    admin: self.updated_forum.admin,
-                    member_list: self.updated_forum.member_list,
-                    post_list: self.updated_forum.post_list,
-                    category_list: selectedTags
-                )
-                
-                mainViewModels.update_forum(updated_forum: updated_forum)
-                
-                isProgressing = false
-                
-                dismiss()
-                
-            case .failure(let storageError):
-                print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+            }, resultListener: { event in
+                switch event {
+                case .success(let data):
+                    print("Completed: \(data)")
+    //                isProgressing = false
+                case .failure(let storageError):
+                    print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+                }
             }
+            )
+            
+            Amplify.Storage.uploadData(key: bannerKey, data: bannerData, progressListener: { progress in
+                print("Progress: \(progress)")
+    //            isProgressing = true
+            }, resultListener: { event in
+                switch event {
+                case .success(let data):
+                    print("Completed: \(data)")
+                    
+                    let updated_forum = GameForum(
+                        id: self.updated_forum.id,
+                        name: forumName,
+                        description: description,
+                        logo: "https://gmagnet-ios-storage03509-dev.s3.amazonaws.com/public/\(imageKey)",
+                        banner: "https://gmagnet-ios-storage03509-dev.s3.amazonaws.com/public/\(bannerKey)",
+                        admin: self.updated_forum.admin,
+                        member_list: self.updated_forum.member_list,
+                        post_list: self.updated_forum.post_list,
+                        category_list: selectedTags
+                    )
+                    
+                    mainViewModels.update_forum(updated_forum: updated_forum)
+                    
+                    isProgressing = false
+                    
+                    dismiss()
+                    
+                case .failure(let storageError):
+                    print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+                }
+            }
+            )
+        }else if self.imageKey.contains("gameIcon/"){
+            Amplify.Storage.uploadData(key: imageKey, data: imageData, progressListener: { progress in
+                print("Progress: \(progress)")
+                
+            }, resultListener: { event in
+                switch event {
+                case .success(let data):
+                    print("Completed: \(data)")
+    //                isProgressing = false
+                    let updated_forum = GameForum(
+                        id: self.updated_forum.id,
+                        name: forumName,
+                        description: description,
+                        logo: "https://gmagnet-ios-storage03509-dev.s3.amazonaws.com/public/\(imageKey)",
+                        banner: self.updated_forum.banner,
+                        admin: self.updated_forum.admin,
+                        member_list: self.updated_forum.member_list,
+                        post_list: self.updated_forum.post_list,
+                        category_list: selectedTags
+                    )
+                    
+                    mainViewModels.update_forum(updated_forum: updated_forum)
+                    
+                    isProgressing = false
+                    
+                    dismiss()
+                case .failure(let storageError):
+                    print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+                }
+            }
+            )
+        }else if self.bannerKey.contains("gameBanner/"){
+            Amplify.Storage.uploadData(key: bannerKey, data: bannerData, progressListener: { progress in
+                print("Progress: \(progress)")
+    //            isProgressing = true
+            }, resultListener: { event in
+                switch event {
+                case .success(let data):
+                    print("Completed: \(data)")
+                    
+                    let updated_forum = GameForum(
+                        id: self.updated_forum.id,
+                        name: forumName,
+                        description: description,
+                        logo: self.updated_forum.logo,
+                        banner: "https://gmagnet-ios-storage03509-dev.s3.amazonaws.com/public/\(bannerKey)",
+                        admin: self.updated_forum.admin,
+                        member_list: self.updated_forum.member_list,
+                        post_list: self.updated_forum.post_list,
+                        category_list: selectedTags
+                    )
+                    
+                    mainViewModels.update_forum(updated_forum: updated_forum)
+                    
+                    isProgressing = false
+                    
+                    dismiss()
+                    
+                case .failure(let storageError):
+                    print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+                }
+            }
+            )
+        }else{
+            let updated_forum = GameForum(
+                id: self.updated_forum.id,
+                name: forumName,
+                description: description,
+                logo: self.updated_forum.logo,
+                banner: self.updated_forum.banner,
+                admin: self.updated_forum.admin,
+                member_list: self.updated_forum.member_list,
+                post_list: self.updated_forum.post_list,
+                category_list: selectedTags
+            )
+            
+            mainViewModels.update_forum(updated_forum: updated_forum)
         }
-        )
+        
 
         
     }
@@ -306,8 +387,8 @@ struct UpdateForumView: View {
             self.description = self.updated_forum.description
             self.forumName = self.updated_forum.name
             self.selectedTags = self.updated_forum.category_list
-            self.imageKey = self.generate_img_key(link: updated_forum.banner)
-            self.bannerKey = self.generate_img_key(link: updated_forum.logo)
+            self.imageKey = self.generate_img_key(link: updated_forum.logo)
+            self.bannerKey = self.generate_img_key(link: updated_forum.banner)
             print("Ze state forum \(self.bannerKey)  \(self.forumName) \(self.description) \(self.imageKey) ")
             downloadImage()
             downloadBanner()

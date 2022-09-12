@@ -30,6 +30,14 @@ class GameForumViewModel: ObservableObject{
         }
     }
     
+    func delete_post(deleted_post: Post){
+        Post.delete_post(deleted_post: deleted_post){
+            // call get posts again to update UI
+            self.refreshGameForum()
+        }
+    }
+
+    
     func get_posts(){
         Post.get_posts(post_ids: self.gameforum.post_list){post_list in
             self.posts = post_list

@@ -42,20 +42,6 @@ struct UpdateForumView: View {
         return split_arr.count>0 ? String(split_arr[split_arr.count - 1]) : ""
     }
     
-//    func downloadImage(key: String, completion: @escaping (UIImage) -> Void) {
-//        Amplify.Storage.downloadData(key: key) { result in
-//            switch result {
-//            case .success(let data):
-//                DispatchQueue.main.async {
-//                    if let unwrap_image = UIImage(data: data){
-//                        completion(unwrap_image)
-//                    }
-//                }
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-//    }
     
     func downloadImage() {
         Amplify.Storage.downloadData(key: "gameIcon/\(self.imageKey)") { result in
@@ -389,7 +375,7 @@ struct UpdateForumView: View {
             self.selectedTags = self.updated_forum.category_list
             self.imageKey = self.generate_img_key(link: updated_forum.logo)
             self.bannerKey = self.generate_img_key(link: updated_forum.banner)
-            print("Ze state forum \(self.bannerKey)  \(self.forumName) \(self.description) \(self.imageKey) ")
+//            print("Ze state forum \(self.bannerKey)  \(self.forumName) \(self.description) \(self.imageKey) ")
             downloadImage()
             downloadBanner()
         }

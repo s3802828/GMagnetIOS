@@ -157,7 +157,7 @@ struct Post: Identifiable{
                 var updated_forum = updated_forum
                 
                 if let post_index = post_owner.posts.firstIndex(where: {$0 == deleted_post.id}){
-                    post_owner.joined_forums.remove(at: post_index)
+                    post_owner.posts.remove(at: post_index)
                 }
 
                 if let post_index = updated_forum.post_list.firstIndex(where: {$0 == deleted_post.id}){
@@ -224,6 +224,7 @@ struct Post: Identifiable{
     
     static func toggle_like_post(post: Post, user: User, completion: @escaping (Post)->Void) {
         // Call when user click Like/Unlike a post
+        Post.get_post(post_id: post.id){post in
             var updated_post = post
             if let user_index = updated_post.liked_users.firstIndex(where: {$0.id == user.id}){
                 // if user have liked the post -> remove user and update post
@@ -238,6 +239,7 @@ struct Post: Identifiable{
                     completion(updated_post)
                 }
             }
-        
+        }
+    
     }
 }

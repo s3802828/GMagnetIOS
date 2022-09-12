@@ -26,6 +26,7 @@ extension Int {
 
 struct PostDetailsView: View {
     @EnvironmentObject var currentUser: AuthenticateViewModel
+    @EnvironmentObject var gameViewModel: GameForumViewModel
     @EnvironmentObject var postDetail : PostViewModel
     @Environment(\.dismiss) var dismiss
     @State var expanded: Bool = false
@@ -42,6 +43,12 @@ struct PostDetailsView: View {
             
         }
     }
+    
+    func delete_post(){
+        self.gameViewModel.delete_post(deleted_post: self.postDetail.post)
+        dismiss()
+    }
+    
     var body: some View {
         ZStack {
             ScrollViewReader {value in
@@ -221,9 +228,9 @@ struct PostDetailsView: View {
                                     if (currentUser.currentUser.id == postDetail.post.user.id){
                                         
                                         EditButtonSelection(deleteFunction: {
-                                            
+                                            self.delete_post()
                                         }, content: {
-                                            UpdatePostView()
+                                            UpdatePostView(updated_post: postDetail.post)
                                         })
 
                                     }

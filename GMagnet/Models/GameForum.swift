@@ -180,7 +180,7 @@ struct GameForum: Identifiable{
         }
     }
     
-    static func delete_forum(deleted_forum: GameForum){
+    static func delete_forum(deleted_forum: GameForum, completion: @escaping () -> Void){
         let db = Firestore.firestore()
         
         //remove the forum from users that joined the forum
@@ -199,58 +199,80 @@ struct GameForum: Identifiable{
         }
         
         //remove the posts of the game forum
-        for post_id in deleted_forum.post_list{
-            Post.get_post(post_id: post_id){deleted_post in
-                Post.delete_post(deleted_post: deleted_post){
-                    
+        if deleted_forum.post_list.count > 0 {
+            for post_id in deleted_forum.post_list{
+                Post.get_post(post_id: post_id){deleted_post in
+                    Post.delete_post(deleted_post: deleted_post){
+                        
+                        if post_id == deleted_forum.post_list[deleted_forum.post_list.count - 1]{
+                            db.collection("gameforums").document(deleted_forum.id).delete{ error in
+                                if let error = error{
+                                    print(error)
+                                }else{
+                                    completion()
+                                }
+                            }
+                        }
+                        
+                    }
                 }
             }
-        }
-        
-        db.collection("gameforums").document(deleted_forum.id).delete{ error in
-            if let error = error{
-                print(error)
+        }else{
+            db.collection("gameforums").document(deleted_forum.id).delete{ error in
+                if let error = error{
+                    print(error)
+                }else{
+                    completion()
+                }
             }
         }
     }
     
     static func toggle_join_forum(forum: GameForum, user: User, completion: @escaping (GameForum)->Void){
-        var updated_forum = forum
-        var updated_user = user
         
-        // Call when user click Join/Unjoin on GamePage View
-        if let forum_index = updated_user.joined_forums.firstIndex(where: {$0 == updated_forum.id}){
-            
-            // if user have joined the post -> remove user and update post
-            // update User object's joined forum list
-            updated_user.joined_forums.remove(at: forum_index)
-            
-            if let user_id_index = updated_forum.member_list.firstIndex(where: {$0 == user.id}){
-                //get index of user id in list of members of gameforum to remove
-                updated_forum.member_list.remove(at: user_id_index)
-            }
-            
-            //update user's joined forums on User db
-            User.update_user(updated_user: updated_user){user in
-                //update list of members on GameForum db
-                GameForum.update_forum(updated_forum: updated_forum){ forum in
-                    completion(forum)
-                }
-            }
-        }else{
-            // add forum id to list of joined forum
-            updated_user.joined_forums.append(forum.id)
-            // add user to list of members of game forum
-            updated_forum.member_list.append(updated_user.id)
-            
-            //save changes to db
-            User.update_user(updated_user: updated_user){user in
-                //update list of members on GameForum db
-                GameForum.update_forum(updated_forum: updated_forum){ forum in
-                    completion(forum)
+        
+        GameForum.get_forum(forum_id: forum.id){forum in
+            User.get_user(user_id: user.id){user in
+                var updated_forum = forum
+                var updated_user = user
+                
+                // Call when user click Join/Unjoin on GamePage View
+                if let forum_index = updated_user.joined_forums.firstIndex(where: {$0 == updated_forum.id}){
+                    
+                    // if user have joined the post -> remove user and update post
+                    // update User object's joined forum list
+                    updated_user.joined_forums.remove(at: forum_index)
+                    
+                    if let user_id_index = updated_forum.member_list.firstIndex(where: {$0 == user.id}){
+                        //get index of user id in list of members of gameforum to remove
+                        updated_forum.member_list.remove(at: user_id_index)
+                    }
+                    
+                    //update user's joined forums on User db
+                    User.update_user(updated_user: updated_user){user in
+                        //update list of members on GameForum db
+                        GameForum.update_forum(updated_forum: updated_forum){ forum in
+                            completion(forum)
+                        }
+                    }
+                }else{
+                    // add forum id to list of joined forum
+                    updated_user.joined_forums.append(forum.id)
+                    // add user to list of members of game forum
+                    updated_forum.member_list.append(updated_user.id)
+                    
+                    //save changes to db
+                    User.update_user(updated_user: updated_user){user in
+                        //update list of members on GameForum db
+                        GameForum.update_forum(updated_forum: updated_forum){ forum in
+                            completion(forum)
+                        }
+                    }
                 }
             }
         }
+        
+        
     }
     
 }

@@ -35,9 +35,9 @@ class MainPageViewModel: ObservableObject {
     }
     
     func delete_forum(deleted_forum: GameForum){
-        GameForum.delete_forum(deleted_forum: deleted_forum)
-        
-        self.fetch_all_forums()
+        GameForum.delete_forum(deleted_forum: deleted_forum){
+            self.fetch_all_forums()
+        }
     }
     
 }

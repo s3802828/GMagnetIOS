@@ -30,7 +30,7 @@ struct CreatePostView: View {
             game: gameForum.gameforum,
             title: titleInput,
             content: contentInput,
-            image: "https://gmagnet-ios-storage03509-dev.s3.amazonaws.com/public/\(postImageKey)",
+            image: self.postImageKey == "" ? "" : "https://gmagnet-ios-storage03509-dev.s3.amazonaws.com/public/\(postImageKey)",
             liked_users: [],
             comment_list: [],
             createdAt: Timestamp.init())
@@ -38,31 +38,33 @@ struct CreatePostView: View {
         
         uploadImage()
         
+        if self.postImageKey == ""{
+            dismiss()
+        }
+        
         tabRouter.currentPage = .post
-        
-        
     }
     
     func uploadImage() {
-        
-        let postImageData = postImage.jpegData(compressionQuality: 1)!
-        isPostProgressing = true
-        Amplify.Storage.uploadData(key: postImageKey, data: postImageData, progressListener: { progress in
-            print("Progress: \(progress)")
-            
-        }, resultListener: { event in
-            switch event {
-            case .success(let data):
-                print("Completed: \(data)")
-                isPostProgressing = false
+//        let postImageData = postImage.jpegData(compressionQuality: 1)!
+        if let postImageData = postImage.jpegData(compressionQuality: 1){
+            isPostProgressing = true
+            Amplify.Storage.uploadData(key: postImageKey, data: postImageData, progressListener: { progress in
+                print("Progress: \(progress)")
                 
-                dismiss()
-            case .failure(let storageError):
-                print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+            }, resultListener: { event in
+                switch event {
+                case .success(let data):
+                    print("Completed: \(data)")
+                    isPostProgressing = false
+                    
+                    dismiss()
+                case .failure(let storageError):
+                    print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+                }
             }
+            )
         }
-        )
-        
     }
 
     var body: some View {

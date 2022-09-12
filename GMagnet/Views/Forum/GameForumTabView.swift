@@ -14,6 +14,7 @@ struct GameForumTabView: View {
                                   endPoint: .bottomTrailing)
     
     @StateObject var tabbarRouter = TabBarRouter()
+    @EnvironmentObject var mainViewModel : MainPageViewModel
     @EnvironmentObject var gameForum : GameForumViewModel
     @EnvironmentObject var currentUser: AuthenticateViewModel
     @State var showSearchBar = false
@@ -56,6 +57,11 @@ struct GameForumTabView: View {
         case .plus:
             EmptyView()
         }
+    }
+    
+    func delete_forum(){
+        self.mainViewModel.delete_forum(deleted_forum: gameForum.gameforum)
+        dismiss()
     }
     
     
@@ -159,7 +165,7 @@ struct GameForumTabView: View {
                                 if (currentUser.currentUser.id == gameForum.gameforum.admin.id){
                                     
                                     EditButtonSelection(deleteFunction: {
-                                        
+                                        self.delete_forum()
                                     }, content: {
                                         UpdateForumView(updated_forum: gameForum.gameforum)
                                     })

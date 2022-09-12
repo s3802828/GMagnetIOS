@@ -28,12 +28,6 @@ class PostViewModel: ObservableObject{
         }
     }
     
-    func delete_post(deleted_post: Post){
-        Post.delete_post(deleted_post: deleted_post){
-            // call get posts again to update UI
-            self.refreshPostViewModel()
-        }
-    }
     
     func toggle_like_post(user: User){
         // Call when user click Like/Unlike on GamePage View

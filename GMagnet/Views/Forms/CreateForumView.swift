@@ -159,6 +159,7 @@ struct CreateForumView: View {
                         
                             Image(uiImage: self.image)
                                 .resizable()
+                                .scaledToFit()
                                 .clipShape(Circle())
                                 .frame(width: 150, height: 150)
                         }
@@ -186,6 +187,7 @@ struct CreateForumView: View {
                             }
                             Image(uiImage: self.imageBanner)
                                 .resizable()
+                                .scaledToFit()
                                 .frame(width: 150, height: 75)
                                 .clipShape(RoundedRectangle(cornerRadius: 20.0))
                             

@@ -17,8 +17,9 @@ struct Post: Identifiable{
     let image: String
     var liked_users: [User]
     var comment_list: [Comment]
+    var createdAt: Timestamp
     
-    init(id: String, user: User, game: GameForum, title: String, content: String, image: String, liked_users: [User], comment_list: [Comment]){
+    init(id: String, user: User, game: GameForum, title: String, content: String, image: String, liked_users: [User], comment_list: [Comment], createdAt: Timestamp){
         self.id = id
         self.user = user
         self.game = game
@@ -27,9 +28,10 @@ struct Post: Identifiable{
         self.image = image
         self.liked_users = liked_users
         self.comment_list = comment_list
+        self.createdAt = createdAt
     }
     
-    init(user: User, game: GameForum, title: String, content: String, image: String, liked_users: [User], comment_list: [Comment]){
+    init(user: User, game: GameForum, title: String, content: String, image: String, liked_users: [User], comment_list: [Comment], createdAt: Timestamp){
         self.id = "\(UUID())"
         self.user = user
         self.game = game
@@ -38,6 +40,7 @@ struct Post: Identifiable{
         self.image = image
         self.liked_users = liked_users
         self.comment_list = comment_list
+        self.createdAt = createdAt
     }
     
     init(){
@@ -49,6 +52,7 @@ struct Post: Identifiable{
         self.image = ""
         self.liked_users = [User]()
         self.comment_list = [Comment]()
+        self.createdAt = Timestamp.init()
     }
     
     func to_dictionary()->[String: Any]{
@@ -71,7 +75,8 @@ struct Post: Identifiable{
             "content": self.content,
             "image": self.image,
             "liked_user": liked_users_id,
-            "comment_list": comment_list_id
+            "comment_list": comment_list_id,
+            "createdAt": self.createdAt
         ]
     }
     
@@ -92,7 +97,7 @@ struct Post: Identifiable{
 //        return posts_list
     }
     
-    static func add_post(added_post: Post){
+    static func add_post(added_post: Post, completion: @escaping ()->Void){
         User.get_user(user_id: added_post.user.id){post_owner in
             GameForum.get_forum(forum_id: added_post.game.id){updated_forum in
                 print("add post invoked")
@@ -115,25 +120,31 @@ struct Post: Identifiable{
                 updated_forum.post_list.append(new_id.documentID)
 
                 //update user and game forum with the new post id
-                User.update_user(updated_user: post_owner)
-                GameForum.update_forum(updated_forum: updated_forum)
+                User.update_user(updated_user: post_owner){user in
+                    GameForum.update_forum(updated_forum: updated_forum){forum in
+                        completion()
+                    }
+                }
+                
             }
         }
         
     }
     
-    static func update_post(updated_post: Post){
+    static func update_post(updated_post: Post, completion: @escaping (Post)->Void){
         let db = Firestore.firestore()
         
         db.collection("posts").document(updated_post.id).setData(updated_post.to_dictionary(), merge: true)
         {error in
             if let error = error{
                 print(error)
+            }else{
+                completion(updated_post)
             }
         }
     }
     
-    static func delete_post(deleted_post: Post){
+    static func delete_post(deleted_post: Post, completion: @escaping ()->Void){
 //        var post_owner = User.get_user(user_id: deleted_post.user.id)
 //        var updated_forum = GameForum.get_forum(forum_id: deleted_post.game.id)
         
@@ -154,14 +165,20 @@ struct Post: Identifiable{
                 }
 
                 //update user and game forum with removed post id
-                User.update_user(updated_user: post_owner)
-                GameForum.update_forum(updated_forum: updated_forum)
-
-                db.collection("posts").document(deleted_post.id).delete{ error in
-                    if let error = error{
-                        print(error)
+                User.update_user(updated_user: post_owner){user in
+                    GameForum.update_forum(updated_forum: updated_forum){forum in
+                        db.collection("posts").document(deleted_post.id).delete{ error in
+                            if let error = error{
+                                print(error)
+                                completion()
+                            }else{
+                                completion()
+                            }
+                        }
+                        
                     }
                 }
+                
             }
         }
         
@@ -177,7 +194,7 @@ struct Post: Identifiable{
                 if let data = data {
                     User.get_user(user_id: data["user_id"] as? String ?? ""){user in
                         GameForum.get_forum(forum_id: data["game_id"] as? String ?? ""){forum in
-                            User.get_users(users_ids: data["liked_users"] as? [String] ?? [String]()){liked_users in
+                            User.get_users(users_ids: data["liked_user"] as? [String] ?? [String]()){liked_users in
                                 Comment.get_comments(comment_ids: data["comment_list"] as? [String] ?? [String]()){comment_list in
                                     post =  Post(id: doc.documentID,
                                                  user: user,
@@ -186,7 +203,8 @@ struct Post: Identifiable{
                                                  content: data["content"] as? String ?? "",
                                                  image: data["image"] as? String ?? "",
                                                  liked_users: liked_users,
-                                                 comment_list: comment_list)
+                                                 comment_list: comment_list,
+                                                 createdAt: data["createdAt"] as? Timestamp ?? Timestamp.init())
                                     completion(post)
                                 }
                             }
@@ -204,21 +222,22 @@ struct Post: Identifiable{
 //        return post
     }
     
-    static func toggle_like_post(post: Post, user: User){
+    static func toggle_like_post(post: Post, user: User, completion: @escaping (Post)->Void) {
         // Call when user click Like/Unlike a post
-        Post.get_post(post_id: post.id){updated_post in
-            var updated_post = updated_post
+            var updated_post = post
             if let user_index = updated_post.liked_users.firstIndex(where: {$0.id == user.id}){
                 // if user have liked the post -> remove user and update post
                 updated_post.liked_users.remove(at: user_index)
-                Post.update_post(updated_post: updated_post)
-                
-            }else{
+                Post.update_post(updated_post: updated_post){ post in
+                    completion(updated_post)
+                }
+            } else{
                 // if user have not liked the post -> add user and update post
                 updated_post.liked_users.append(user)
-                Post.update_post(updated_post: updated_post)
+                Post.update_post(updated_post: updated_post){post in
+                    completion(updated_post)
+                }
             }
-        }
         
     }
 }

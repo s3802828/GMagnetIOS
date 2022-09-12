@@ -6,10 +6,26 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct AddComment: View {
     @State var commentInput = ""
     @EnvironmentObject var currentUser: AuthenticateViewModel
+    @EnvironmentObject var postDetail : PostViewModel
+    
+    func add_comment(){
+        if self.commentInput.trimmingCharacters(in: .whitespacesAndNewlines) != ""{
+            let new_comment = Comment(
+                id: "ayo",
+                user: currentUser.currentUser,
+                post: postDetail.post.id,
+                content: commentInput,
+                createdAt: Timestamp.init()
+            )
+            postDetail.add_comment(added_comment: new_comment)
+            commentInput = ""
+        }
+    }
     var body: some View {
         ZStack {
             
@@ -47,7 +63,7 @@ struct AddComment: View {
                         .ignoresSafeArea(.keyboard, edges: .bottom)
                     
                     Button(action: {
-                        
+                        self.add_comment()
                     }, label: {
                         Image(systemName: "paperplane")
                         

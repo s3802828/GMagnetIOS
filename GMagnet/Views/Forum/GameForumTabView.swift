@@ -133,18 +133,17 @@ struct GameForumTabView: View {
                                 }
                                 
                                 Spacer()
-                                Button(action: {}, label:{
-                                    Text("Join")
-                                        .padding(.vertical,10)
-                                        .padding(.horizontal)
-                                        .font(.system(size: 25))
-                                        .foregroundColor(gameColor.cyan)
-                                        .background(
-                                            
-                                            Capsule()
-                                                .stroke(gameColor.cyan, lineWidth: 2.0)
-                                                .frame(width: 110, height: 50)
-                                        )
+                                Button(action: {
+                                    gameForum.toggle_join_forum(forum: gameForum.gameforum, authViewModel: currentUser)
+                                }, label: {
+                                    Text(gameForum.members.contains(where: {$0.id == currentUser.currentUser.id}) ? "Joined" : "Join")
+                                        .font(.system(size: 18, weight: .heavy , design: .monospaced))
+                                        .frame(width: 75, height: 30)
+                                        .background(gameForum.members.contains(where: {$0.id == currentUser.currentUser.id}) ? .gray : .blue)
+                                        .foregroundColor(.white)
+                                        .clipShape(RoundedRectangle(cornerRadius: 9))
+                                        .padding(.horizontal, 10)
+                                        .padding(.bottom, 15)
                                 })
                                 .padding(.top,20)
                                 .padding(20)
@@ -178,7 +177,9 @@ struct GameForumTabView: View {
                     TabItem(width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "info.circle", tabName: "Description", tabbarRouter: tabbarRouter, assignedPage: .home)
                     
                     Spacer()
-                    TabPlusButton(width: geometry.size.width/7, height: geometry.size.width/7, systemIconName: "plus.circle.fill", tabName: "plus")
+                    TabPlusButton(width: geometry.size.width/7, height: geometry.size.width/7, systemIconName: "plus.circle.fill", tabName: "plus"){
+                        CreatePostView(tabRouter: tabbarRouter)
+                    }
                         .offset(y: -geometry.size.height/8/2)
                     Spacer()
                     TabItem(width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "message.circle", tabName: "Discussion", tabbarRouter: tabbarRouter, assignedPage: .post)

@@ -45,14 +45,19 @@ struct CommentRow: View {
             }
             
             VStack(alignment: .leading) {
-                Text(comment.user.name)
-                    .fontWeight(.bold)
+                HStack {
+                    Text(comment.user.name)
+                        .fontWeight(.bold)
+                    Spacer()
+                    Text(comment.createdAt.getDateDifference())
+                        .fontWeight(.bold)
+                }
+                
                 
                 Text(comment.content)
                     .padding(.all, 5)
                     .overlay(RoundedRectangle(cornerRadius: 5).stroke().opacity(0.5))
             }
-            
         }
         .padding(.all, 3)
         .frame(width: 370, alignment: .leading)

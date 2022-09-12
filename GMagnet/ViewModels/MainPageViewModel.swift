@@ -24,8 +24,9 @@ class MainPageViewModel: ObservableObject {
     }
     
     func update_forum(updated_forum: GameForum){
-        GameForum.update_forum(updated_forum: updated_forum)
-        self.fetch_all_forums()
+        GameForum.update_forum(updated_forum: updated_forum){forum in
+            self.fetch_all_forums()
+        }
     }
     
     func add_forum(added_forum: GameForum){

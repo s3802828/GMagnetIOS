@@ -43,46 +43,17 @@ class GameForumViewModel: ObservableObject{
     }
     
     func add_post(new_post: Post){
-        Post.add_post(added_post: new_post)
-        
-        // call get posts again to update UI
-        Post.get_posts(post_ids: self.gameforum.post_list){posts in
-            self.posts = posts
+        Post.add_post(added_post: new_post){
+            // call get posts again to update UI
+            self.refreshGameForum()
         }
-        
-    }
-    
-    func update_post(update_post: Post){
-        Post.update_post(updated_post: update_post)
-        
-        // call get posts again to update UI
-        Post.get_posts(post_ids: self.gameforum.post_list){posts in
-            self.posts = posts
-        }
-    }
-    
-    func delete_post(deleted_post: Post){
-        Post.delete_post(deleted_post: deleted_post)
-        
-        // call get posts again to update UI
-        Post.get_posts(post_ids: self.gameforum.post_list){posts in
-            self.posts = posts
-        }
-    }
-    
-    func toggle_like_post(post: Post, user: User){
-        // Call when user click Like/Unlike on GamePage View
-        Post.toggle_like_post(post: post, user: user)
-        
-        // call get posts again to update UI
-        Post.get_posts(post_ids: self.gameforum.post_list){posts in
-            self.posts = posts
-        }
-    }
-    
-    func toggle_join_forum(forum: GameForum, user: User){
-        GameForum.toggle_join_forum(forum: forum, user: user)
-        
+}
+
+
+
+func toggle_join_forum(forum: GameForum, authViewModel: AuthenticateViewModel){
+    GameForum.toggle_join_forum(forum: forum, user: authViewModel.currentUser){forum in
+        self.gameforum = forum
         //reload UI
         Post.get_posts(post_ids: self.gameforum.post_list){posts in
             self.posts = posts
@@ -90,7 +61,9 @@ class GameForumViewModel: ObservableObject{
         User.get_users(users_ids: self.gameforum.member_list){members in
             self.members = members
         }
+        authViewModel.refreshCurrentUser()
     }
-    
+}
+
 
 }

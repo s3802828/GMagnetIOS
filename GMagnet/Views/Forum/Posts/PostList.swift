@@ -17,11 +17,18 @@ struct PostList: View {
     @State var showPostDetail = false
     @EnvironmentObject var gameForum : GameForumViewModel
     var filteredPost: [Post] {
-        if searchText == "" {return gameForum.posts}
+        if searchText == "" {
+            return gameForum.posts.sorted(){
+                $0.createdAt.dateValue() > $1.createdAt.dateValue()
+            }
+            
+        }
         return gameForum.posts.filter {
             $0.title.lowercased()
                 .contains(searchText.lowercased()) || $0.content.lowercased()
                 .contains(searchText.lowercased())
+        }.sorted(){
+            $0.createdAt.dateValue() > $1.createdAt.dateValue()
         }
     }
     
@@ -29,10 +36,17 @@ struct PostList: View {
         VStack {
             SearchBar(text: $searchText)
                 .padding(.bottom, 10)
-            ForEach(filteredPost, id: \.id) { post in
-                PostRow(post: post)
-                Spacer()
+            if filteredPost.count > 0 {
+                ForEach(filteredPost, id: \.id) { post in
+                    PostRow().environmentObject(PostViewModel(post: post))
+                    Spacer()
+                }
+            } else {
+                Text("No post to show")
+                    .foregroundColor(GameColor().gray)
+                    .font(.system(size: 20))
             }
+            
         }
     }
 }

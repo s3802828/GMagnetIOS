@@ -21,6 +21,7 @@ struct TabViews: View {
                                   endPoint: .bottomTrailing)
     
     @StateObject var tabbarRouter = TabBarRouter()
+    @StateObject var mainViewModels = MainPageViewModel()
     @EnvironmentObject var currentUser: AuthenticateViewModel
     
     @State var showSearchBar = false
@@ -29,7 +30,7 @@ struct TabViews: View {
     @ViewBuilder var contentView: some View {
         switch tabbarRouter.currentPage {
         case .home:
-            MainView()
+            MainView().environmentObject(mainViewModels)
         case .post:
             Text("Post")
         case .member:
@@ -66,52 +67,6 @@ struct TabViews: View {
                     
                     Spacer(minLength: 0)
                     
-                    HStack {
-                        
-                        if self.showSearchBar {
-                            
-                            Image(systemName: "magnifyingglass")
-                                .foregroundColor(.black)
-                                .padding(.horizontal, 8)
-                            
-                            TextField("Search...", text: self.$searchInput)
-                            
-                            Button(action: {
-                                searchInput = ""
-                                withAnimation{
-                                    self.showSearchBar.toggle()
-                                }
-                                
-                            }, label: {
-                                
-                                Image(systemName: "xmark")
-                                    .foregroundColor(.black)
-                                
-                            })
-                            .padding(.horizontal, 8)
-                            
-                        } else {
-                            
-                            Button(action: {
-                                withAnimation{
-                                    self.showSearchBar.toggle()
-                                }
-                            }, label: {
-                                
-                                Image(systemName: "magnifyingglass")
-                                    .foregroundColor(.black)
-                                    .padding(10)
-                                
-                            })
-                            
-                            
-                        }
-                        
-                    }
-                    .padding(self.showSearchBar ? 10 : 0)
-                    .background(Color.white)
-                        .cornerRadius(20)
-                    
                     
                 }.padding(.top, 40)
                     .padding(.horizontal)
@@ -129,7 +84,11 @@ struct TabViews: View {
                     TabItem(width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "homekit", tabName: "Home", tabbarRouter: tabbarRouter, assignedPage: .home)
 
                     Spacer()
-                    TabPlusButton(width: geometry.size.width/7, height: geometry.size.width/7, systemIconName: "plus.circle.fill", tabName: "plus")
+                    TabPlusButton(width: geometry.size.width/7, height: geometry.size.width/7, systemIconName: "plus.circle.fill", tabName: "plus"){
+                        CreateForumView(curr_user: currentUser.currentUser)
+                            .environmentObject(mainViewModels)
+                            .environmentObject(currentUser)
+                    }
                           .offset(y: -geometry.size.height/8/2)
                     Spacer()
                     TabItem(width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "person.crop.circle", tabName: "Profile", tabbarRouter: tabbarRouter, assignedPage: .profile)
@@ -180,14 +139,22 @@ struct TabItem: View {
      }
  }
 
-struct TabPlusButton: View {
+struct TabPlusButton<Content:View>: View {
     let width, height: CGFloat
     let systemIconName, tabName: String
-    
+    let openView : Content
+    @State var isShowing = false
+    init(width: CGFloat, height: CGFloat, systemIconName: String, tabName: String, @ViewBuilder content: () -> Content){
+        self.width = width
+        self.height = height
+        self.systemIconName = systemIconName
+        self.tabName = tabName
+        self.openView = content()
+    }
     var body: some View {
         ZStack {
             Button(action: {
-                
+                isShowing = true
             }, label: {
                 Image(systemName: systemIconName)
                     .resizable()
@@ -200,7 +167,9 @@ struct TabPlusButton: View {
                             .frame(width: width, height: height)
                             .shadow(radius: 4)
                     }
-            })
+            }).fullScreenCover(isPresented: $isShowing){
+                openView
+            }
             
         }
         .padding(.horizontal, -4)

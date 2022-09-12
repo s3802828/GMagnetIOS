@@ -11,7 +11,9 @@ struct CommentList: View {
     var commentList : [Comment]
     var body: some View {
         VStack {
-            ForEach(commentList, id: \.id) {
+            ForEach(commentList.sorted(){
+                $0.createdAt.dateValue() > $1.createdAt.dateValue()
+            }, id: \.id) {
                 comment in
                 CommentRow(comment: comment)
             }

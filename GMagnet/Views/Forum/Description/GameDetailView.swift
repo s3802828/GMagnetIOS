@@ -17,8 +17,11 @@ struct GameDetailView: View {
                 .fontWeight(.bold)
                 .foregroundColor(gameColor.black)
                 .font(.system(size: 30))
-            Text(gameForum.gameforum.description)
-                .font(.system(size: 20))
+            HStack {
+                ForEach(gameForum.gameforum.category_list, id: \.id){category in
+                    Text("#\(category.category_name) ")
+                }
+            }
             HStack(spacing: 10){
                 Text(String(gameForum.members.count))
                     .foregroundColor(gameColor.black)
@@ -36,12 +39,15 @@ struct GameDetailView: View {
                     .font(.system(size: 20))
                 
             }
-            Divider()
             Text("Admin")
                 .fontWeight(.bold)
                 .foregroundColor(gameColor.black)
                 .font(.system(size: 20))
             MemberRow(member: gameForum.gameforum.admin)
+            Divider()
+            Text(gameForum.gameforum.description.replacingOccurrences(of: "\\n", with: "\n"))
+                .font(.system(size: 20))
+            
         }
         )
     }

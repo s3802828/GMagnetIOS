@@ -8,8 +8,16 @@
 import SwiftUI
 
 struct MainView: View {
-    @ObservedObject var mainViewModels = MainPageViewModel()
-    
+//    @ObservedObject var mainViewModels = MainPageViewModel()
+    @EnvironmentObject var mainViewModels: MainPageViewModel
+    @State private var searchText=""
+    var filteredForum: [GameForum] {
+        if searchText == "" {return mainViewModels.gameforum_list}
+        return mainViewModels.gameforum_list.filter {
+            $0.name.lowercased()
+                .contains(searchText.lowercased())
+        }
+    }
     var body: some View {
         ZStack {
                 ScrollView {
@@ -17,7 +25,9 @@ struct MainView: View {
                         mainViewModels.fetch_all_forums()
                     }
                     VStack {
-                        ForEach (mainViewModels.gameforum_list) {
+                        SearchBar(text: $searchText)
+                            .padding(.bottom, 10)
+                        ForEach (filteredForum) {
                             forum in
                             ForumCardView()
                                 .environmentObject(GameForumViewModel(gameforum_id: forum.id))

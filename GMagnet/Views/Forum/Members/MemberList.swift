@@ -14,10 +14,16 @@ struct MemberList: View {
         VStack (alignment: .leading, spacing: 5){
             SearchBar(text: $searchText)
                 .padding(.bottom, 10)
-            ForEach(filteredMember, id: \.id) { member in
-                Button(action: {}){
-                    MemberRow(member: member)
+            if filteredMember.count > 0 {
+                ForEach(filteredMember, id: \.id) { member in
+                    Button(action: {}){
+                        MemberRow(member: member)
+                    }
                 }
+            } else {
+                Text("No members to show")
+                    .foregroundColor(GameColor().gray)
+                    .font(.system(size: 20))
             }
         }
     }

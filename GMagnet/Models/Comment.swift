@@ -13,25 +13,29 @@ struct Comment: Identifiable{
     let user: User
     let post: String
     let content: String
+    let createdAt: Timestamp
     
-    init(id: String, user: User, post: String, content: String){
+    init(id: String, user: User, post: String, content: String, createdAt: Timestamp){
         self.id = id
         self.user = user
         self.post = post
         self.content = content
+        self.createdAt = createdAt
     }
     init(){
         self.id = ""
         self.user = User()
         self.post = ""
         self.content = ""
+        self.createdAt = Timestamp.init()
     }
     
     func to_dictionary()->[String: Any]{
         return [
             "user_id": self.user.id,
             "post_id": self.post,
-            "content": self.content
+            "content": self.content,
+            "createdAt": self.createdAt
         ]
     }
     
@@ -66,7 +70,8 @@ struct Comment: Identifiable{
                         comment = Comment(id: doc.documentID,
                                           user: user,
                                           post: data["post_id"] as? String ?? "",
-                                          content: data["content"] as? String ?? "")
+                                          content: data["content"] as? String ?? "",
+                                          createdAt: data["createdAt"] as? Timestamp ?? Timestamp.init())
                         completion(comment)
                     }
                 }
@@ -79,7 +84,7 @@ struct Comment: Identifiable{
 //        return comment
     }
     
-    static func add_comment(added_comment: Comment){
+    static func add_comment(added_comment: Comment, completion: @escaping () -> Void){
         let db = Firestore.firestore()
         
         Post.get_post(post_id: added_comment.post){updated_post in
@@ -92,17 +97,19 @@ struct Comment: Identifiable{
                 }
             }
             
-            // update user and game forum with new post id
+            // update post with new comment
             Comment.get_comment(comment_id: new_id.documentID){new_comment in
                 updated_post.comment_list.append(new_comment)
                 
-                //update user and game forum with the new post id
-                Post.update_post(updated_post: updated_post)
+                //update post with new comment
+                Post.update_post(updated_post: updated_post){post in
+                    completion()
+                }
             }
         }
     }
     
-    static func delete_comment(deleted_comment: Comment){
+    static func delete_comment(deleted_comment: Comment, completion: @escaping (Post) -> Void){
         let db = Firestore.firestore()
         
         Post.get_post(post_id: deleted_comment.post){updated_post in
@@ -111,23 +118,28 @@ struct Comment: Identifiable{
                 updated_post.comment_list.remove(at: comment_index)
             }
             
-            Post.update_post(updated_post: updated_post)
-            
-            db.collection("comments").document(deleted_comment.id).delete{error in
-                if let error = error{
-                    print(error)
+            Post.update_post(updated_post: updated_post){post in
+                db.collection("comments").document(deleted_comment.id).delete{error in
+                    if let error = error{
+                        print(error)
+                    }
                 }
+                
+                completion(post)
             }
+            
         }
     }
     
-    static func update_comment(updated_comment: Comment){
+    static func update_comment(updated_comment: Comment, completion: @escaping (Comment) -> Void){
         let db = Firestore.firestore()
         
         db.collection("comments").document(updated_comment.id).setData(updated_comment.to_dictionary(), merge: true)
         {error in
             if let error = error{
                 print(error)
+            }else{
+                completion(updated_comment)
             }
         }
     }

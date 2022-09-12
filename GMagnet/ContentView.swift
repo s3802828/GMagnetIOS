@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct ContentView: View {
     @StateObject var currentUser = AuthenticateViewModel()
@@ -20,6 +21,17 @@ struct ContentView: View {
             ProgressView()
         }
         
+    }
+}
+
+extension Timestamp {
+    func getDateDifference() -> String {
+        // ask for the full relative date
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .full
+        // get exampleDate relative to the current date
+        let relativeDate = formatter.localizedString(for: self.dateValue(), relativeTo: Timestamp.init().dateValue())
+        return relativeDate
     }
 }
 

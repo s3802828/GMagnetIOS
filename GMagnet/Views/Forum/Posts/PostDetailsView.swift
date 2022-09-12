@@ -30,10 +30,8 @@ struct PostDetailsView: View {
     @Environment(\.dismiss) var dismiss
     @State var expanded: Bool = false
     @State private var showViewButton: Bool = false
-    @State var liked = false
-    @State var likeCount = 999999
     @State var lineLimit = 5
-    @State var text = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum lorm Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum lorm Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum lorm"
+
     
     private var moreLessText: String {
         if showViewButton {
@@ -123,7 +121,7 @@ struct PostDetailsView: View {
                                                     .onAppear {
                                                         showViewButton = proxy.size.height > CGFloat(22 * lineLimit)
                                                     }
-                                                    .onChange(of: text) { _ in
+                                                    .onChange(of: postDetail.post.content) { _ in
                                                         showViewButton = proxy.size.height > CGFloat(22 * lineLimit)
                                                     }
                                             }
@@ -192,25 +190,21 @@ struct PostDetailsView: View {
                                 HStack {
                                     
                                     Button(action: {
-//                                        if liked {
-//                                            likeCount -= 1
-//                                        } else {
-//                                            likeCount += 1
-//                                        }
-                                        liked.toggle()
+                                        
+                                        postDetail.toggle_like_post(user: currentUser.currentUser)
                                         
                                     }, label: {
                                         Image(systemName: "hand.thumbsup")
-                                            .foregroundColor(liked ? .white : .blue)
+                                            .foregroundColor(postDetail.post.liked_users.contains(where: {$0.id == currentUser.currentUser.id}) ? .white : .blue)
                                         
                                     }).padding(.all,8)
                                         .background{
-                                            Circle().fill(liked ? .blue : .white)
+                                            Circle().fill( postDetail.post.liked_users.contains(where: {$0.id == currentUser.currentUser.id}) ? .blue : .white)
                                         }.shadow(radius: 3)
                                     Text("\(postDetail.post.liked_users.count.roundedWithAbbreviations)")
                                         
-                                    Spacer()
-                                    Text("\(postDetail.post.comment_list.count.roundedWithAbbreviations)")
+                                    
+                                    
                                     Button(action: {
 
                                     }, label: {
@@ -219,6 +213,20 @@ struct PostDetailsView: View {
                                         .background{
                                             Circle().fill(.white)
                                         }.shadow(radius: 3)
+                                    
+                                    Text("\(postDetail.post.comment_list.count.roundedWithAbbreviations)")
+                                    
+                                    Spacer()
+                                    
+                                    if (currentUser.currentUser.id == postDetail.post.user.id){
+                                        
+                                        EditButtonSelection(deleteFunction: {
+                                            
+                                        }, content: {
+                                            UpdatePostView()
+                                        })
+
+                                    }
                                     
                                 }.padding(.vertical, 5)
                                     .padding(.horizontal, 20)

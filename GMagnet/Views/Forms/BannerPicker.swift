@@ -9,6 +9,7 @@ struct BannerPicker: UIViewControllerRepresentable {
     var sourceType: UIImagePickerController.SourceType = .photoLibrary
     
     @Binding var selectedBanner: UIImage
+    @Binding var bannerName: String
     @Environment(\.presentationMode) private var presentationMode
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<BannerPicker>) -> UIImagePickerController {
@@ -41,6 +42,10 @@ struct BannerPicker: UIViewControllerRepresentable {
             if let banner = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                 parent.selectedBanner = banner
             }
+             
+             if let url = info[UIImagePickerController.InfoKey.imageURL] as? URL {
+                 parent.bannerName = "gameBanner/\(url.lastPathComponent)"
+             }
      
             parent.presentationMode.wrappedValue.dismiss()
         }

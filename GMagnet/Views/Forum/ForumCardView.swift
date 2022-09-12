@@ -88,6 +88,7 @@ struct ForumCardView: View {
                 if let image = phase.image {
                     image
                         .resizable()
+                        .scaledToFit()
                         .frame(width: 75, height: 75)
                         .clipShape(Circle())
                         .overlay(Circle().stroke(.gray))
@@ -95,12 +96,14 @@ struct ForumCardView: View {
                 } else if phase.error != nil {
                     Image(systemName: "x.circle")
                         .resizable()
+                        .scaledToFit()
                         .frame(width: 75, height: 75)
                         .clipShape(Circle())
                         .overlay(Circle().stroke(.gray))
                         .offset(x: -90, y: 30)
                 } else {
                     ProgressView()
+                        .scaledToFit()
                         .frame(width: 75, height: 75)
                         .clipShape(Circle())
                         .overlay(Circle().stroke(.gray))

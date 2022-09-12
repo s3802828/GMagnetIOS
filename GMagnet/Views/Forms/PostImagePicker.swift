@@ -8,6 +8,7 @@ struct PostImagePicker: UIViewControllerRepresentable {
     var sourceType: UIImagePickerController.SourceType = .photoLibrary
     
     @Binding var selectedPostImage: UIImage
+    @Binding var postImageName: String
     @Environment(\.presentationMode) private var presentationMode
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<PostImagePicker>) -> UIImagePickerController {
@@ -40,6 +41,10 @@ struct PostImagePicker: UIViewControllerRepresentable {
             
             if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                 parent.selectedPostImage = image
+            }
+            
+            if let url = info[UIImagePickerController.InfoKey.imageURL] as? URL {
+                parent.postImageName = "postUpload/\(url.lastPathComponent)"
             }
             
             parent.presentationMode.wrappedValue.dismiss()

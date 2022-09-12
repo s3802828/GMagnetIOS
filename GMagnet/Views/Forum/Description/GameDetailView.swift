@@ -17,11 +17,19 @@ struct GameDetailView: View {
                 .fontWeight(.bold)
                 .foregroundColor(gameColor.black)
                 .font(.system(size: 30))
-            HStack {
-                ForEach(gameForum.gameforum.category_list, id: \.id){category in
-                    Text("#\(category.category_name) ")
+
+            
+            
+            ScrollView {
+                GeometryReader { geometry in
+
+                        WrappedLayout(geometry: geometry)
+
+                    
                 }
-            }
+            }.frame(height: 75)
+
+
             HStack(spacing: 10){
                 Text(String(gameForum.members.count))
                     .foregroundColor(gameColor.black)
@@ -50,5 +58,60 @@ struct GameDetailView: View {
             
         }
         )
+    }
+}
+
+struct WrappedLayout: View {
+    
+    @EnvironmentObject var gameForum : GameForumViewModel
+    
+    let geometry: GeometryProxy
+
+    var body: some View {
+        self.generateContent(in: geometry)
+    }
+
+    private func generateContent(in g: GeometryProxy) -> some View {
+        var width = CGFloat.zero
+        var height = CGFloat.zero
+
+        return HStack {
+            ZStack(alignment: .topLeading) {
+                
+                ForEach(gameForum.gameforum.category_list) {
+                    category in
+
+                    self.item(for: category.category_name)
+                        .padding([.horizontal, .vertical], 4)
+                        .alignmentGuide(.leading, computeValue: { d in
+                            if (abs(width - d.width) > g.size.width)
+                            {
+                                width = 0
+                                height -= d.height
+                            }
+                            let result = width
+                            if category.category_name == gameForum.gameforum.category_list.first!.category_name {
+                                width = 0 //last item
+                            } else {
+                                width -= d.width
+                            }
+                            return result
+                        })
+                        .alignmentGuide(.top, computeValue: {d in
+                            let result = height
+                            if category.category_name == gameForum.gameforum.category_list.first!.category_name {
+                                height = 0 // last item
+                            }
+                            return result
+                        })
+                }
+            }
+        }
+        
+    }
+
+    func item(for text: String) -> some View {
+        Text("# \(text)")
+        
     }
 }

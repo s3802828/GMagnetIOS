@@ -1,5 +1,3 @@
-
-
 import UIKit
 import SwiftUI
 
@@ -8,6 +6,7 @@ struct ImagePicker: UIViewControllerRepresentable {
     var sourceType: UIImagePickerController.SourceType = .photoLibrary
     
     @Binding var selectedImage: UIImage
+    @Binding var imageName: String
     @Environment(\.presentationMode) private var presentationMode
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
@@ -40,6 +39,11 @@ struct ImagePicker: UIViewControllerRepresentable {
             
             if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                 parent.selectedImage = image
+                
+            }
+            
+            if let url = info[UIImagePickerController.InfoKey.imageURL] as? URL {
+                parent.imageName = "gameIcon/\(url.lastPathComponent)"
             }
             
             parent.presentationMode.wrappedValue.dismiss()

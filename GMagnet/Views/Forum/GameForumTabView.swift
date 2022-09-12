@@ -22,6 +22,14 @@ struct GameForumTabView: View {
     @Environment(\.dismiss) var dismiss
     let gameColor = GameColor()
     
+    @State var isEditShowing = false
+    
+    @State var isShowingOption = false
+    
+//    @State private var option = ""
+//
+//    let optionList = ["Cancel", "Edit", "Delete"]
+    
     @ViewBuilder var contentView: some View {
         switch tabbarRouter.currentPage {
         case .home:
@@ -147,6 +155,17 @@ struct GameForumTabView: View {
                                 })
                                 .padding(.top,20)
                                 .padding(20)
+                                
+                                if (currentUser.currentUser.id == gameForum.gameforum.admin.id){
+                                    
+                                    EditButtonSelection(deleteFunction: {
+                                        
+                                    }, content: {
+                                        UpdateForumView()
+                                    })
+
+                                }
+                                
                                 
                             }.padding(.top, -55)
                             //Tab Content

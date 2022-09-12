@@ -175,3 +175,50 @@ struct TabPlusButton<Content:View>: View {
         .padding(.horizontal, -4)
     }
 }
+
+struct EditButtonSelection<Content:View>: View {
+    
+    let openEditView : Content
+    @State var isEditShowing = false
+    let deleteFunc: () -> Void
+    
+    init(deleteFunction: @escaping () -> Void, @ViewBuilder content: () -> Content){
+        self.openEditView = content()
+        self.deleteFunc = deleteFunction
+    }
+    
+    var body: some View{
+        Menu(content: {
+
+            Button(action: {
+                isEditShowing = true
+                print("Edit clicked")
+            }, label: {
+                HStack {
+                    Image(systemName: "rectangle.and.pencil.and.ellipsis")
+                        .foregroundColor(Color("ButtonColor"))
+                    Text("Edit")
+                }
+            })
+            
+            Button(action: {
+                deleteFunc()
+            }, label: {
+                HStack {
+                    Image(systemName: "trash")
+                        .foregroundColor(Color("ButtonColor"))
+                    Text("Delete")
+                }
+            })
+        }, label: {
+            Image(systemName: "ellipsis.circle")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 25)
+                .foregroundColor(Color("ButtonColor"))
+                
+        }).fullScreenCover(isPresented: $isEditShowing) {
+            openEditView
+        }
+    }
+}

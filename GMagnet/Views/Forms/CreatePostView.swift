@@ -7,6 +7,8 @@
 
 import SwiftUI
 import Firebase
+import Amplify
+import UIKit
 
 struct CreatePostView: View {
     @EnvironmentObject var gameForum : GameForumViewModel
@@ -16,8 +18,11 @@ struct CreatePostView: View {
     @State var contentInput = ""
     @State var isShowPostImageLibrary = false
     @State var postImage = UIImage()
+    @State var postImageKey = ""
     @State var isPostingImage = false
     @Environment(\.dismiss) var dismiss
+    
+    @State var isPostProgressing = false
     
     func add_post(){
         let new_post = Post(
@@ -25,12 +30,39 @@ struct CreatePostView: View {
             game: gameForum.gameforum,
             title: titleInput,
             content: contentInput,
-            image: "",
+            image: "https://gmagnet-ios-storage03509-dev.s3.amazonaws.com/public/\(postImageKey)",
             liked_users: [],
             comment_list: [],
             createdAt: Timestamp.init())
         self.gameForum.add_post(new_post: new_post)
+        
+        uploadImage()
+        
         tabRouter.currentPage = .post
+        
+        
+    }
+    
+    func uploadImage() {
+        
+        let postImageData = postImage.jpegData(compressionQuality: 1)!
+        isPostProgressing = true
+        Amplify.Storage.uploadData(key: postImageKey, data: postImageData, progressListener: { progress in
+            print("Progress: \(progress)")
+            
+        }, resultListener: { event in
+            switch event {
+            case .success(let data):
+                print("Completed: \(data)")
+                isPostProgressing = false
+                
+                dismiss()
+            case .failure(let storageError):
+                print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+            }
+        }
+        )
+        
     }
 
     var body: some View {
@@ -58,10 +90,11 @@ struct CreatePostView: View {
                 
                 Divider()
                 HStack {
-                    AsyncImage(url: URL(string: gameForum.gameforum.banner)) {phase in
+                    AsyncImage(url: URL(string: gameForum.gameforum.logo)) {phase in
                         if let image = phase.image {
                             image
                                 .resizable()
+                                .scaledToFit()
                                 .frame(width: 50, height: 50)
                                 .clipShape(Circle())
                                 .overlay(Circle().stroke(.gray))
@@ -71,19 +104,18 @@ struct CreatePostView: View {
                         } else if phase.error != nil {
                             Image(systemName: "x.circle")
                                 .resizable()
-                                .frame(width: 280, height: 100)
-                                .clipShape(RoundedRectangle(cornerRadius: 9))
-                                .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                                .padding(.horizontal, 10)
-                                .padding(.top, 10)
+                                .scaledToFit()
+                                .frame(width: 50, height: 50)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(.gray))
+                                .padding(.horizontal,5)
                             
                         } else {
                             ProgressView()
-                                .frame(width: 280, height: 100)
-                                .clipShape(RoundedRectangle(cornerRadius: 9))
-                                .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                                .padding(.horizontal, 10)
-                                .padding(.top, 10)
+                                .frame(width: 50, height: 50)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(.gray))
+                                .padding(.horizontal,5)
                             
                             
                         }
@@ -160,20 +192,43 @@ struct CreatePostView: View {
                     }
                     Spacer()
                     .sheet(isPresented: $isShowPostImageLibrary) {
-                        PostImagePicker(sourceType: .photoLibrary, selectedPostImage: self.$postImage)
+                        PostImagePicker(sourceType: .photoLibrary, selectedPostImage: self.$postImage, postImageName: self.$postImageKey)
                     }
                 }
                 Spacer()
 
             }
             
+            if isPostProgressing {
+                ZStack {
+                    Color(.black)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .ignoresSafeArea(.all)
+                        .opacity(0.4)
+
+                    VStack {
+
+                        
+                        Text("Uploading...")
+                            .font(.system(size: 20, design: .rounded))
+                            .fontWeight(.bold)
+                            .frame(minWidth: 0, idealWidth: 280, maxWidth: 320, minHeight: 50, maxHeight: 50)
+                        
+                        ProgressView()
+                        
+
+                    }.frame(width: 300 , height: 100, alignment: .center)
+                    .background(.white)
+                    .cornerRadius(20)
+                }
+
+            }
             
             VStack {
                 Spacer()
                 
                 Button(action: {
                     self.add_post()
-                    dismiss()
                 }, label: {
                     Image(systemName: "checkmark")
                         .font(.system(size: 24, weight: .bold))

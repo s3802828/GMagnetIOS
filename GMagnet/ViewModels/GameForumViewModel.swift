@@ -43,11 +43,11 @@ class GameForumViewModel: ObservableObject{
     }
     
     func add_post(new_post: Post){
-        Post.add_post(added_post: new_post)
-        
-        // call get posts again to update UI
-        Post.get_posts(post_ids: self.gameforum.post_list){posts in
-            self.posts = posts
+        Post.add_post(added_post: new_post){
+            // call get posts again to update UI
+            Post.get_posts(post_ids: self.gameforum.post_list){posts in
+                self.posts = posts
+            }
         }
         
     }
@@ -55,14 +55,15 @@ class GameForumViewModel: ObservableObject{
     
     
     func toggle_join_forum(forum: GameForum, user: User){
-        GameForum.toggle_join_forum(forum: forum, user: user)
-        
-        //reload UI
-        Post.get_posts(post_ids: self.gameforum.post_list){posts in
-            self.posts = posts
-        }
-        User.get_users(users_ids: self.gameforum.member_list){members in
-            self.members = members
+        GameForum.toggle_join_forum(forum: forum, user: user){forum in
+            self.gameforum = forum
+            //reload UI
+            Post.get_posts(post_ids: self.gameforum.post_list){posts in
+                self.posts = posts
+            }
+            User.get_users(users_ids: self.gameforum.member_list){members in
+                self.members = members
+            }
         }
     }
     

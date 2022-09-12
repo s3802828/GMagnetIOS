@@ -70,7 +70,6 @@ struct User: Identifiable{
         if user_list.count == users_ids.count{
             completion(user_list)
         }
-//        return user_list
     }
     
     static func get_user(user_id: String, completion: @escaping (User) -> Void) {
@@ -109,13 +108,16 @@ struct User: Identifiable{
         }
     }
     
-    static func update_user(updated_user: User){
+    static func update_user(updated_user: User, completion: @escaping (User)->Void){
         let db = Firestore.firestore()
         
         db.collection("users").document(updated_user.id).setData(updated_user.to_dictionary(), merge: true)
         {error in
             if let error = error{
                 print(error)
+                completion(updated_user)
+            }else{
+                completion(updated_user)
             }
         }
     }

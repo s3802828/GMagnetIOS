@@ -16,6 +16,16 @@ class ProfileViewModel: ObservableObject{
     init(user_id: String){
         User.get_user(user_id: user_id){user in
             self.user = user
+            self.get_joined_forums()
+            self.get_recent_posts()
+        }
+    }
+    
+    func refreshPage(){
+        User.get_user(user_id: user.id){user in
+            self.user = user
+            self.get_joined_forums()
+            self.get_recent_posts()
         }
     }
     
@@ -25,46 +35,44 @@ class ProfileViewModel: ObservableObject{
         }
     }
     
+    func get_recent_posts(){
+        Post.get_posts(post_ids: self.user.posts){posts in
+            self.recent_posts = posts
+        }
+    }
+    
     func update_user(updated_user: User){
-        User.update_user(updated_user: updated_user)
-        self.user = updated_user
+        User.update_user(updated_user: updated_user){user in
+            self.user = user
+        }
     }
     
     func toggle_like_post(post: Post, user: User){
-        Post.toggle_like_post(post: post, user: user)
-        
-        // reload to update UI
-        Post.get_posts(post_ids: self.user.posts){posts in
-            self.recent_posts = posts
+        Post.toggle_like_post(post: post, user: user){post in
+            // reload to update UI
+            self.refreshPage()
         }
     }
     
     func update_post(update_post: Post){
-        Post.update_post(updated_post: update_post)
-        
-        // call get posts again to update UI
-        Post.get_posts(post_ids: self.user.posts){posts in
-            self.recent_posts = posts
+        Post.update_post(updated_post: update_post){ post in
+            // call get posts again to update UI
+            self.refreshPage()
         }
     }
     
     func delete_post(deleted_post: Post){
-        Post.delete_post(deleted_post: deleted_post)
-        
-        // call get posts again to update UI
-        Post.get_posts(post_ids: self.user.posts){posts in
-            self.recent_posts = posts
+        Post.delete_post(deleted_post: deleted_post){
+            // call get posts again to update UI
+            self.refreshPage()
         }
     }
 
     
     func toggle_join_forum(forum: GameForum, user: User){
         // Call when user click Join/Unjoin on GamePage View
-        GameForum.toggle_join_forum(forum: forum, user: user)
-        
-        // reload to update UI
-        Post.get_posts(post_ids: self.user.posts){posts in
-            self.recent_posts = posts
+        GameForum.toggle_join_forum(forum: forum, user: user){forum in
+            self.refreshPage()
         }
     }
     

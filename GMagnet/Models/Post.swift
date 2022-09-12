@@ -97,7 +97,7 @@ struct Post: Identifiable{
 //        return posts_list
     }
     
-    static func add_post(added_post: Post){
+    static func add_post(added_post: Post, completion: @escaping ()->Void){
         User.get_user(user_id: added_post.user.id){post_owner in
             GameForum.get_forum(forum_id: added_post.game.id){updated_forum in
                 print("add post invoked")
@@ -120,25 +120,31 @@ struct Post: Identifiable{
                 updated_forum.post_list.append(new_id.documentID)
 
                 //update user and game forum with the new post id
-                User.update_user(updated_user: post_owner)
-                GameForum.update_forum(updated_forum: updated_forum)
+                User.update_user(updated_user: post_owner){user in
+                    GameForum.update_forum(updated_forum: updated_forum){forum in
+                        completion()
+                    }
+                }
+                
             }
         }
         
     }
     
-    static func update_post(updated_post: Post){
+    static func update_post(updated_post: Post, completion: @escaping (Post)->Void){
         let db = Firestore.firestore()
         
         db.collection("posts").document(updated_post.id).setData(updated_post.to_dictionary(), merge: true)
         {error in
             if let error = error{
                 print(error)
+            }else{
+                completion(updated_post)
             }
         }
     }
     
-    static func delete_post(deleted_post: Post){
+    static func delete_post(deleted_post: Post, completion: @escaping ()->Void){
 //        var post_owner = User.get_user(user_id: deleted_post.user.id)
 //        var updated_forum = GameForum.get_forum(forum_id: deleted_post.game.id)
         
@@ -159,14 +165,20 @@ struct Post: Identifiable{
                 }
 
                 //update user and game forum with removed post id
-                User.update_user(updated_user: post_owner)
-                GameForum.update_forum(updated_forum: updated_forum)
-
-                db.collection("posts").document(deleted_post.id).delete{ error in
-                    if let error = error{
-                        print(error)
+                User.update_user(updated_user: post_owner){user in
+                    GameForum.update_forum(updated_forum: updated_forum){forum in
+                        db.collection("posts").document(deleted_post.id).delete{ error in
+                            if let error = error{
+                                print(error)
+                                completion()
+                            }else{
+                                completion()
+                            }
+                        }
+                        
                     }
                 }
+                
             }
         }
         
@@ -210,17 +222,21 @@ struct Post: Identifiable{
 //        return post
     }
     
-    static func toggle_like_post(post: Post, user: User) {
+    static func toggle_like_post(post: Post, user: User, completion: @escaping (Post)->Void) {
         // Call when user click Like/Unlike a post
             var updated_post = post
             if let user_index = updated_post.liked_users.firstIndex(where: {$0.id == user.id}){
                 // if user have liked the post -> remove user and update post
                 updated_post.liked_users.remove(at: user_index)
-                Post.update_post(updated_post: updated_post)
+                Post.update_post(updated_post: updated_post){ post in
+                    completion(updated_post)
+                }
             } else{
                 // if user have not liked the post -> add user and update post
                 updated_post.liked_users.append(user)
-                Post.update_post(updated_post: updated_post)
+                Post.update_post(updated_post: updated_post){post in
+                    completion(updated_post)
+                }
             }
         
     }

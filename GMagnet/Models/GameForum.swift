@@ -157,13 +157,15 @@ struct GameForum: Identifiable{
         //        return forum_list
     }
     
-    static func update_forum(updated_forum: GameForum){
+    static func update_forum(updated_forum: GameForum, completion: @escaping (GameForum)->Void){
         let db = Firestore.firestore()
         
         db.collection("gameforums").document(updated_forum.id).setData(updated_forum.to_dictionary(), merge: true)
         {error in
             if let error = error{
                 print(error)
+            }else{
+                completion(updated_forum)
             }
         }
     }
@@ -189,7 +191,9 @@ struct GameForum: Identifiable{
                 
                 if let forum_index = edit_user.joined_forums.firstIndex(where: {$0 == deleted_forum.id}){
                     edit_user.joined_forums.remove(at: forum_index)
-                    User.update_user(updated_user: edit_user)
+                    User.update_user(updated_user: edit_user){user in
+                        
+                    }
                 }
             }
         }
@@ -197,7 +201,9 @@ struct GameForum: Identifiable{
         //remove the posts of the game forum
         for post_id in deleted_forum.post_list{
             Post.get_post(post_id: post_id){deleted_post in
-                Post.delete_post(deleted_post: deleted_post)
+                Post.delete_post(deleted_post: deleted_post){
+                    
+                }
             }
         }
         
@@ -208,7 +214,7 @@ struct GameForum: Identifiable{
         }
     }
     
-    static func toggle_join_forum(forum: GameForum, user: User){
+    static func toggle_join_forum(forum: GameForum, user: User, completion: @escaping (GameForum)->Void){
         
         var updated_forum = forum
         var updated_user = user
@@ -226,9 +232,12 @@ struct GameForum: Identifiable{
             }
             
             //update user's joined forums on User db
-            User.update_user(updated_user: updated_user)
-            //update list of members on GameForum db
-            GameForum.update_forum(updated_forum: updated_forum)
+            User.update_user(updated_user: updated_user){user in
+                //update list of members on GameForum db
+                GameForum.update_forum(updated_forum: updated_forum){ forum in
+                    completion(forum)
+                }
+            }
             
         }else{
             // add forum id to list of joined forum
@@ -237,8 +246,12 @@ struct GameForum: Identifiable{
             updated_forum.member_list.append(updated_user.id)
             
             //save changes to db
-            User.update_user(updated_user: updated_user)
-            GameForum.update_forum(updated_forum: updated_forum)
+            User.update_user(updated_user: updated_user){user in
+                //update list of members on GameForum db
+                GameForum.update_forum(updated_forum: updated_forum){ forum in
+                    completion(forum)
+                }
+            }
         }
     }
     

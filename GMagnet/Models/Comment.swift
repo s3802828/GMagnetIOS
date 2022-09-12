@@ -84,7 +84,7 @@ struct Comment: Identifiable{
 //        return comment
     }
     
-    static func add_comment(added_comment: Comment){
+    static func add_comment(added_comment: Comment, completion: @escaping () -> Void){
         let db = Firestore.firestore()
         
         Post.get_post(post_id: added_comment.post){updated_post in
@@ -97,17 +97,19 @@ struct Comment: Identifiable{
                 }
             }
             
-            // update user and game forum with new post id
+            // update post with new comment
             Comment.get_comment(comment_id: new_id.documentID){new_comment in
                 updated_post.comment_list.append(new_comment)
                 
-                //update user and game forum with the new post id
-                Post.update_post(updated_post: updated_post)
+                //update post with new comment
+                Post.update_post(updated_post: updated_post){post in
+                    completion()
+                }
             }
         }
     }
     
-    static func delete_comment(deleted_comment: Comment){
+    static func delete_comment(deleted_comment: Comment, completion: @escaping (Post) -> Void){
         let db = Firestore.firestore()
         
         Post.get_post(post_id: deleted_comment.post){updated_post in
@@ -116,23 +118,28 @@ struct Comment: Identifiable{
                 updated_post.comment_list.remove(at: comment_index)
             }
             
-            Post.update_post(updated_post: updated_post)
-            
-            db.collection("comments").document(deleted_comment.id).delete{error in
-                if let error = error{
-                    print(error)
+            Post.update_post(updated_post: updated_post){post in
+                db.collection("comments").document(deleted_comment.id).delete{error in
+                    if let error = error{
+                        print(error)
+                    }
                 }
+                
+                completion(post)
             }
+            
         }
     }
     
-    static func update_comment(updated_comment: Comment){
+    static func update_comment(updated_comment: Comment, completion: @escaping (Comment) -> Void){
         let db = Firestore.firestore()
         
         db.collection("comments").document(updated_comment.id).setData(updated_comment.to_dictionary(), merge: true)
         {error in
             if let error = error{
                 print(error)
+            }else{
+                completion(updated_comment)
             }
         }
     }

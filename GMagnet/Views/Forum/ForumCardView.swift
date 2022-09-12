@@ -63,7 +63,7 @@ struct ForumCardView: View {
                             .foregroundColor(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 9))
                             .padding(.bottom, 15)
-                    }).fullScreenCover(isPresented: $showForumDetail){
+                    }).fullScreenCover(isPresented: $showForumDetail, onDismiss: {gameForum.refreshGameForum(){}}){
                         GameForumTabView()
                     }
                     

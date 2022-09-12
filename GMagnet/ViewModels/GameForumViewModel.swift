@@ -22,18 +22,19 @@ class GameForumViewModel: ObservableObject{
         }
     }
     
-    func refreshGameForum() {
+    func refreshGameForum(completion: @escaping () -> Void) {
         GameForum.get_forum(forum_id: self.gameforum.id){ game_forum in
             self.gameforum = game_forum
             self.get_posts()
             self.get_members(forum_id: self.gameforum.id)
+            completion()
         }
     }
     
     func delete_post(deleted_post: Post){
         Post.delete_post(deleted_post: deleted_post){
             // call get posts again to update UI
-            self.refreshGameForum()
+            self.refreshGameForum(){}
         }
     }
 
@@ -53,7 +54,7 @@ class GameForumViewModel: ObservableObject{
     func add_post(new_post: Post){
         Post.add_post(added_post: new_post){
             // call get posts again to update UI
-            self.refreshGameForum()
+            self.refreshGameForum(){}
         }
 }
 

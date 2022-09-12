@@ -54,7 +54,11 @@ struct PostDetailsView: View {
             ScrollViewReader {value in
                 ScrollView {
                     PullToRefresh(coordinateSpaceName: "pullToRefreshPostDetail") {
-                        postDetail.refreshPostViewModel()
+                        postDetail.refreshPostViewModel(){
+                            if postDetail.post.id == "" {
+                                dismiss()
+                            }
+                        }
                     }
                     VStack (alignment: .leading){
                         Button(action: {
@@ -251,6 +255,10 @@ struct PostDetailsView: View {
                 AddComment()
                     .environmentObject(postDetail)
                     .environmentObject(currentUser)
+            }
+        }.onAppear(){
+            if self.postDetail.post.id == ""{
+                dismiss()
             }
         }
     }

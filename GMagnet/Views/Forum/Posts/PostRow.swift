@@ -10,6 +10,7 @@ import SwiftUI
 struct PostRow: View {
     @EnvironmentObject var post : PostViewModel
     @EnvironmentObject var currentUser: AuthenticateViewModel
+    @EnvironmentObject var gameForum: GameForumViewModel
     @State var showPostDetail = false
     var body: some View {
         
@@ -72,7 +73,7 @@ struct PostRow: View {
                         .foregroundColor(Color.black)
                         .fixedSize(horizontal: false, vertical: true)
                     
-                } }.fullScreenCover(isPresented: $showPostDetail){
+                } }.fullScreenCover(isPresented: $showPostDetail, onDismiss: {gameForum.refreshGameForum(){}}){
                     PostDetailsView().environmentObject(post)
                 }
             

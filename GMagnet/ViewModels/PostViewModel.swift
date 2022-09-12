@@ -15,16 +15,17 @@ class PostViewModel: ObservableObject{
         self.post = post
         self.fetch_comments()
     }
-    func refreshPostViewModel(){
+    func refreshPostViewModel(completion: @escaping () -> Void){
         Post.get_post(post_id: self.post.id){ post in
             self.post = post
             self.fetch_comments()
+            completion()
         }
     }
     func update_post(update_post: Post){
         Post.update_post(updated_post: update_post){post in
             // call get posts again to update UI
-            self.refreshPostViewModel()
+            self.refreshPostViewModel(){}
         }
     }
     
@@ -49,19 +50,19 @@ class PostViewModel: ObservableObject{
     
     func add_comment(added_comment: Comment){
         Comment.add_comment(added_comment: added_comment){
-            self.refreshPostViewModel()
+            self.refreshPostViewModel(){}
         }
     }
     
     func update_comment(updated_comment: Comment){
         Comment.update_comment(updated_comment: updated_comment){comment in
-            self.refreshPostViewModel()
+            self.refreshPostViewModel(){}
         }
     }
     
     func delete_comment(deleted_comment: Comment){
         Comment.delete_comment(deleted_comment: deleted_comment){post in
-            self.refreshPostViewModel()
+            self.refreshPostViewModel(){}
         }
     }
 }

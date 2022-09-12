@@ -71,7 +71,11 @@ struct GameForumTabView: View {
                 ScrollView(.vertical,showsIndicators: false,
                            content: {
                     PullToRefresh(coordinateSpaceName: "pullToRefresh") {
-                        gameForum.refreshGameForum()
+                        gameForum.refreshGameForum(){
+                            if gameForum.gameforum.id == "" {
+                                dismiss()
+                            }
+                        }
                     }
                     VStack(spacing: 15){
                         GeometryReader{proxy -> AnyView in

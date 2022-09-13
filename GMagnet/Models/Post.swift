@@ -228,7 +228,9 @@ struct Post: Identifiable{
             var updated_post = post
             if let user_index = updated_post.liked_users.firstIndex(where: {$0.id == user.id}){
                 // if user have liked the post -> remove user and update post
-                updated_post.liked_users.remove(at: user_index)
+//                updated_post.liked_users.remove(at: user_index)
+                
+                updated_post.liked_users = updated_post.liked_users.filter({$0.id != user.id})
                 Post.update_post(updated_post: updated_post){ post in
                     completion(updated_post)
                 }

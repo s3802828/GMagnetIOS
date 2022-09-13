@@ -241,11 +241,15 @@ struct GameForum: Identifiable{
                     
                     // if user have joined the post -> remove user and update post
                     // update User object's joined forum list
-                    updated_user.joined_forums.remove(at: forum_index)
+//                    updated_user.joined_forums.remove(at: forum_index)
+                    
+                    updated_user.joined_forums = updated_user.joined_forums.filter({$0 != updated_forum.id})
                     
                     if let user_id_index = updated_forum.member_list.firstIndex(where: {$0 == user.id}){
                         //get index of user id in list of members of gameforum to remove
-                        updated_forum.member_list.remove(at: user_id_index)
+//                        updated_forum.member_list.remove(at: user_id_index)
+                        
+                        updated_forum.member_list = updated_forum.member_list.filter({$0 != user.id})
                     }
                     
                     //update user's joined forums on User db

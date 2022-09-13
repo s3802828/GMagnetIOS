@@ -27,6 +27,16 @@
 		FA18EC8328CDD0CC00044EDC /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC8228CDD0CC00044EDC /* CreatePostView.swift */; };
 		FA18EC8528CDF86700044EDC /* TagSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC8428CDF86600044EDC /* TagSelectionView.swift */; };
 		FA18EC8728CE448300044EDC /* PostImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC8628CE448300044EDC /* PostImagePicker.swift */; };
+		FA18EC8B28D04CFE00044EDC /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC8A28D04CFE00044EDC /* ProfileView.swift */; };
+		FA18EC8D28D04D4200044EDC /* TweetFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC8C28D04D4200044EDC /* TweetFilter.swift */; };
+		FA18EC8F28D04E2400044EDC /* OwnedPostList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC8E28D04E2400044EDC /* OwnedPostList.swift */; };
+		FA18EC9128D04F5000044EDC /* JoinedForumList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC9028D04F5000044EDC /* JoinedForumList.swift */; };
+		FA18EC9328D0574800044EDC /* ProfileTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC9228D0574800044EDC /* ProfileTab.swift */; };
+		FA18EC9528D0630F00044EDC /* JoinedForumCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC9428D0630F00044EDC /* JoinedForumCardView.swift */; };
+		FA18EC9728D0640100044EDC /* OwnedPostRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC9628D0640100044EDC /* OwnedPostRow.swift */; };
+		FA18EC9B28D0671400044EDC /* PostDetailProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC9A28D0671400044EDC /* PostDetailProfile.swift */; };
+		FA18EC9D28D06C9700044EDC /* GameForumTabProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC9C28D06C9700044EDC /* GameForumTabProfile.swift */; };
+		FA18EC9F28D0823900044EDC /* EditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA18EC9E28D0823900044EDC /* EditProfile.swift */; };
 		FA1F544928C5029900748CF0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1F544828C5029900748CF0 /* Constants.swift */; };
 		FA26A2FD28CB33EC005DA76F /* PostRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A2FA28CB33EC005DA76F /* PostRow.swift */; };
 		FA26A2FE28CB33EC005DA76F /* PostDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A2FB28CB33EC005DA76F /* PostDetailsView.swift */; };
@@ -89,6 +99,16 @@
 		FA18EC8228CDD0CC00044EDC /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
 		FA18EC8428CDF86600044EDC /* TagSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSelectionView.swift; sourceTree = "<group>"; };
 		FA18EC8628CE448300044EDC /* PostImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImagePicker.swift; sourceTree = "<group>"; };
+		FA18EC8A28D04CFE00044EDC /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		FA18EC8C28D04D4200044EDC /* TweetFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetFilter.swift; sourceTree = "<group>"; };
+		FA18EC8E28D04E2400044EDC /* OwnedPostList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnedPostList.swift; sourceTree = "<group>"; };
+		FA18EC9028D04F5000044EDC /* JoinedForumList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinedForumList.swift; sourceTree = "<group>"; };
+		FA18EC9228D0574800044EDC /* ProfileTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTab.swift; sourceTree = "<group>"; };
+		FA18EC9428D0630F00044EDC /* JoinedForumCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinedForumCardView.swift; sourceTree = "<group>"; };
+		FA18EC9628D0640100044EDC /* OwnedPostRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnedPostRow.swift; sourceTree = "<group>"; };
+		FA18EC9A28D0671400044EDC /* PostDetailProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailProfile.swift; sourceTree = "<group>"; };
+		FA18EC9C28D06C9700044EDC /* GameForumTabProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameForumTabProfile.swift; sourceTree = "<group>"; };
+		FA18EC9E28D0823900044EDC /* EditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfile.swift; sourceTree = "<group>"; };
 		FA1F544828C5029900748CF0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		FA26A2FA28CB33EC005DA76F /* PostRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRow.swift; sourceTree = "<group>"; };
 		FA26A2FB28CB33EC005DA76F /* PostDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailsView.swift; sourceTree = "<group>"; };
@@ -181,6 +201,38 @@
 			name = AmplifyConfig;
 			sourceTree = SOURCE_ROOT;
 		};
+		FA18EC8928D04CE600044EDC /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				FA18EC9928D0649D00044EDC /* JoinedForumTab */,
+				FA18EC9828D0648100044EDC /* OwnedPostTab */,
+				FA18EC8A28D04CFE00044EDC /* ProfileView.swift */,
+				FA18EC8C28D04D4200044EDC /* TweetFilter.swift */,
+				FA18EC9228D0574800044EDC /* ProfileTab.swift */,
+				FA18EC9C28D06C9700044EDC /* GameForumTabProfile.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		FA18EC9828D0648100044EDC /* OwnedPostTab */ = {
+			isa = PBXGroup;
+			children = (
+				FA18EC9628D0640100044EDC /* OwnedPostRow.swift */,
+				FA18EC8E28D04E2400044EDC /* OwnedPostList.swift */,
+				FA18EC9A28D0671400044EDC /* PostDetailProfile.swift */,
+			);
+			path = OwnedPostTab;
+			sourceTree = "<group>";
+		};
+		FA18EC9928D0649D00044EDC /* JoinedForumTab */ = {
+			isa = PBXGroup;
+			children = (
+				FA18EC9428D0630F00044EDC /* JoinedForumCardView.swift */,
+				FA18EC9028D04F5000044EDC /* JoinedForumList.swift */,
+			);
+			path = JoinedForumTab;
+			sourceTree = "<group>";
+		};
 		FA26A30028CB7A7B005DA76F /* Posts */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,6 +272,7 @@
 				5D4072C528CF306E00D17AA2 /* UpdatePostView.swift */,
 				FA18EC8428CDF86600044EDC /* TagSelectionView.swift */,
 				FA18EC8628CE448300044EDC /* PostImagePicker.swift */,
+				FA18EC9E28D0823900044EDC /* EditProfile.swift */,
 			);
 			path = Forms;
 			sourceTree = "<group>";
@@ -289,6 +342,7 @@
 		FACEFFC728C6501F000CD5CC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FA18EC8928D04CE600044EDC /* Profile */,
 				FA26A30928CCE1E8005DA76F /* Forms */,
 				FACEFFC928C650DE000CD5CC /* General */,
 				FACEFFC828C6507B000CD5CC /* Forum */,
@@ -423,6 +477,7 @@
 				FA51A4AC28C06D02008AF58F /* ContentView.swift in Sources */,
 				FA26A30D28CCE259005DA76F /* MemberList.swift in Sources */,
 				FA26A2FD28CB33EC005DA76F /* PostRow.swift in Sources */,
+				FA18EC9528D0630F00044EDC /* JoinedForumCardView.swift in Sources */,
 				FA18EC7F28CDCC2500044EDC /* ImagePicker.swift in Sources */,
 				FACEFFC428C64F6B000CD5CC /* ProfileViewModel.swift in Sources */,
 				FA5BF11E28C63901000B5FE0 /* AuthenticateViewModel.swift in Sources */,
@@ -431,16 +486,23 @@
 				B22FD7D728C0709200E874F9 /* GameForum.swift in Sources */,
 				FA18EC8328CDD0CC00044EDC /* CreatePostView.swift in Sources */,
 				FA51A4D728C08789008AF58F /* SignUpView.swift in Sources */,
+				FA18EC9B28D0671400044EDC /* PostDetailProfile.swift in Sources */,
+				FA18EC8F28D04E2400044EDC /* OwnedPostList.swift in Sources */,
 				5D4072C628CF306E00D17AA2 /* UpdatePostView.swift in Sources */,
 				FA26A31228CD029C005DA76F /* CommentList.swift in Sources */,
+				FA18EC8B28D04CFE00044EDC /* ProfileView.swift in Sources */,
+				FA18EC9328D0574800044EDC /* ProfileTab.swift in Sources */,
 				FACEFFC228C64F45000CD5CC /* PostViewModel.swift in Sources */,
 				FA51A4D928C08797008AF58F /* SignInView.swift in Sources */,
 				5DAE6DFB28C39D4300C65835 /* TabRouter.swift in Sources */,
+				FA18EC8D28D04D4200044EDC /* TweetFilter.swift in Sources */,
 				FA5BF11B28C50F9E000B5FE0 /* Home.swift in Sources */,
 				FA26A31628CD183E005DA76F /* PullToRefresh.swift in Sources */,
+				FA18EC9728D0640100044EDC /* OwnedPostRow.swift in Sources */,
 				FACEFFC028C64F23000CD5CC /* MainPageViewModel.swift in Sources */,
 				FA26A30528CB7B8E005DA76F /* GameDetailView.swift in Sources */,
 				5D80A5CB28C2758B00A06889 /* ForumCardView.swift in Sources */,
+				FA18EC9D28D06C9700044EDC /* GameForumTabProfile.swift in Sources */,
 				FA26A30328CB7AB0005DA76F /* GameForumTabView.swift in Sources */,
 				FA18EC8728CE448300044EDC /* PostImagePicker.swift in Sources */,
 				FA26A30B28CCE230005DA76F /* MemberRow.swift in Sources */,
@@ -455,6 +517,8 @@
 				5DAE6DF928C3908300C65835 /* TabViews.swift in Sources */,
 				FA18EC7D28CDCC0600044EDC /* BannerPicker.swift in Sources */,
 				FA26A31428CD02EA005DA76F /* AddComment.swift in Sources */,
+				FA18EC9F28D0823900044EDC /* EditProfile.swift in Sources */,
+				FA18EC9128D04F5000044EDC /* JoinedForumList.swift in Sources */,
 				B22FD7D528C0708600E874F9 /* User.swift in Sources */,
 				5D4072C428CF19DC00D17AA2 /* UpdateForumView.swift in Sources */,
 				B22FD7D928C0709E00E874F9 /* Post.swift in Sources */,

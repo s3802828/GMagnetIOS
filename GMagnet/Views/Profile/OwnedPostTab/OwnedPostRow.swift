@@ -7,54 +7,49 @@
 
 import SwiftUI
 
-struct PostRow: View {
+struct OwnedPostRow: View {
     @EnvironmentObject var post : PostViewModel
     @EnvironmentObject var currentUser: AuthenticateViewModel
-    @EnvironmentObject var gameForum: GameForumViewModel
+    @EnvironmentObject var profile: ProfileViewModel
     @State var showPostDetail = false
-    @State var showProfileDetail = false
     var body: some View {
         
         VStack(alignment: .leading) {
             
             HStack(alignment: .top, spacing: 3) {
-                Button(action: {
-                    showProfileDetail = true
-                }){
-                    AsyncImage(url: URL(string: post.post.user.avatar)) {phase in
-                        if let image = phase.image {
-                            image
-                                .resizable()
-                                .clipShape(Circle())
-                                .frame(width: 40, height: 40)
-                                .foregroundColor(Color.gray)
-                            
-                        } else if phase.error != nil {
-                            Image(systemName: "x.circle")
-                                .resizable()
-                                .frame(width: 280, height: 100)
-                                .clipShape(RoundedRectangle(cornerRadius: 9))
-                                .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                                .padding(.horizontal, 10)
-                                .padding(.top, 10)
-                            
-                        } else {
-                            ProgressView()
-                                .frame(width: 280, height: 100)
-                                .clipShape(RoundedRectangle(cornerRadius: 9))
-                                .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                                .padding(.horizontal, 10)
-                                .padding(.top, 10)
-                            
-                            
-                        }
+                
+                AsyncImage(url: URL(string: post.post.user.avatar)) {phase in
+                    if let image = phase.image {
+                        image
+                            .resizable()
+                            .clipShape(Circle())
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(Color.gray)
+                        
+                    } else if phase.error != nil {
+                        Image(systemName: "x.circle")
+                            .resizable()
+                            .frame(width: 280, height: 100)
+                            .clipShape(RoundedRectangle(cornerRadius: 9))
+                            .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
+                            .padding(.horizontal, 10)
+                            .padding(.top, 10)
+                        
+                    } else {
+                        ProgressView()
+                            .frame(width: 280, height: 100)
+                            .clipShape(RoundedRectangle(cornerRadius: 9))
+                            .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
+                            .padding(.horizontal, 10)
+                            .padding(.top, 10)
+                        
+                        
                     }
-                    Text(post.post.user.name)
-                        .padding()
-                        .font(.system(size: 15, weight: .semibold))
-                        .foregroundColor(Color.black)
-                }.foregroundColor(.black)
-                    .fullScreenCover(isPresented: $showProfileDetail, content: {ProfileView().environmentObject(ProfileViewModel(user_id: post.post.user.id))})
+                }
+                Text(post.post.user.name)
+                    .padding()
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundColor(Color.black)
                 Spacer()
                 Text(post.post.createdAt.getDateDifference())
                     .padding()
@@ -79,10 +74,10 @@ struct PostRow: View {
                         .fixedSize(horizontal: false, vertical: true)
                     
                 } }.fullScreenCover(isPresented: $showPostDetail, onDismiss: {
-                        gameForum.refreshGameForum(){}
+                    profile.refreshPage()
                     
                 }){
-                    PostDetailsView().environmentObject(post)
+                    PostDetailProfile().environmentObject(post)
                 }
             
             Spacer()

@@ -67,6 +67,12 @@ class ProfileViewModel: ObservableObject{
             self.refreshPage()
         }
     }
+    
+    func delete_forum(deleted_forum: GameForum){
+        GameForum.delete_forum(deleted_forum: deleted_forum){
+            self.refreshPage()
+        }
+    }
 
     
     func toggle_join_forum(forum: GameForum, user: User){

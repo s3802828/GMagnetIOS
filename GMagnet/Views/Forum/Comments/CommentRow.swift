@@ -15,6 +15,7 @@ struct CommentRow: View {
     
     @State var isCommentEditing = false
     @State var commentEditInput = ""
+    @State var showProfileDetail = false
     
     func update_comment(){
         //copy old comment values
@@ -35,42 +36,55 @@ struct CommentRow: View {
     var body: some View {
         HStack {
             VStack {
-                AsyncImage(url: URL(string: comment.user.avatar)) {phase in
-                    if let image = phase.image {
-                        image
-                            .resizable()
-                            .frame(width: 40, height: 40)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(.gray))
-                            .padding(.leading, 10)
+                Button(action: {
+                    showProfileDetail = true
+                }, label: {
+                    AsyncImage(url: URL(string: comment.user.avatar)) {phase in
+                        if let image = phase.image {
+                            image
+                                .resizable()
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(.gray))
+                                .padding(.leading, 10)
 
-                    } else if phase.error != nil {
-                        Image(systemName: "x.circle")
-                            .resizable()
-                            .frame(width: 280, height: 100)
-                            .clipShape(RoundedRectangle(cornerRadius: 9))
-                            .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                            .padding(.horizontal, 10)
-                            .padding(.top, 10)
+                        } else if phase.error != nil {
+                            Image(systemName: "x.circle")
+                                .resizable()
+                                .frame(width: 280, height: 100)
+                                .clipShape(RoundedRectangle(cornerRadius: 9))
+                                .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
+                                .padding(.horizontal, 10)
+                                .padding(.top, 10)
 
-                    } else {
-                        ProgressView()
-                            .frame(width: 280, height: 100)
-                            .clipShape(RoundedRectangle(cornerRadius: 9))
-                            .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                            .padding(.horizontal, 10)
-                            .padding(.top, 10)
+                        } else {
+                            ProgressView()
+                                .frame(width: 280, height: 100)
+                                .clipShape(RoundedRectangle(cornerRadius: 9))
+                                .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
+                                .padding(.horizontal, 10)
+                                .padding(.top, 10)
 
-                        
+                            
+                        }
                     }
-                }
+                }).foregroundColor(.black)
+                .fullScreenCover(isPresented: $showProfileDetail, content: {ProfileView().environmentObject(ProfileViewModel(user_id: comment.user.id))})
+                
                 Spacer()
             }
             
             VStack(alignment: .leading) {
                 HStack {
-                    Text(comment.user.name)
-                        .fontWeight(.bold)
+                    Button(action: {
+                        showProfileDetail = true
+                    }, label: {
+                        Text(comment.user.name)
+                            .fontWeight(.bold)
+                    })
+                    .foregroundColor(.black)
+                    .fullScreenCover(isPresented: $showProfileDetail, content: {ProfileView().environmentObject(ProfileViewModel(user_id: comment.user.id))})
+                    
                     Spacer()
                     Text(comment.createdAt.getDateDifference())
                         .fontWeight(.bold)

@@ -8,13 +8,13 @@
 import SwiftUI
 
 
-struct GameForumTabView: View {
+struct GameForumTabProfile: View {
     let gradient = LinearGradient(colors: [.blue.opacity(0.3), .green.opacity(0.5)],
                                   startPoint: .topLeading,
                                   endPoint: .bottomTrailing)
     
     @StateObject var tabbarRouter = TabBarRouter()
-    @EnvironmentObject var mainViewModel : MainPageViewModel
+    @EnvironmentObject var profile : ProfileViewModel
     @EnvironmentObject var gameForum : GameForumViewModel
     @EnvironmentObject var currentUser: AuthenticateViewModel
     @State var showSearchBar = false
@@ -56,7 +56,7 @@ struct GameForumTabView: View {
     }
     
     func delete_forum(){
-        self.mainViewModel.delete_forum(deleted_forum: gameForum.gameforum)
+        self.profile.delete_forum(deleted_forum: gameForum.gameforum)
         dismiss()
     }
     
@@ -169,7 +169,7 @@ struct GameForumTabView: View {
                                     }, content: {
                                         UpdateForumView(updated_forum: gameForum.gameforum)
                                     })
-                                    
+
                                 }
                                 
                                 

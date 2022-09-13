@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MainView: View {
-//    @ObservedObject var mainViewModels = MainPageViewModel()
     @EnvironmentObject var mainViewModels: MainPageViewModel
     @State private var searchText=""
     var filteredForum: [GameForum] {

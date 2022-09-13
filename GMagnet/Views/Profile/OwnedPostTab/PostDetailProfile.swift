@@ -7,26 +7,9 @@
 
 import SwiftUI
 
-extension Int {
-    var roundedWithAbbreviations: String {
-        let number = Double(self)
-        let thousand = number / 1000
-        let million = number / 1000000
-        if million >= 1.0 {
-            return "\(round(million*10)/10)M"
-        }
-        else if thousand >= 1.0 {
-            return "\(round(thousand*10)/10)k"
-        }
-        else {
-            return "\(self)"
-        }
-    }
-}
-
-struct PostDetailsView: View {
+struct PostDetailProfile: View {
     @EnvironmentObject var currentUser: AuthenticateViewModel
-    @EnvironmentObject var gameViewModel: GameForumViewModel
+    @EnvironmentObject var profile: ProfileViewModel
     @EnvironmentObject var postDetail : PostViewModel
     @Environment(\.dismiss) var dismiss
     @State var expanded: Bool = false
@@ -45,7 +28,7 @@ struct PostDetailsView: View {
     }
     
     func delete_post(){
-        self.gameViewModel.delete_post(deleted_post: self.postDetail.post)
+        self.profile.delete_post(deleted_post: self.postDetail.post)
         dismiss()
     }
     
@@ -263,11 +246,5 @@ struct PostDetailsView: View {
                 dismiss()
             }
         }
-    }
-}
-
-struct PostDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostDetailsView()
     }
 }

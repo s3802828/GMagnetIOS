@@ -36,20 +36,9 @@ struct TabViews: View {
         case .member:
             Text("member")
         case .profile:
-            VStack {
-                Text("Profile")
-                Button(action: {
-                    currentUser.signOutUser()
-                }, label: {
-                    Text("Logout")
-                        .font(.system(size: 18, weight: .heavy , design: .monospaced))
-                        .frame(width: 75, height: 30)
-                        .background(.blue)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 9))
-                        .padding(.bottom, 15)
-                })
-            }
+            ProfileTab()
+                .environmentObject(ProfileViewModel(user_id: currentUser.currentUser.id))
+                .environmentObject(mainViewModels)
         case .plus:
             EmptyView()
         }

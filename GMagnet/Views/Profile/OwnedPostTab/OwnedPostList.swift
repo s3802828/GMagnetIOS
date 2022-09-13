@@ -1,29 +1,23 @@
-/*
- RMIT University Vietnam
- Course: COSC2659 iOS Development
- Semester: 2022B
- Assessment: Assignment 1
- Author: Pham Thanh Dat
- ID: 3678437
- Created  date: 29/07/2022
- Last modified: 07/08/2022
- Acknowledgement: Acknowledge the resources that you use here.
- */
+//
+//  OwnedPostList.swift
+//  GMagnet
+//
+//  Created by Giang Le on 13/09/2022.
+//
 
 import SwiftUI
 
-struct PostList: View {
+struct OwnedPostList: View {
     @State private var searchText=""
-    @EnvironmentObject var gameForum : GameForumViewModel
-    
+    @EnvironmentObject var profile : ProfileViewModel
     var filteredPost: [Post] {
         if searchText == "" {
-            return gameForum.posts.sorted(){
+            return profile.recent_posts.sorted(){
                 $0.createdAt.dateValue() > $1.createdAt.dateValue()
             }
             
         }
-        return gameForum.posts.filter {
+        return profile.recent_posts.filter {
             $0.title.lowercased()
                 .contains(searchText.lowercased()) || $0.content.lowercased()
                 .contains(searchText.lowercased())
@@ -38,7 +32,7 @@ struct PostList: View {
                 .padding(.bottom, 10)
             if filteredPost.count > 0 {
                 ForEach(filteredPost, id: \.id) { post in
-                    PostRow().environmentObject(PostViewModel(post: post))
+                    OwnedPostRow().environmentObject(PostViewModel(post: post))
                     Spacer()
                 }
             } else {
@@ -48,5 +42,11 @@ struct PostList: View {
             }
             
         }
+    }
+}
+
+struct OwnedPostList_Previews: PreviewProvider {
+    static var previews: some View {
+        OwnedPostList()
     }
 }

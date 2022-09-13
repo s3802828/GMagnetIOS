@@ -10,10 +10,15 @@ import Firebase
 
 struct ContentView: View {
     @StateObject var currentUser = AuthenticateViewModel()
+    
     var body: some View {
         if !currentUser.isLoggingIn {
-            if (currentUser.currentUser.id != ""){
+            if (Auth.auth().currentUser != nil){
+                
                 TabViews().environmentObject(currentUser)
+                    .onAppear(){
+                        currentUser.refreshCurrentUser()
+                    }
             } else {
                 Home().environmentObject(currentUser)
             }

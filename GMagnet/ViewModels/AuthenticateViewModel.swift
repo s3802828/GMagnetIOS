@@ -127,8 +127,13 @@ class AuthenticateViewModel : ObservableObject {
     }
     
     func signOutUser(){
-        self.currentUser = User()
-        GIDSignIn.sharedInstance.signOut()
+        do {
+            try Auth.auth().signOut()
+            GIDSignIn.sharedInstance.signOut()
+            isLoggingIn = false
+        } catch {
+            print("Already logged out")
+        }
     }
     
     func signUpUser(userEmail: String, userPassword: String, username: String, fullname: String) {
@@ -147,7 +152,7 @@ class AuthenticateViewModel : ObservableObject {
                 print("User created")
                 // Add a new document in collection "users"
                 let userId = Auth.auth().currentUser?.uid
-                let newUser = User(id: userId ?? "", username: username, name: fullname, email: userEmail, avatar: "", description: "", joined_forums: [], posts: [])
+                let newUser = User(id: userId ?? "", username: username, name: fullname, email: userEmail, avatar: "https://gmagnet-ios-storage03509-dev.s3.amazonaws.com/public/%C3%A2%C2%80%C2%94Pngtree%C3%A2%C2%80%C2%94man+default+avatar_5938280.png", description: "", joined_forums: [], posts: [])
                 self.db.collection("users").document(userId ?? "").setData(newUser.to_dictionary()) { [self] err in
                     if let err = err {
                         print("Error writing document: \(err)")

@@ -11,10 +11,26 @@ struct CommentRow: View {
     var comment: Comment
 
     @EnvironmentObject var currentUser: AuthenticateViewModel
+    @EnvironmentObject var postViewModel: PostViewModel
     
     @State var isCommentEditing = false
-    
     @State var commentEditInput = ""
+    
+    func update_comment(){
+        //copy old comment values
+        var new_comment = self.comment
+        
+        //update content
+        new_comment.content = self.commentEditInput
+        
+        //save changes
+        postViewModel.update_comment(updated_comment: new_comment)
+        isCommentEditing.toggle()
+    }
+    
+    func delete_comment(){
+        postViewModel.delete_comment(deleted_comment: comment)
+    }
     
     var body: some View {
         HStack {
@@ -68,7 +84,7 @@ struct CommentRow: View {
                             
                             Spacer()
                             Button(action: {
-                                
+                                self.update_comment()
                             }, label: {
                                 Image(systemName: "paperplane")
                                     .foregroundColor(Color("ButtonColor"))
@@ -108,7 +124,7 @@ struct CommentRow: View {
                                 })
                                 
                                 Button(action: {
-
+                                    self.delete_comment()
                                 }, label: {
                                     HStack {
                                         Image(systemName: "trash")

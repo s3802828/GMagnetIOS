@@ -12,7 +12,7 @@ struct Comment: Identifiable{
     let id: String
     let user: User
     let post: String
-    let content: String
+    var content: String
     let createdAt: Timestamp
     
     init(id: String, user: User, post: String, content: String, createdAt: Timestamp){

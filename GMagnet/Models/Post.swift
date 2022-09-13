@@ -64,9 +64,12 @@ struct Post: Identifiable{
         for liked_user in self.liked_users{
             liked_users_id.append(liked_user.id)
         }
+        
         for user_comment in self.comment_list{
             comment_list_id.append(user_comment.id)
         }
+        
+        let liked_users_set = Set(liked_users_id)
         
         return [
             "user_id": self.user.id,
@@ -74,7 +77,7 @@ struct Post: Identifiable{
             "title": self.title,
             "content": self.content,
             "image": self.image,
-            "liked_user": liked_users_id,
+            "liked_user": Array(liked_users_set),
             "comment_list": comment_list_id,
             "createdAt": self.createdAt
         ]

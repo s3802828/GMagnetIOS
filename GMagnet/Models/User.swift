@@ -42,6 +42,8 @@ struct User: Identifiable{
 
     func to_dictionary()->[String: Any]{
         //convert to dictionary to save to Firebase
+        
+        let joined_forum_set = Set(self.joined_forums)
 
         return [
             "username": self.username,
@@ -49,7 +51,7 @@ struct User: Identifiable{
             "avatar": self.avatar,
             "description": self.description,
             "email": self.email,
-            "joined_forums": self.joined_forums,
+            "joined_forums": Array(joined_forum_set),
             "posts": self.posts
         ]
     }

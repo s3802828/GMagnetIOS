@@ -52,13 +52,15 @@ struct GameForum: Identifiable{
             category_ids.append(category.id)
         }
         
+        let member_set = Set(self.member_list)
+        
         return [
             "name": self.name,
             "description": self.description,
             "logo": self.logo,
             "banner": self.banner,
             "admin_id": self.admin.id,
-            "member_list": self.member_list,
+            "member_list": Array(member_set),
             "post_list": self.post_list,
             "category_list": category_ids
         ]

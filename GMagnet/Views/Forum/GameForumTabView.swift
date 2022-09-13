@@ -94,19 +94,15 @@ struct GameForumTabView: View {
                                         } else if phase.error != nil {
                                             Image(systemName: "x.circle")
                                                 .resizable()
-                                                .frame(width: 280, height: 100)
-                                                .clipShape(RoundedRectangle(cornerRadius: 9))
-                                                .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                                                .padding(.horizontal, 10)
-                                                .padding(.top, 10)
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: getRect().width, height:  minY > 0 ? 220 + minY : 220, alignment: .center)
+                                                .cornerRadius(0)
                                             
                                         } else {
                                             ProgressView()
-                                                .frame(width: 280, height: 100)
-                                                .clipShape(RoundedRectangle(cornerRadius: 9))
-                                                .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                                                .padding(.horizontal, 10)
-                                                .padding(.top, 10)
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: getRect().width, height:  minY > 0 ? 220 + minY : 220, alignment: .center)
+                                                .cornerRadius(0)
                                             
                                             
                                         }
@@ -132,16 +128,22 @@ struct GameForumTabView: View {
                                     } else if phase.error != nil {
                                         Image(systemName: "x.circle")
                                             .resizable()
-                                            .frame(width: 75, height: 75)
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 110, height: 110)
                                             .clipShape(Circle())
-                                            .overlay(Circle().stroke(.gray))
-                                            .offset(x: -90, y: 30)
+                                            .padding(10)
+                                            .background(Color.white)
+                                            .clipShape(Circle())
+
                                     } else {
                                         ProgressView()
-                                            .frame(width: 75, height: 75)
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 110, height: 110)
                                             .clipShape(Circle())
-                                            .overlay(Circle().stroke(.gray))
-                                            .offset(x: -90, y: 30)
+                                            .padding(10)
+                                            .background(Color.white)
+                                            .clipShape(Circle())
+
                                         
                                     }
                                 }

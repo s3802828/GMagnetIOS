@@ -26,6 +26,15 @@ struct UpdateForumView: View {
     @State var selectedTags: [Category] = []
     let gameColor = GameColor()
     
+    @State var imageOldKey = ""
+    @State var bannerOldKey = ""
+    
+    @State var imageErrorMessage = ""
+    @State var bannerErrorMessage = ""
+    @State var nameErrorMessage = ""
+    @State var descriptionErrorMessage = ""
+    @State var tagsErrorMessage = ""
+    
     init(updated_forum: GameForum){
         self.updated_forum = updated_forum
 //        downloadImage(key: self.imageKey){result in
@@ -40,6 +49,28 @@ struct UpdateForumView: View {
     func generate_img_key(link: String)->String{
         let split_arr = link.split(separator: "/")
         return split_arr.count>0 ? String(split_arr[split_arr.count - 1]) : ""
+    }
+    
+    func removeImage() {
+        Amplify.Storage.remove(key: "gameIcon/\(self.imageOldKey)") { event in
+            switch event {
+            case let .success(data):
+                print("Completed: Deleted \(data)")
+            case let .failure(storageError):
+                print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+            }
+        }
+    }
+    
+    func removeBanner() {
+        Amplify.Storage.remove(key: "gameIcon/\(self.bannerOldKey)") { event in
+            switch event {
+            case let .success(data):
+                print("Completed: Deleted \(data)")
+            case let .failure(storageError):
+                print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+            }
+        }
     }
     
     
@@ -75,12 +106,84 @@ struct UpdateForumView: View {
     
     
     
+    
     func submit_addform(){
         uploadImage()
     }
     
     func validate_form(){
+        //Validate name
+        do {
+            let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~]*$"#
+            let nameRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+            let range = NSRange(location: 0, length: forumName.count)
+            if (forumName == "") {
+                nameErrorMessage = "Must not be empty"
+            } else if forumName.count > 150 {
+                nameErrorMessage = "Limit up to 150 letters"
+            } else if nameRegex.firstMatch(in: forumName, range: range) != nil {
+                nameErrorMessage = ""
+            } else {
+                nameErrorMessage = "Invalid name"
+            }
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
         
+        //Validate description
+        do {
+            let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~]*$"#
+            let nameRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+            let range = NSRange(location: 0, length: description.count)
+            if (description == "") {
+                descriptionErrorMessage = "Must not be empty"
+            } else if description.count > 1500 {
+                descriptionErrorMessage = "Limit up to 1500 letters"
+            } else if nameRegex.firstMatch(in: description, range: range) != nil {
+                descriptionErrorMessage = ""
+            } else {
+                descriptionErrorMessage = "Invalid"
+            }
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        //Validate tags
+        if selectedTags.isEmpty {
+            tagsErrorMessage = "Must select at least 1 tag"
+        } else {
+            tagsErrorMessage = ""
+        }
+        
+        //Validate image
+        if let imageData = image.jpegData(compressionQuality: 1) {
+            let imageSize = NSData(data: imageData).count
+            if (imageSize == 0) {
+                imageErrorMessage = "Must not be empty"
+            } else if ((imageSize / 1000000) > 5) {
+                imageErrorMessage = "Size must be lower than 5MB"
+            } else {
+                imageErrorMessage = ""
+            }
+        } else {
+            imageErrorMessage = "Must not be empty"
+        }
+
+        //Validate banner
+        if let bannerData = imageBanner.jpegData(compressionQuality: 1) {
+            let bannerSize = NSData(data: bannerData).count
+            if (bannerSize == 0) {
+                bannerErrorMessage = "Must not be empty"
+            } else if ((bannerSize / 1000000) > 6) {
+                bannerErrorMessage = "Size must be lower than 6MB"
+            } else {
+                bannerErrorMessage = ""
+            }
+        } else {
+            bannerErrorMessage = "Must not be empty"
+        }
     }
     
     func uploadImage() {
@@ -244,18 +347,36 @@ struct UpdateForumView: View {
                     .kerning(1.9)
                 ScrollView{
                     VStack {
-                        TextField("  Enter forum name", text: $forumName)
-                            .padding()
-                            .background(Color.gray.opacity(0.3).cornerRadius(10))
-                            .font(.system(size: 20, weight: .semibold))
-                            .foregroundColor(Color.black)
+                        ZStack {
+                            TextField("Enter forum name", text: $forumName)
+                                .padding()
+                                .background(Color.gray.opacity(0.3).cornerRadius(10))
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundColor(Color.black)
+                            Text("\(forumName.count)/150")
+                                .foregroundColor(.black)
+                                .font(.system(size: 13, weight: .medium))
+                                .offset(x: 145, y: 20)
+                        }
+                        Text(nameErrorMessage)
+                            .foregroundColor(.red)
                         
-                        TextEditor(text: $description)
-                            .frame(height:250)
-                            .padding()
-                            .background(Color.gray.opacity(0.3).cornerRadius(10))
-                            .font(.system(size: 20, weight: .semibold))
-                            .foregroundColor(Color.black)
+                        ZStack {
+                            TextEditor(text: $description)
+                                .frame(height:250)
+                                .padding()
+                                .background(Color.gray.opacity(0.3).cornerRadius(10))
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundColor(Color.black)
+                            Text("\(description.count)/1500")
+                                .foregroundColor(.black)
+                                .font(.system(size: 13, weight: .medium))
+                                .offset(x: 145, y: 132)
+                        }
+                        
+                        Text(descriptionErrorMessage)
+                            .foregroundColor(.red)
+                        
                         VStack {
                             Text("Select your forum tag")
                             TagSelectionView(selectedTags: self.$selectedTags)
@@ -264,9 +385,12 @@ struct UpdateForumView: View {
                             .background(Color.gray.opacity(0.3).cornerRadius(10))
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(Color.black)
+                        Text(tagsErrorMessage)
+                            .foregroundColor(.red)
+                            
                         
-                        
-                        
+                    }.padding(.top,5)
+                    VStack{
                         HStack {
                             Button(action: {
                                 self.isShowPhotoLibrary = true
@@ -294,6 +418,8 @@ struct UpdateForumView: View {
                             .sheet(isPresented: $isShowPhotoLibrary) {
                                 ImagePicker(sourceType: .photoLibrary, img_path: "gameIcon", selectedImage: self.$image, imageName: self.$imageKey)
                         }
+                        Text(imageErrorMessage)
+                            .foregroundColor(.red)
                             
                         HStack {
                             Button(action: {
@@ -322,14 +448,17 @@ struct UpdateForumView: View {
                             .sheet(isPresented: $isShowBannerLibrary) {
                             BannerPicker(sourceType: .photoLibrary, selectedBanner: self.$imageBanner, bannerName: $bannerKey)
                         }
-                            
-                        
-                    }.padding(.top,5)
+                        Text(bannerErrorMessage)
+                            .foregroundColor(.red)
+                    }
                 }
                 Spacer()
                 Button(action: {
-                    self.submit_addform()
-                    
+
+                    validate_form()
+                    if (nameErrorMessage == "" && descriptionErrorMessage == "" && imageErrorMessage == "" && bannerErrorMessage == "") {
+                        self.submit_addform()
+                    }
                 }, label:{
                     Image(systemName: "checkmark")
                         .font(.system(size: 24, weight: .bold))
@@ -376,8 +505,11 @@ struct UpdateForumView: View {
             self.imageKey = self.generate_img_key(link: updated_forum.logo)
             self.bannerKey = self.generate_img_key(link: updated_forum.banner)
 //            print("Ze state forum \(self.bannerKey)  \(self.forumName) \(self.description) \(self.imageKey) ")
+            self.imageOldKey = self.imageKey
+            self.bannerOldKey = self.bannerKey
             downloadImage()
             downloadBanner()
+            
         }
         
         

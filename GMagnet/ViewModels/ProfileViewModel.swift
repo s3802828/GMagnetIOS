@@ -75,10 +75,11 @@ class ProfileViewModel: ObservableObject{
     }
 
     
-    func toggle_join_forum(forum: GameForum, user: User){
+    func toggle_join_forum(forum: GameForum, user: AuthenticateViewModel){
         // Call when user click Join/Unjoin on GamePage View
-        GameForum.toggle_join_forum(forum: forum, user: user){forum in
+        GameForum.toggle_join_forum(forum: forum, user: user.currentUser){forum in
             self.refreshPage()
+            user.refreshCurrentUser()
         }
     }
     

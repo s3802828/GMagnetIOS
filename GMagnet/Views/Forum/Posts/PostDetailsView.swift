@@ -83,19 +83,19 @@ struct PostDetailsView: View {
                                 } else if phase.error != nil {
                                     Image(systemName: "x.circle")
                                         .resizable()
-                                        .frame(width: 280, height: 100)
-                                        .clipShape(RoundedRectangle(cornerRadius: 9))
-                                        .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                                        .padding(.horizontal, 10)
-                                        .padding(.top, 10)
+                                        .frame(width: 50, height: 50)
+                                        .clipShape(Circle())
+                                        .overlay(Circle().stroke(.gray))
+                                        .padding(.horizontal,5)
+                                        .id(-1)
                                     
                                 } else {
                                     ProgressView()
-                                        .frame(width: 280, height: 100)
-                                        .clipShape(RoundedRectangle(cornerRadius: 9))
-                                        .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                                        .padding(.horizontal, 10)
-                                        .padding(.top, 10)
+                                        .frame(width: 50, height: 50)
+                                        .clipShape(Circle())
+                                        .overlay(Circle().stroke(.gray))
+                                        .padding(.horizontal,5)
+                                        .id(-1)
                                     
                                     
                                 }
@@ -177,19 +177,17 @@ struct PostDetailsView: View {
                                         } else if phase.error != nil {
                                             Image(systemName: "x.circle")
                                                 .resizable()
-                                                .frame(width: 280, height: 100)
-                                                .clipShape(RoundedRectangle(cornerRadius: 9))
-                                                .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                                                .padding(.horizontal, 10)
-                                                .padding(.top, 10)
+                                                .scaledToFit()
+                                                .frame(width: 350)
+                                                .background(.gray)
+                                                .padding(.bottom, 10)
                                             
                                         } else {
                                             ProgressView()
-                                                .frame(width: 280, height: 100)
-                                                .clipShape(RoundedRectangle(cornerRadius: 9))
-                                                .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                                                .padding(.horizontal, 10)
-                                                .padding(.top, 10)
+                                                .scaledToFit()
+                                                .frame(width: 350)
+                                                .background(.gray)
+                                                .padding(.bottom, 10)
                                             
                                             
                                         }

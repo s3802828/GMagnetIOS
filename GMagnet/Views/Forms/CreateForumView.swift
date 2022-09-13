@@ -22,6 +22,13 @@ struct CreateForumView: View {
     @State var forumName = ""
     @State var description = ""
     @State var selectedTags: [Category] = []
+    
+    @State var imageErrorMessage = ""
+    @State var bannerErrorMessage = ""
+    @State var nameErrorMessage = ""
+    @State var descriptionErrorMessage = ""
+    @State var tagsErrorMessage = ""
+    
     @Environment(\.dismiss) var dismiss
     let gameColor = GameColor()
     
@@ -33,7 +40,79 @@ struct CreateForumView: View {
     }
     
     func validate_form(){
+        //Validate name
+        do {
+            
+            let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~]*$"#
+            let nameRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+            let range = NSRange(location: 0, length: forumName.count)
+            if (forumName == "") {
+                nameErrorMessage = "Must not be empty"
+            } else if forumName.count > 150 {
+                nameErrorMessage = "Limit up to 150 letters"
+            } else if nameRegex.firstMatch(in: forumName, range: range) != nil {
+                nameErrorMessage = ""
+            } else {
+                nameErrorMessage = "Invalid name"
+            }
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
         
+        //Validate description
+        do {
+            let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~]*$"#
+            let descriptionRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+            let range = NSRange(location: 0, length: description.count)
+            if (description == "") {
+                descriptionErrorMessage = "Must not be empty"
+            } else if description.count > 1500 {
+                descriptionErrorMessage = "Limit up to 1500 letters"
+            } else if descriptionRegex.firstMatch(in: description, range: range) != nil {
+                descriptionErrorMessage = ""
+            } else {
+                descriptionErrorMessage = "Invalid"
+            }
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        //Validate tags
+        if selectedTags.isEmpty {
+            tagsErrorMessage = "Must select at least 1 tag"
+        } else {
+            tagsErrorMessage = ""
+        }
+        
+        //Validate image
+        if let imageData = image.jpegData(compressionQuality: 1) {
+            let imageSize = NSData(data: imageData).count
+            if (imageSize == 0) {
+                imageErrorMessage = "Must not be empty"
+            } else if ((imageSize / 1000000) > 5) {
+                imageErrorMessage = "Size must be lower than 5MB"
+            } else {
+                imageErrorMessage = ""
+            }
+        } else {
+            imageErrorMessage = "Must not be empty"
+        }
+
+        //Validate banner
+        if let bannerData = imageBanner.jpegData(compressionQuality: 1) {
+            let bannerSize = NSData(data: bannerData).count
+            if (bannerSize == 0) {
+                bannerErrorMessage = "Must not be empty"
+            } else if ((bannerSize / 1000000) > 6) {
+                bannerErrorMessage = "Size must be lower than 6MB"
+            } else {
+                bannerErrorMessage = ""
+            }
+        } else {
+            bannerErrorMessage = "Must not be empty"
+        }
     }
     
     func uploadImage() {
@@ -116,18 +195,38 @@ struct CreateForumView: View {
                     .kerning(1.9)
                 ScrollView{
                     VStack {
-                        TextField("  Enter forum name", text: $forumName)
-                            .padding()
-                            .background(Color.gray.opacity(0.3).cornerRadius(10))
-                            .font(.system(size: 20, weight: .semibold))
-                            .foregroundColor(Color.black)
                         
-                        TextEditor(text: $description)
-                            .frame(height:250)
-                            .padding()
-                            .background(Color.gray.opacity(0.3).cornerRadius(10))
-                            .font(.system(size: 20, weight: .semibold))
-                            .foregroundColor(Color.black)
+                        ZStack {
+                            TextField("Enter forum name", text: $forumName)
+                                .padding()
+                                .background(Color.gray.opacity(0.3).cornerRadius(10))
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundColor(Color.black)
+                            Text("\(forumName.count)/150")
+                                .foregroundColor(.black)
+                                .font(.system(size: 13, weight: .medium))
+                                .offset(x: 145, y: 20)
+                        }
+                        
+                        Text(nameErrorMessage)
+                            .foregroundColor(.red)
+                        
+                        ZStack {
+                            TextEditor(text: $description)
+                                .frame(height:250)
+                                .padding()
+                                .background(Color.gray.opacity(0.3).cornerRadius(10))
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundColor(Color.black)
+                            Text("\(description.count)/1500")
+                                .foregroundColor(.black)
+                                .font(.system(size: 13, weight: .medium))
+                                .offset(x: 145, y: 132)
+                        }
+                        
+                        Text(descriptionErrorMessage)
+                            .foregroundColor(.red)
+                        
                         VStack {
                             Text("Select your forum tag")
                             TagSelectionView(selectedTags: self.$selectedTags)
@@ -136,9 +235,12 @@ struct CreateForumView: View {
                             .background(Color.gray.opacity(0.3).cornerRadius(10))
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(Color.black)
+                        Text(tagsErrorMessage)
+                            .foregroundColor(.red)
+                            
                         
-                        
-                        
+                    }.padding(.top,5)
+                    VStack {
                         HStack {
                             Button(action: {
                                 self.isShowPhotoLibrary = true
@@ -167,6 +269,8 @@ struct CreateForumView: View {
                             .sheet(isPresented: $isShowPhotoLibrary) {
                                 ImagePicker(sourceType: .photoLibrary, img_path: "gameIcon", selectedImage: self.$image, imageName: self.$imageKey)
                         }
+                        Text(imageErrorMessage)
+                            .foregroundColor(.red)
                             
                         HStack {
                             Button(action: {
@@ -196,13 +300,16 @@ struct CreateForumView: View {
                             .sheet(isPresented: $isShowBannerLibrary) {
                             BannerPicker(sourceType: .photoLibrary, selectedBanner: self.$imageBanner, bannerName: $bannerKey)
                         }
-                            
-                        
-                    }.padding(.top,5)
+                        Text(bannerErrorMessage)
+                            .foregroundColor(.red)
+                    }
                 }
                 Spacer()
                 Button(action: {
-                    self.submit_addform()
+                    validate_form()
+                    if (nameErrorMessage == "" && descriptionErrorMessage == "" && imageErrorMessage == "" && bannerErrorMessage == "") {
+                        self.submit_addform()
+                    }
                     
                 }, label:{
                     Image(systemName: "checkmark")

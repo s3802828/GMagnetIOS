@@ -32,19 +32,15 @@ struct PostRow: View {
                         } else if phase.error != nil {
                             Image(systemName: "x.circle")
                                 .resizable()
-                                .frame(width: 280, height: 100)
-                                .clipShape(RoundedRectangle(cornerRadius: 9))
-                                .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                                .padding(.horizontal, 10)
-                                .padding(.top, 10)
+                                .clipShape(Circle())
+                                .frame(width: 40, height: 40)
+                                .foregroundColor(Color.gray)
                             
                         } else {
                             ProgressView()
-                                .frame(width: 280, height: 100)
-                                .clipShape(RoundedRectangle(cornerRadius: 9))
-                                .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                                .padding(.horizontal, 10)
-                                .padding(.top, 10)
+                                .clipShape(Circle())
+                                .frame(width: 40, height: 40)
+                                .foregroundColor(Color.gray)
                             
                             
                         }

@@ -19,6 +19,11 @@ struct EditProfileView: View {
     @State private var image = UIImage()
     @State var imageKey = ""
     @State var isProgressing = false
+    
+    @State var fullnameErrorMessage = ""
+    @State var bioErrorMessage = ""
+    @State var imageErrorMessage = ""
+    
     @EnvironmentObject var currentUser: AuthenticateViewModel
     @EnvironmentObject var profile : ProfileViewModel
     @Environment(\.dismiss) var dismiss
@@ -91,6 +96,58 @@ struct EditProfileView: View {
         
     }
     
+    func validate_form() {
+        //Validate full name
+        do {
+            
+            let pattern = #"^[A-Za-z0-9 '-]*$"#
+            let nameRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+            let range = NSRange(location: 0, length: fullname.count)
+            if (fullname == "") {
+                fullnameErrorMessage = "Must not be empty"
+            } else if fullname.count > 100 {
+                fullnameErrorMessage = "Limit up to 100 letters"
+            } else if nameRegex.firstMatch(in: fullname, range: range) != nil {
+                fullnameErrorMessage = ""
+            } else {
+                fullnameErrorMessage = "Invalid name (Special characters allowed: ' and - )"
+            }
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        //Validate bio
+        do {
+            
+            let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~]*$"#
+            let nameRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+            let range = NSRange(location: 0, length: bio.count)
+            if bio.count > 500 {
+                bioErrorMessage = "Limit up to 500 letters"
+            } else if nameRegex.firstMatch(in: bio, range: range) != nil {
+                bioErrorMessage = ""
+            } else {
+                bioErrorMessage = "Invalid"
+            }
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        //Validate image
+        if let imageData = image.jpegData(compressionQuality: 1) {
+            let imageSize = NSData(data: imageData).count
+            if ((imageSize / 1000000) > 5) {
+                imageErrorMessage = "Size must be lower than 5MB"
+            } else {
+                imageErrorMessage = ""
+            }
+        }
+
+        
+    }
+    
     var body: some View {
         ZStack{
             VStack{
@@ -120,10 +177,10 @@ struct EditProfileView: View {
                                 Image(systemName: "photo")
                                     .font(.system(size: 20))
                                 
-                                Text("Add logo")
+                                Text("Change Avatar")
                                     .font(.headline)
                             }
-                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 50)
+                            .frame(width: 200, height: 50)
                             .background(gameColor.cyan)
                             .foregroundColor(.white)
                             .cornerRadius(20)
@@ -131,7 +188,8 @@ struct EditProfileView: View {
                         }
                         Image(uiImage: self.image)
                             .resizable()
-                            .scaledToFit()
+                            
+                            .frame(width: 100, height: 100 )
                             .clipShape(Circle())
                             .shadow(radius: 10)
                         
@@ -139,12 +197,27 @@ struct EditProfileView: View {
                     .sheet(isPresented: $isShowPhotoLibrary) {
                         ImagePicker(sourceType: .photoLibrary, img_path: "userUpload", selectedImage: self.$image, imageName: $imageKey)
                     }
+                    Text(imageErrorMessage)
+                        .foregroundColor(.red)
+                    
                     Text("Fullname")
                         .fontWeight(.bold)
                         .foregroundColor(.gray)
-                    TextField("Pham Van A", text: $fullname)
-                        .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(Color.black)
+                    ZStack {
+                        TextField("Pham Van A", text: $fullname)
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(Color.black)
+                        Text("\(fullname.count)/100")
+                            .foregroundColor(.black)
+                            .font(.system(size: 13, weight: .medium))
+                            .offset(x: 145, y: 20)
+                    }
+                    Text(fullnameErrorMessage)
+                        .foregroundColor(.red)
+ 
+                })
+                .padding(.top,5)
+                VStack(alignment: .leading, spacing: 8){
                     Divider()
                         .padding(.top, 5)
                     Text("Username")
@@ -161,25 +234,38 @@ struct EditProfileView: View {
                         .foregroundColor(Color.black)
                     Divider()
                         .padding(.top, 5)
-                })
-                .padding(.top,5)
+                }
+                
+                
                 VStack(alignment: .leading, spacing: 8, content: {
                     Text("Bio")
                         .fontWeight(.bold)
                         .foregroundColor(.gray)
-                    TextEditor(text: $bio)
-                        .frame(height:150)
-                        .padding()
-                        .background(Color.gray.opacity(0.3).cornerRadius(10))
-                        .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(Color.black)
+                    ZStack {
+                        TextEditor(text: $bio)
+                            .frame(height:150)
+                            .padding()
+                            .background(Color.gray.opacity(0.3).cornerRadius(10))
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(Color.black)
+                        Text("\(bio.count)/500")
+                            .foregroundColor(.black)
+                            .font(.system(size: 13, weight: .medium))
+                            .offset(x: 145, y: 80)
+                    }
+                    Text(bioErrorMessage)
+                        .foregroundColor(.red)
+                    
                     Divider()
                         .padding(.top, 5)
                 })
                 .padding(.top,10)
                 
                 Button(action: {
-                    self.update_user()
+                    validate_form()
+                    if (fullnameErrorMessage == "" && bioErrorMessage == "" && imageErrorMessage == "") {
+                        self.update_user()
+                    }
                 }, label:{
                     Image(systemName: "arrow.right")
                         .font(.system(size: 24, weight: .bold))

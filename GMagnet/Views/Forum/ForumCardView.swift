@@ -51,21 +51,24 @@ struct ForumCardView: View {
                 Spacer()
                 
                 HStack {
+                    Text(gameForum.gameforum.name)
+                        .font(.system(size: 17, weight: .heavy , design: .monospaced))
+                        
+                        
                     Spacer()
-                    
-                    Button(action: {
-                        showForumDetail = true
-                    }, label: {
-                        Text("Visit")
-                            .font(.system(size: 18, weight: .heavy , design: .monospaced))
-                            .frame(width: 75, height: 30)
-                            .background(.blue)
-                            .foregroundColor(.white)
-                            .clipShape(RoundedRectangle(cornerRadius: 9))
-                            .padding(.bottom, 15)
-                    }).fullScreenCover(isPresented: $showForumDetail, onDismiss: {gameForum.refreshGameForum(){}}){
-                        GameForumTabView()
-                    }
+                }.padding(.leading, 15)
+                    .padding(.bottom, 10)
+                
+                
+                
+            }.frame(width: 300, height: 160)
+            
+            
+            
+            
+            VStack {
+                HStack {
+                    Spacer()
                     
                     Button(action: {
                         gameForum.toggle_join_forum(forum: gameForum.gameforum, authViewModel: currentUser)
@@ -76,13 +79,23 @@ struct ForumCardView: View {
                             .background(gameForum.members.contains(where: {$0.id == currentUser.currentUser.id}) ? .gray : .blue)
                             .foregroundColor(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 9))
+                            .overlay(RoundedRectangle(cornerRadius: 9).stroke(.white, lineWidth: 3))
                             .padding(.horizontal, 10)
                             .padding(.bottom, 15)
                     })
-                    
-                }
-
+                }.padding(.horizontal, 5)
+                    .padding(.top, 15)
+                
+                
+                Spacer()
+                
+                
             }.frame(width: 300, height: 160)
+               
+
+                
+                
+            
                 
             AsyncImage(url: URL(string: gameForum.gameforum.logo)) {phase in
                 if let image = phase.image {
@@ -92,7 +105,7 @@ struct ForumCardView: View {
                         .frame(width: 75, height: 75)
                         .clipShape(Circle())
                         .overlay(Circle().stroke(.gray))
-                        .offset(x: -90, y: 30)
+                        .offset(x: -100, y: 10)
                 } else if phase.error != nil {
                     Image(systemName: "x.circle")
                         .resizable()
@@ -100,14 +113,14 @@ struct ForumCardView: View {
                         .frame(width: 75, height: 75)
                         .clipShape(Circle())
                         .overlay(Circle().stroke(.gray))
-                        .offset(x: -90, y: 30)
+                        .offset(x: -100, y: 10)
                 } else {
                     ProgressView()
                         .scaledToFit()
                         .frame(width: 75, height: 75)
                         .clipShape(Circle())
                         .overlay(Circle().stroke(.gray))
-                        .offset(x: -90, y: 30)
+                        .offset(x: -100, y: 10)
                     
                 }
             }
@@ -116,6 +129,11 @@ struct ForumCardView: View {
             RoundedRectangle(cornerRadius: 8)
                 .fill(.white)
                 .shadow(radius: 5)
+        }
+        .onTapGesture {
+            showForumDetail = true
+        }.fullScreenCover(isPresented: $showForumDetail, onDismiss: {gameForum.refreshGameForum(){}}){
+            GameForumTabView()
         }
         
     }

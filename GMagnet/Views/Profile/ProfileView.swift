@@ -68,19 +68,17 @@ extension ProfileView{
                     } else if phase.error != nil {
                         Image(systemName: "x.circle")
                             .resizable()
-                            .frame(width: 280, height: 100)
                             .clipShape(Circle())
-                            .overlay(Circle().stroke(.gray))
-                            .padding(.horizontal, 10)
-                            .padding(.top, 10)
+                            .overlay(Circle().stroke(Color(.white),lineWidth: 2))
+                            .frame(width: 72, height: 72)
+                            .offset(x: 16, y: 24)
 
                     } else {
                         ProgressView()
-                            .frame(width: 280, height: 100)
                             .clipShape(Circle())
-                            .overlay(Circle())
-                            .padding(.horizontal, 10)
-                            .padding(.top, 10)
+                            .overlay(Circle().stroke(Color(.white),lineWidth: 2))
+                            .frame(width: 72, height: 72)
+                            .offset(x: 16, y: 24)
                     }
                 }
             }
@@ -97,8 +95,6 @@ extension ProfileView{
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
-            Text("Bio")
-                .font(.headline).bold()
             Text(profile.user.description)
                 .font(.subheadline)
                 .foregroundColor(.gray)

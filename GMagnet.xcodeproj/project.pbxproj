@@ -343,6 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				FA18EC8928D04CE600044EDC /* Profile */,
+				FA26A30E28CD026F005DA76F /* Comments */,
 				FA26A30928CCE1E8005DA76F /* Forms */,
 				FACEFFC928C650DE000CD5CC /* General */,
 				FACEFFC828C6507B000CD5CC /* Forum */,
@@ -354,7 +355,6 @@
 		FACEFFC828C6507B000CD5CC /* Forum */ = {
 			isa = PBXGroup;
 			children = (
-				FA26A30E28CD026F005DA76F /* Comments */,
 				FA26A30828CCE157005DA76F /* Description */,
 				FA26A30128CB7A99005DA76F /* Members */,
 				FA26A30028CB7A7B005DA76F /* Posts */,

@@ -28,19 +28,17 @@ struct MemberRow: View {
                     } else if phase.error != nil {
                         Image(systemName: "x.circle")
                             .resizable()
-                            .frame(width: 280, height: 100)
-                            .clipShape(RoundedRectangle(cornerRadius: 9))
-                            .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                            .padding(.horizontal, 10)
-                            .padding(.top, 10)
+                            .frame(width: 70, height: 70)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(Color(.white),lineWidth: 2))
+                            .shadow(color:gameColor.cyan.opacity(1), radius: 3, x: 1, y: 1)
 
                     } else {
                         ProgressView()
-                            .frame(width: 280, height: 100)
-                            .clipShape(RoundedRectangle(cornerRadius: 9))
-                            .overlay(RoundedRectangle(cornerRadius: 9).stroke(.gray))
-                            .padding(.horizontal, 10)
-                            .padding(.top, 10)
+                            .frame(width: 70, height: 70)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(Color(.white),lineWidth: 2))
+                            .shadow(color:gameColor.cyan.opacity(1), radius: 3, x: 1, y: 1)
 
                         
                     }

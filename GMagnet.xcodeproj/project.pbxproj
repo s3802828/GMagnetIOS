@@ -16,7 +16,7 @@
 		930AAA1828C72C88000FFB88 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930AAA1728C72C88000FFB88 /* Model.swift */; };
 		930AAA1A28C72FBF000FFB88 /* Details.json in Resources */ = {isa = PBXBuildFile; fileRef = 930AAA1928C72FBF000FFB88 /* Details.json */; };
 		930AAA2728C792FB000FFB88 /* GameDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930AAA2628C792FB000FFB88 /* GameDetailView.swift */; };
-		930AAA2928C89A78000FFB88 /* GameDetailsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930AAA2828C89A78000FFB88 /* GameDetailsTabView.swift */; };
+		9342A2FA28CDA64800E51DEF /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9342A2F928CDA64800E51DEF /* EditProfileView.swift */; };
 		93A8357128C24408005F3335 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A8357028C24408005F3335 /* Home.swift */; };
 		93A8357328C2499A005F3335 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A8357228C2499A005F3335 /* Color.swift */; };
 		B22FD7D528C0708600E874F9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22FD7D428C0708600E874F9 /* User.swift */; };
@@ -52,7 +52,7 @@
 		930AAA1728C72C88000FFB88 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		930AAA1928C72FBF000FFB88 /* Details.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Details.json; sourceTree = "<group>"; };
 		930AAA2628C792FB000FFB88 /* GameDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailView.swift; sourceTree = "<group>"; };
-		930AAA2828C89A78000FFB88 /* GameDetailsTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameDetailsTabView.swift; sourceTree = "<group>"; };
+		9342A2F928CDA64800E51DEF /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		93A8357028C24408005F3335 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		93A8357228C2499A005F3335 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		B22FD7D428C0708600E874F9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -105,10 +105,17 @@
 		930AAA1B28C739D4000FFB88 /* Games */ = {
 			isa = PBXGroup;
 			children = (
-				930AAA2828C89A78000FFB88 /* GameDetailsTabView.swift */,
 				930AAA2628C792FB000FFB88 /* GameDetailView.swift */,
 			);
 			path = Games;
+			sourceTree = "<group>";
+		};
+		9342A2F828CDA62D00E51DEF /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				9342A2F928CDA64800E51DEF /* EditProfileView.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		93A8357828C39AD7005F3335 /* Forum */ = {
@@ -158,6 +165,7 @@
 		FA51A4A828C06D02008AF58F /* GMagnet */ = {
 			isa = PBXGroup;
 			children = (
+				9342A2F828CDA62D00E51DEF /* Profile */,
 				930AAA1B28C739D4000FFB88 /* Games */,
 				930AAA1028C72864000FFB88 /* Members */,
 				93A8357828C39AD7005F3335 /* Forum */,
@@ -286,7 +294,6 @@
 				B22FD7D728C0709200E874F9 /* GameForum.swift in Sources */,
 				930AAA1228C72893000FFB88 /* MemberRow.swift in Sources */,
 				FA51A4D728C08789008AF58F /* SignUpView.swift in Sources */,
-				930AAA2928C89A78000FFB88 /* GameDetailsTabView.swift in Sources */,
 				930AAA1428C729A0000FFB88 /* MemberList.swift in Sources */,
 				930AAA1828C72C88000FFB88 /* Model.swift in Sources */,
 				FA51A4D928C08797008AF58F /* SignInView.swift in Sources */,
@@ -297,6 +304,7 @@
 				930AAA0F28C6F712000FFB88 /* BannerPicker.swift in Sources */,
 				930AAA0628C39BA9000FFB88 /* CreateForumView.swift in Sources */,
 				93A8357328C2499A005F3335 /* Color.swift in Sources */,
+				9342A2FA28CDA64800E51DEF /* EditProfileView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

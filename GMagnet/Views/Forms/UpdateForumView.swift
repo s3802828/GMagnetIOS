@@ -292,7 +292,7 @@ struct UpdateForumView: View {
                         }
                         Spacer()
                             .sheet(isPresented: $isShowPhotoLibrary) {
-                                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image, imageName: self.$imageKey)
+                                ImagePicker(sourceType: .photoLibrary, img_path: "gameIcon", selectedImage: self.$image, imageName: self.$imageKey)
                         }
                             
                         HStack {

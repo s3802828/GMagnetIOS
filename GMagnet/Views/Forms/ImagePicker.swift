@@ -5,6 +5,7 @@ struct ImagePicker: UIViewControllerRepresentable {
     
     var sourceType: UIImagePickerController.SourceType = .photoLibrary
     
+    let img_path: String
     @Binding var selectedImage: UIImage
     @Binding var imageName: String
     @Environment(\.presentationMode) private var presentationMode
@@ -43,7 +44,7 @@ struct ImagePicker: UIViewControllerRepresentable {
             }
             
             if let url = info[UIImagePickerController.InfoKey.imageURL] as? URL {
-                parent.imageName = "gameIcon/\(url.lastPathComponent)"
+                parent.imageName = "\(parent.img_path)/\(url.lastPathComponent)"
             }
             
             parent.presentationMode.wrappedValue.dismiss()

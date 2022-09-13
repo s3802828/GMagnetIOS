@@ -20,7 +20,6 @@ struct UpdatePostView: View {
     @State var isShowPostImageLibrary = false
     @State var postImage = UIImage()
     @State var postImageKey = ""
-    @State var isPostingImage = false
     @Environment(\.dismiss) var dismiss
     @State var isPostProgressing = false
     
@@ -30,16 +29,18 @@ struct UpdatePostView: View {
     }
     
     func downloadPostImage() {
-        Amplify.Storage.downloadData(key: "postUpload/\(self.postImageKey)") { result in
-            switch result {
-            case .success(let data):
-                DispatchQueue.main.async {
-                    if let unwrap_image = UIImage(data: data){
-                        self.postImage = unwrap_image
+        if (self.postImageKey != "") {
+            Amplify.Storage.downloadData(key: "postUpload/\(self.postImageKey)") { result in
+                switch result {
+                case .success(let data):
+                    DispatchQueue.main.async {
+                        if let unwrap_image = UIImage(data: data){
+                            self.postImage = unwrap_image
+                        }
                     }
+                case .failure(let error):
+                    print(error)
                 }
-            case .failure(let error):
-                print(error)
             }
         }
     }
@@ -135,7 +136,7 @@ struct UpdatePostView: View {
                     Spacer()
                 }
                 
-                Text("Create New Post")
+                Text("Update Post")
                     .font(.system(size: 30))
                     .fontWeight(.bold)
                     .foregroundColor(Color.black)
@@ -196,30 +197,7 @@ struct UpdatePostView: View {
                     .foregroundColor(Color.black)
                     .padding(.horizontal, 15)
             
-                HStack{
-                    Button(action: {
-                        isPostingImage.toggle()
-                        if !isPostingImage {
-                            postImage = UIImage()
-                        }
-                    }, label: {
-                        HStack {
-                            Image(systemName: isPostingImage ? "checkmark.circle" : "circle")
-                                .foregroundColor(isPostingImage ? .green : .black)
-                            Text("Post with Image")
-                        }
-                        .foregroundColor(.black)
-                        .padding(.all,6)
-                        .background{
-                            RoundedRectangle(cornerRadius: 10).stroke(.black)
-                        }
-                        
-                    })
-                    
-                    Spacer()
-                }.padding(.horizontal, 15)
-
-                if isPostingImage {
+                if self.postImageKey != ""{
                     HStack {
                         Button(action: {
                             self.isShowPostImageLibrary = true

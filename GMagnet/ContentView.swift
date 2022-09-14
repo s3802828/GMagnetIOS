@@ -18,6 +18,7 @@ struct ContentView: View {
                 
                 TabViews().environmentObject(currentUser)
                     .onAppear(){
+                        currentUser.refreshCurrentUser()
                         currentUser.requestAllowOnceLocationPermission()
                     }
             } else {

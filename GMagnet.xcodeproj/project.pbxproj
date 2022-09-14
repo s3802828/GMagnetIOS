@@ -73,6 +73,10 @@
 		FA5BF11E28C63901000B5FE0 /* AuthenticateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5BF11D28C63901000B5FE0 /* AuthenticateViewModel.swift */; };
 		FA8B432D28C65F860041F4C4 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = FA8B432C28C65F860041F4C4 /* GoogleSignIn */; };
 		FA8B432F28C65F860041F4C4 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FA8B432E28C65F860041F4C4 /* GoogleSignInSwift */; };
+		FA93589528D22EAB00D339DE /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = FA93589428D22EAB00D339DE /* Lottie */; };
+		FA93589828D22FF300D339DE /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA93589728D22FF300D339DE /* LottieView.swift */; };
+		FA93589A28D2303800D339DE /* SplashScreenVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA93589928D2303800D339DE /* SplashScreenVIew.swift */; };
+		FAC609AE28D2334F0064EE1A /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = FAC609AD28D2334F0064EE1A /* loading.json */; };
 		FACEFFBB28C64D16000CD5CC /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = FACEFFB928C64D16000CD5CC /* awsconfiguration.json */; };
 		FACEFFBC28C64D16000CD5CC /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = FACEFFBA28C64D16000CD5CC /* amplifyconfiguration.json */; };
 		FACEFFBE28C64EBE000CD5CC /* GameForumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACEFFBD28C64EBE000CD5CC /* GameForumViewModel.swift */; };
@@ -134,6 +138,9 @@
 		FA51A4D828C08797008AF58F /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		FA5BF11A28C50F9E000B5FE0 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		FA5BF11D28C63901000B5FE0 /* AuthenticateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateViewModel.swift; sourceTree = "<group>"; };
+		FA93589728D22FF300D339DE /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
+		FA93589928D2303800D339DE /* SplashScreenVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenVIew.swift; sourceTree = "<group>"; };
+		FAC609AD28D2334F0064EE1A /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		FACEFFB928C64D16000CD5CC /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = awsconfiguration.json; path = ../awsconfiguration.json; sourceTree = "<group>"; };
 		FACEFFBA28C64D16000CD5CC /* amplifyconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = amplifyconfiguration.json; path = ../amplifyconfiguration.json; sourceTree = "<group>"; };
 		FACEFFBD28C64EBE000CD5CC /* GameForumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameForumViewModel.swift; sourceTree = "<group>"; };
@@ -154,6 +161,7 @@
 				FA8B432F28C65F860041F4C4 /* GoogleSignInSwift in Frameworks */,
 				FA51A4C828C086BD008AF58F /* FirebaseDatabaseSwift in Frameworks */,
 				5D80A5D028C2794600A06889 /* AWSS3StoragePlugin in Frameworks */,
+				FA93589528D22EAB00D339DE /* Lottie in Frameworks */,
 				FA8B432D28C65F860041F4C4 /* GoogleSignIn in Frameworks */,
 				FA51A4C028C086BD008AF58F /* FirebaseAppCheck in Frameworks */,
 				FA51A4D228C086BD008AF58F /* FirebaseStorage in Frameworks */,
@@ -339,9 +347,20 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
+		FA93589628D22F8C00D339DE /* SplashScreen */ = {
+			isa = PBXGroup;
+			children = (
+				FAC609AD28D2334F0064EE1A /* loading.json */,
+				FA93589728D22FF300D339DE /* LottieView.swift */,
+				FA93589928D2303800D339DE /* SplashScreenVIew.swift */,
+			);
+			path = SplashScreen;
+			sourceTree = "<group>";
+		};
 		FACEFFC728C6501F000CD5CC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FA93589628D22F8C00D339DE /* SplashScreen */,
 				FA18EC8928D04CE600044EDC /* Profile */,
 				FA26A30E28CD026F005DA76F /* Comments */,
 				FA26A30928CCE1E8005DA76F /* Forms */,
@@ -411,6 +430,7 @@
 				5D80A5D128C2794600A06889 /* Amplify */,
 				FA8B432C28C65F860041F4C4 /* GoogleSignIn */,
 				FA8B432E28C65F860041F4C4 /* GoogleSignInSwift */,
+				FA93589428D22EAB00D339DE /* Lottie */,
 			);
 			productName = GMagnet;
 			productReference = FA51A4A628C06D02008AF58F /* GMagnet.app */;
@@ -444,6 +464,7 @@
 				FA51A4BE28C086BD008AF58F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				5D80A5CC28C2794600A06889 /* XCRemoteSwiftPackageReference "amplify-ios" */,
 				FA8B432B28C65F860041F4C4 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				FA93589328D22EAB00D339DE /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = FA51A4A728C06D02008AF58F /* Products */;
 			projectDirPath = "";
@@ -463,6 +484,7 @@
 				FACEFFBC28C64D16000CD5CC /* amplifyconfiguration.json in Resources */,
 				FA51A4B128C06D05008AF58F /* Preview Assets.xcassets in Resources */,
 				FA51A4AE28C06D05008AF58F /* Assets.xcassets in Resources */,
+				FAC609AE28D2334F0064EE1A /* loading.json in Resources */,
 				FA51A4BD28C0829E008AF58F /* GoogleService-Info.plist in Resources */,
 				5D3CEFCD28C50AB30091BA37 /* .gitignore in Resources */,
 			);
@@ -510,6 +532,7 @@
 				FA26A30B28CCE230005DA76F /* MemberRow.swift in Sources */,
 				FA1F544928C5029900748CF0 /* Constants.swift in Sources */,
 				FA26A31828CD1C98005DA76F /* SearchBar.swift in Sources */,
+				FA93589A28D2303800D339DE /* SplashScreenVIew.swift in Sources */,
 				FA18EC8128CDCC7900044EDC /* CreateForumView.swift in Sources */,
 				FA26A2FE28CB33EC005DA76F /* PostDetailsView.swift in Sources */,
 				FA26A2FF28CB33EC005DA76F /* PostList.swift in Sources */,
@@ -522,6 +545,7 @@
 				FA18EC9F28D0823900044EDC /* EditProfile.swift in Sources */,
 				FA18EC9128D04F5000044EDC /* JoinedForumList.swift in Sources */,
 				B22FD7D528C0708600E874F9 /* User.swift in Sources */,
+				FA93589828D22FF300D339DE /* LottieView.swift in Sources */,
 				5D4072C428CF19DC00D17AA2 /* UpdateForumView.swift in Sources */,
 				B22FD7D928C0709E00E874F9 /* Post.swift in Sources */,
 				FA26A31028CD028D005DA76F /* CommentRow.swift in Sources */,
@@ -653,6 +677,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_ASSET_PATHS = "\"GMagnet/Preview Content\"";
 				DEVELOPMENT_TEAM = 88UL73W94J;
 				ENABLE_PREVIEWS = YES;
@@ -687,6 +712,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_ASSET_PATHS = "\"GMagnet/Preview Content\"";
 				DEVELOPMENT_TEAM = 88UL73W94J;
 				ENABLE_PREVIEWS = YES;
@@ -760,6 +786,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 6.0.0;
+			};
+		};
+		FA93589328D22EAB00D339DE /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -844,6 +878,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FA8B432B28C65F860041F4C4 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		FA93589428D22EAB00D339DE /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA93589328D22EAB00D339DE /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

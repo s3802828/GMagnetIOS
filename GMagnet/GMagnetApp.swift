@@ -35,7 +35,7 @@ struct GMagnetApp: App {
     var body: some Scene {
         
         WindowGroup {
-            ContentView()
+            SplashScreenView()
                 .onOpenURL { url in
                 GIDSignIn.sharedInstance.handle(url)
               }

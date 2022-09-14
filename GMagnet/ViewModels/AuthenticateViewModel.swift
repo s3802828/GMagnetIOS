@@ -28,36 +28,84 @@ class AuthenticateViewModel : NSObject, ObservableObject, CLLocationManagerDeleg
             self.locationManager.requestAlwaysAuthorization()
         }
     }
+    
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-            switch manager.authorizationStatus {
 
+        switch manager.authorizationStatus {
             case .denied :
+
                 // Alert
+
                 print("Denied")
-                manager.requestLocation()
 
-            case .restricted:
-                print("restricted")
-                manager.requestLocation()
-
-            case .notDetermined:
-                // Request
-                print("not Determined")
                 if Auth.auth().currentUser != nil{
-                    manager.requestWhenInUseAuthorization()
-                }
-            case .authorizedWhenInUse :
-                print("Authorized when in use")
-                manager.requestLocation()
-            case .authorizedAlways:
-                manager.requestLocation()
-                print("Alwayssssss")
-            default:
-                manager.requestLocation()
-                print("Default")
-            }
 
-    }
+                    manager.requestLocation()
+
+                }
+
+
+
+                case .restricted:
+
+                    print("restricted")
+
+                    if Auth.auth().currentUser != nil{
+
+                        manager.requestLocation()
+
+                    }
+
+
+
+                case .notDetermined:
+
+                    // Request
+
+                    print("not Determined")
+
+                    if Auth.auth().currentUser != nil{
+
+                        manager.requestWhenInUseAuthorization()
+
+                    }
+
+                case .authorizedWhenInUse :
+
+                    print("Authorized when in use")
+
+                    if Auth.auth().currentUser != nil{
+
+                        manager.requestLocation()
+
+                    }
+
+                case .authorizedAlways:
+
+                    if Auth.auth().currentUser != nil{
+
+                        manager.requestLocation()
+
+                    }
+
+                    print("Alwayssssss")
+
+                default:
+
+                    if Auth.auth().currentUser != nil{
+
+                        manager.requestLocation()
+
+                    }
+
+                    print("Default")
+
+                }
+
+
+
+        }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
         guard let latestLocation = locations.first else {
             print("ERror allow")

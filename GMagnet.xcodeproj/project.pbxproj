@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D17FEBE28D1F50200E8E565 /* TagFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D17FEBD28D1F50200E8E565 /* TagFilter.swift */; };
 		5D3CEFCD28C50AB30091BA37 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 5D3CEFCC28C50AB30091BA37 /* .gitignore */; };
 		5D4072C428CF19DC00D17AA2 /* UpdateForumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4072C328CF19DC00D17AA2 /* UpdateForumView.swift */; };
 		5D4072C628CF306E00D17AA2 /* UpdatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4072C528CF306E00D17AA2 /* UpdatePostView.swift */; };
@@ -82,6 +83,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5D17FEBD28D1F50200E8E565 /* TagFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagFilter.swift; sourceTree = "<group>"; };
 		5D3CEFCC28C50AB30091BA37 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		5D4072C328CF19DC00D17AA2 /* UpdateForumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateForumView.swift; sourceTree = "<group>"; };
 		5D4072C528CF306E00D17AA2 /* UpdatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePostView.swift; sourceTree = "<group>"; };
@@ -371,6 +373,7 @@
 				5DAE6DF828C3908300C65835 /* TabViews.swift */,
 				FA26A31528CD183E005DA76F /* PullToRefresh.swift */,
 				FA26A31728CD1C98005DA76F /* SearchBar.swift */,
+				5D17FEBD28D1F50200E8E565 /* TagFilter.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -475,6 +478,7 @@
 				FA51A4AC28C06D02008AF58F /* ContentView.swift in Sources */,
 				FA26A30D28CCE259005DA76F /* MemberList.swift in Sources */,
 				FA26A2FD28CB33EC005DA76F /* PostRow.swift in Sources */,
+				5D17FEBE28D1F50200E8E565 /* TagFilter.swift in Sources */,
 				FA18EC9528D0630F00044EDC /* JoinedForumCardView.swift in Sources */,
 				FA18EC7F28CDCC2500044EDC /* ImagePicker.swift in Sources */,
 				FACEFFC428C64F6B000CD5CC /* ProfileViewModel.swift in Sources */,

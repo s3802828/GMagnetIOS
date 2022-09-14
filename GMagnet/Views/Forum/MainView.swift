@@ -10,8 +10,13 @@ import SwiftUI
 struct MainView: View {
     @EnvironmentObject var mainViewModels: MainPageViewModel
     @State private var searchText=""
+    
+    @State var chosenCategory: [Category] = []
     var filteredForum: [GameForum] {
-        if searchText == "" {return mainViewModels.gameforum_list}
+        if searchText == "" && chosenCategory.count == 0 {return mainViewModels.gameforum_list} //default: fetch all
+        //only select tag
+        else if searchText == "" {
+        }
         return mainViewModels.gameforum_list.filter {
             $0.name.lowercased()
                 .contains(searchText.lowercased())
@@ -23,17 +28,31 @@ struct MainView: View {
                     PullToRefresh(coordinateSpaceName: "pullToRefreshMainView") {
                         mainViewModels.fetch_all_forums()
                     }
-                    VStack {
-                        SearchBar(text: $searchText)
-                            .padding(.bottom, 10)
-                        ForEach (filteredForum) {
-                            forum in
-                            ForumCardView()
-                                .environmentObject(GameForumViewModel(gameforum_id: forum.id))
-                                .padding(.vertical, 5)
-                        }
-                    }
-                    .frame(width: UIScreen.main.bounds.width)
+                        
+                        ZStack {
+
+                            VStack {
+                                ForEach (filteredForum) {
+                                    forum in
+                                    
+                                    ForumCardView()
+                                        .environmentObject(GameForumViewModel(gameforum_id: forum.id))
+                                        .padding(.vertical, 5)
+                                }
+                            
+                            }.padding(.top, 60)
+                            
+                            VStack {
+                                TagFilter(textInput: $searchText, chosenCategory: $chosenCategory)
+                                Spacer()
+                            }
+                            
+                            
+                        }.frame(width: UIScreen.main.bounds.width)
+                        
+                        
+                    
+                    
                 }.coordinateSpace(name: "pullToRefreshMainView")
         }
     }

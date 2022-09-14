@@ -19,7 +19,12 @@ struct MemberRow: View {
             let curLat = Double(currentUser.currentUser.latitude) ?? 0
             let long = Double(member.longitude) ?? 0
             let lat = Double(member.latitude) ?? 0
+            print(curLong)
+            print(curLat)
+            print(long)
+            print(lat)
             let distance = CLLocation.distance(from: CLLocationCoordinate2D(latitude: lat, longitude: long), to: CLLocationCoordinate2D(latitude: curLat, longitude: curLong))
+            print("Dis from Z \(distance)")
             if distance <= 5000{
                 return true
             } else {
@@ -66,9 +71,11 @@ struct MemberRow: View {
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundColor(Color.black)
                 if isNearBy {
-                    Text("Nearby")
-                        .font(.system(size: 15, weight: .semibold))
-                        .foregroundColor(Color.green)
+                    HStack (spacing: 2){
+                        Image(systemName: "location.viewfinder")
+                        Text("Nearby")
+                            .font(.system(size: 15, weight: .semibold))
+                    }.foregroundColor(Color.green)
                 }
             }
         }.fullScreenCover(isPresented: $showProfileDetail){

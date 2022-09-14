@@ -8,5 +8,5 @@ class GameColor {
     let green = Color.init(red: 0/255, green: 177/255, blue: 0/255, opacity: 1.0)
     let gray = Color.init(red: 160/255, green: 160/255, blue: 160/255, opacity: 1.0)
     let cyan = Color.init(red: 0/255, green: 250/255, blue: 255/255, opacity: 1.0)
-    
+    let blue = Color.init(red: 5/255, green: 204/255, blue: 255/255, opacity: 1.0)
 }

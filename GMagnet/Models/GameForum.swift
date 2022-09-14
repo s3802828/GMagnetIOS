@@ -172,14 +172,16 @@ struct GameForum: Identifiable{
         }
     }
     
-    static func add_forum(added_forum: GameForum){
+    static func add_forum(added_forum: GameForum) -> String{
         let db = Firestore.firestore()
         
-        db.collection("gameforums").addDocument(data: added_forum.to_dictionary()){error in
+        let new_id = db.collection("gameforums").addDocument(data: added_forum.to_dictionary()){error in
             if let error = error{
                 print(error)
             }
         }
+        
+        return new_id.documentID
     }
     
     static func delete_forum(deleted_forum: GameForum, completion: @escaping () -> Void){

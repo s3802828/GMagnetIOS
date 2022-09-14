@@ -30,8 +30,12 @@ class MainPageViewModel: ObservableObject {
     }
     
     func add_forum(added_forum: GameForum){
-        GameForum.add_forum(added_forum: added_forum)
-        self.fetch_all_forums()
+        let new_id = GameForum.add_forum(added_forum: added_forum)
+        GameForum.get_forum(forum_id: new_id){forum in
+            GameForum.toggle_join_forum(forum: forum, user: forum.admin){ _ in
+                self.fetch_all_forums()
+            }
+        }
     }
     
     func delete_forum(deleted_forum: GameForum){

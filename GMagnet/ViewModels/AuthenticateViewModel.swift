@@ -8,17 +8,98 @@
 import Foundation
 import Firebase
 import GoogleSignIn
+import MapKit
+import CoreLocation
 
-class AuthenticateViewModel : ObservableObject {
-    @Published var currentUser : User
-    @Published var isLoggingIn : Bool
+class AuthenticateViewModel : NSObject, ObservableObject, CLLocationManagerDelegate {
+    @Published var currentUser : User = User()
+    @Published var isLoggingIn : Bool = false
     let db = Firestore.firestore()
     let signInConfig = GIDConfiguration(clientID: "722163187237-vq7308i0o17skikm6t8eag54ed1bj3te.apps.googleusercontent.com")
-    init(){
-        currentUser = User()
-        isLoggingIn = false
+    let locationManager = CLLocationManager()
+    override init(){
+        super.init()
+        locationManager.delegate = self
     }
-    
+    func requestAllowOnceLocationPermission(){
+        locationManager.requestAlwaysAuthorization()
+        
+    }
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+
+            switch manager.authorizationStatus {
+
+            case .denied :
+                // Alert
+                print("Denied")
+                manager.requestLocation()
+
+            case .restricted:
+                print("restricted")
+                manager.requestLocation()
+
+            case .notDetermined:
+                // Request
+                print("not Determined")
+                manager.requestWhenInUseAuthorization()
+
+            case .authorizedWhenInUse :
+                print("Authorized when in use")
+                manager.allowsBackgroundLocationUpdates = true
+                manager.startUpdatingLocation()
+                manager.requestLocation()
+            case .authorizedAlways:
+                manager.requestLocation()
+                print("Alwayssssss")
+            default:
+                manager.requestLocation()
+                print("Default")
+            }
+
+    }
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
+        guard let latestLocation = locations.first else {
+            print("ERror allow")
+            User.get_user(user_id: Auth.auth().currentUser?.uid ?? ""){ user in
+                self.currentUser = user
+                var currentUser = user
+                currentUser.longitude = ""
+                currentUser.latitude = ""
+                User.update_user(updated_user: currentUser){user in
+                    self.refreshCurrentUser()
+                }
+            }
+            return
+        }
+        DispatchQueue.main.async {
+            let currentLongitude = latestLocation.coordinate.longitude.magnitude
+            let currentLatitude = latestLocation.coordinate.latitude.magnitude
+            print(currentLongitude)
+            print(currentLatitude)
+            User.get_user(user_id: Auth.auth().currentUser?.uid ?? ""){ user in
+                self.currentUser = user
+                var currentUser = user
+                currentUser.longitude = String(currentLongitude)
+                currentUser.latitude = String(currentLatitude)
+                User.update_user(updated_user: currentUser){user in
+                    self.refreshCurrentUser()
+                }
+            }
+        }
+    }
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error){
+        print("ERRORORORORO")
+        print(error.localizedDescription)
+        User.get_user(user_id: Auth.auth().currentUser?.uid ?? ""){ user in
+            self.currentUser = user
+            var currentUser = user
+            currentUser.longitude = ""
+            currentUser.latitude = ""
+            User.update_user(updated_user: currentUser){user in
+                self.refreshCurrentUser()
+            }
+        }
+    }
     func signInUser(userEmail: String, userPassword: String, completion: @escaping (Bool) -> Void) {
         self.isLoggingIn = true
         Auth.auth().signIn(withEmail: userEmail, password: userPassword) { authResult, error in
@@ -69,7 +150,7 @@ class AuthenticateViewModel : ObservableObject {
                             if user.id == "" {
                                 let userId = Auth.auth().currentUser?.uid
                                 
-                                let newUser = User(id: userId ?? "", username: username ?? "", name: fullName ?? "", email: emailAddress ?? "", avatar: profilePicUrl ?? "", description: "", joined_forums: [], posts: [])
+                                let newUser = User(id: userId ?? "", username: username ?? "", name: fullName ?? "", email: emailAddress ?? "", avatar: profilePicUrl ?? "", description: "", joined_forums: [], posts: [], longitude: "", latitude: "")
                                 self.db.collection("users").document(userId ?? "").setData(newUser.to_dictionary()) { [self] err in
                                     if let err = err {
                                         print("Error writing document: \(err)")
@@ -152,7 +233,7 @@ class AuthenticateViewModel : ObservableObject {
                 print("User created")
                 // Add a new document in collection "users"
                 let userId = Auth.auth().currentUser?.uid
-                let newUser = User(id: userId ?? "", username: username, name: fullname, email: userEmail, avatar: "https://gmagnet-ios-storage03509-dev.s3.amazonaws.com/public/%C3%A2%C2%80%C2%94Pngtree%C3%A2%C2%80%C2%94man+default+avatar_5938280.png", description: "", joined_forums: [], posts: [])
+                let newUser = User(id: userId ?? "", username: username, name: fullname, email: userEmail, avatar: "https://gmagnet-ios-storage03509-dev.s3.amazonaws.com/public/%C3%A2%C2%80%C2%94Pngtree%C3%A2%C2%80%C2%94man+default+avatar_5938280.png", description: "", joined_forums: [], posts: [], longitude: "", latitude: "")
                 self.db.collection("users").document(userId ?? "").setData(newUser.to_dictionary()) { [self] err in
                     if let err = err {
                         print("Error writing document: \(err)")

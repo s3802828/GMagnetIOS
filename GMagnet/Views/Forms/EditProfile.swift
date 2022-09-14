@@ -67,7 +67,9 @@ struct EditProfileView: View {
                                             avatar: "https://gmagnet-ios-storage03509-dev.s3.amazonaws.com/public/\(self.imageKey)",
                                             description: self.bio,
                                             joined_forums: self.profile.user.joined_forums,
-                                            posts: self.profile.user.posts)
+                                            posts: self.profile.user.posts,
+                                            longitude: self.profile.user.longitude,
+                                            latitude: self.profile.user.latitude)
                     self.profile.update_user(updated_user: updated_user)
                     print("Completed: \(data)")
                     isProgressing = false
@@ -86,7 +88,9 @@ struct EditProfileView: View {
                                     avatar: self.profile.user.avatar,
                                     description: self.bio,
                                     joined_forums: self.profile.user.joined_forums,
-                                    posts: self.profile.user.posts)
+                                    posts: self.profile.user.posts,
+                                    longitude: self.profile.user.longitude,
+                                    latitude: self.profile.user.latitude)
             self.profile.update_user(updated_user: updated_user)
             self.currentUser.refreshCurrentUser()
             isProgressing = false

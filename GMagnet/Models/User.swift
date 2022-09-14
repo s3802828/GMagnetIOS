@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import CoreLocation
 
 struct User: Identifiable{
     let id: String
@@ -17,7 +18,21 @@ struct User: Identifiable{
     let description: String
     var joined_forums: [String]
     var posts: [String]
+    var longitude: String
+    var latitude: String
     
+    init(id:String, username:String, name: String, email:String, avatar: String, description: String, joined_forums: [String], posts: [String], longitude: String, latitude: String){
+        self.id = id
+        self.username = username
+        self.name = name
+        self.email = email
+        self.avatar = avatar
+        self.description = description
+        self.joined_forums = joined_forums
+        self.posts = posts
+        self.longitude = longitude
+        self.latitude = latitude
+    }
     init(id:String, username:String, name: String, email:String, avatar: String, description: String, joined_forums: [String], posts: [String]){
         self.id = id
         self.username = username
@@ -27,6 +42,8 @@ struct User: Identifiable{
         self.description = description
         self.joined_forums = joined_forums
         self.posts = posts
+        self.longitude = ""
+        self.latitude = ""
     }
     
     init(){
@@ -38,6 +55,8 @@ struct User: Identifiable{
         self.description = ""
         self.joined_forums = [String]()
         self.posts = [String]()
+        self.latitude = ""
+        self.longitude = ""
     }
 
     func to_dictionary()->[String: Any]{
@@ -52,7 +71,9 @@ struct User: Identifiable{
             "description": self.description,
             "email": self.email,
             "joined_forums": Array(joined_forum_set),
-            "posts": self.posts
+            "posts": self.posts,
+            "longitude": self.longitude,
+            "latitude": self.latitude
         ]
     }
     
@@ -89,7 +110,9 @@ struct User: Identifiable{
                                 avatar: data["avatar"] as? String ?? "",
                                 description: data["description"] as? String ?? "",
                                 joined_forums: data["joined_forums"] as? [String] ?? [String](),
-                                posts: data["posts"] as? [String] ?? [String]()
+                                posts: data["posts"] as? [String] ?? [String](),
+                                longitude: data["longitude"] as? String ?? String(),
+                                 latitude: data["latitude"] as? String ?? String()
                         )
                 }
                 completion(user)

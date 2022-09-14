@@ -22,8 +22,10 @@ class AuthenticateViewModel : NSObject, ObservableObject, CLLocationManagerDeleg
         locationManager.delegate = self
     }
     func requestAllowOnceLocationPermission(){
-        locationManager.requestAlwaysAuthorization()
-        
+        User.get_user(user_id: Auth.auth().currentUser?.uid ?? ""){ user in
+            self.currentUser = user
+            self.locationManager.requestAlwaysAuthorization()
+        }
     }
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
 

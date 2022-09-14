@@ -18,6 +18,7 @@ struct ContentView: View {
                 
                 TabViews().environmentObject(currentUser)
                     .onAppear(){
+                        print("not allowingggggg")
                         currentUser.refreshCurrentUser()
                         currentUser.requestAllowOnceLocationPermission()
                     }

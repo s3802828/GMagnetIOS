@@ -22,13 +22,13 @@ class AuthenticateViewModel : NSObject, ObservableObject, CLLocationManagerDeleg
         locationManager.delegate = self
     }
     func requestAllowOnceLocationPermission(){
+        print("not allowingggggg 11")
         User.get_user(user_id: Auth.auth().currentUser?.uid ?? ""){ user in
             self.currentUser = user
             self.locationManager.requestAlwaysAuthorization()
         }
     }
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-
             switch manager.authorizationStatus {
 
             case .denied :
@@ -43,8 +43,9 @@ class AuthenticateViewModel : NSObject, ObservableObject, CLLocationManagerDeleg
             case .notDetermined:
                 // Request
                 print("not Determined")
-                manager.requestWhenInUseAuthorization()
-
+                if Auth.auth().currentUser != nil{
+                    manager.requestWhenInUseAuthorization()
+                }
             case .authorizedWhenInUse :
                 print("Authorized when in use")
                 manager.requestLocation()

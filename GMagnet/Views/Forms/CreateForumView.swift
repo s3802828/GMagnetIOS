@@ -62,7 +62,7 @@ struct CreateForumView: View {
         
         //Validate description
         do {
-            let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~]*$"#
+            let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~\n]*$"#
             let descriptionRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
             let range = NSRange(location: 0, length: description.count)
             if (description == "") {
@@ -221,7 +221,7 @@ struct CreateForumView: View {
                             Text("\(description.count)/1500")
                                 .foregroundColor(.black)
                                 .font(.system(size: 13, weight: .medium))
-                                .offset(x: 145, y: 132)
+                                .offset(x: 135, y: 132)
                         }
                         
                         Text(descriptionErrorMessage)

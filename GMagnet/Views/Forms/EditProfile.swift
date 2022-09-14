@@ -255,7 +255,7 @@ struct EditProfileView: View {
                         Text("\(bio.count)/500")
                             .foregroundColor(.black)
                             .font(.system(size: 13, weight: .medium))
-                            .offset(x: 145, y: 80)
+                            .offset(x: 135, y: 83)
                     }
                     Text(bioErrorMessage)
                         .foregroundColor(.red)

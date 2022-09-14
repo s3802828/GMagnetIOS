@@ -152,7 +152,7 @@ struct UpdatePostView: View {
         
         do {
             
-            let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~]*$"#
+            let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~\n]*$"#
             let contentRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
             let range = NSRange(location: 0, length: contentInput.count)
             if (contentInput == "") {
@@ -275,7 +275,7 @@ struct UpdatePostView: View {
                         Text("\(contentInput.count)/1500")
                             .foregroundColor(.black)
                             .font(.system(size: 13, weight: .medium))
-                            .offset(x: 145, y: 107)
+                            .offset(x: 135, y: 107)
                     }
                     Text(contentErrorMessage)
                         .foregroundColor(.red)

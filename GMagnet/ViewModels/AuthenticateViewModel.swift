@@ -45,8 +45,6 @@ class AuthenticateViewModel : NSObject, ObservableObject, CLLocationManagerDeleg
 
             case .authorizedWhenInUse :
                 print("Authorized when in use")
-                manager.allowsBackgroundLocationUpdates = true
-                manager.startUpdatingLocation()
                 manager.requestLocation()
             case .authorizedAlways:
                 manager.requestLocation()

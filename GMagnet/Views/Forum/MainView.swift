@@ -16,10 +16,29 @@ struct MainView: View {
         if searchText == "" && chosenCategory.count == 0 {return mainViewModels.gameforum_list} //default: fetch all
         //only select tag
         else if searchText == "" {
-        }
-        return mainViewModels.gameforum_list.filter {
-            $0.name.lowercased()
-                .contains(searchText.lowercased())
+            let categoryID = chosenCategory.map{$0.id}
+            let chosenCatSet: Set<String> = Set(categoryID)
+            return mainViewModels.gameforum_list.filter {
+                let curCarID = $0.category_list.map{$0.id}
+                let curCatSet: Set<String> = Set(curCarID)
+                return curCatSet.intersection(chosenCatSet).count > 0
+            }
+        } else if chosenCategory.count == 0 {
+            return mainViewModels.gameforum_list.filter {
+                $0.name.lowercased()
+                    .contains(searchText.lowercased())
+            }
+        } else {
+            let categoryID = chosenCategory.map{$0.id}
+            let chosenCatSet: Set<String> = Set(categoryID)
+            return mainViewModels.gameforum_list.filter {
+                $0.name.lowercased()
+                    .contains(searchText.lowercased())
+            }.filter {
+                let curCarID = $0.category_list.map{$0.id}
+                let curCatSet: Set<String> = Set(curCarID)
+                return curCatSet.intersection(chosenCatSet).count > 0
+            }
         }
     }
     var body: some View {

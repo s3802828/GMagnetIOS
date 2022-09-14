@@ -35,71 +35,37 @@ class AuthenticateViewModel : NSObject, ObservableObject, CLLocationManagerDeleg
             case .denied :
 
                 // Alert
-
                 print("Denied")
-
                 if Auth.auth().currentUser != nil{
-
                     manager.requestLocation()
-
                 }
 
-
-
                 case .restricted:
-
                     print("restricted")
-
                     if Auth.auth().currentUser != nil{
-
                         manager.requestLocation()
-
                     }
-
-
-
                 case .notDetermined:
-
                     // Request
-
                     print("not Determined")
-
                     if Auth.auth().currentUser != nil{
-
                         manager.requestWhenInUseAuthorization()
-
                     }
-
                 case .authorizedWhenInUse :
-
                     print("Authorized when in use")
-
                     if Auth.auth().currentUser != nil{
-
                         manager.requestLocation()
-
                     }
-
                 case .authorizedAlways:
-
                     if Auth.auth().currentUser != nil{
-
                         manager.requestLocation()
-
                     }
-
                     print("Alwayssssss")
-
                 default:
-
                     if Auth.auth().currentUser != nil{
-
                         manager.requestLocation()
-
                     }
-
                     print("Default")
-
                 }
 
 

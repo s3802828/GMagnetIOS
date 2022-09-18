@@ -1,3 +1,23 @@
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 3
+  Authors:
+- Le Quynh Giang (s3802828)
+- Phan Truong Quynh Anh (s3818245)
+- Ngo Huu Tri (s3818520)
+- Pham Thanh Dat (s3678437)
+  Created  date: 01/09/2022
+  Last modified: 18/09/2022
+  Acknowledgement:
+- Get data with Cloud Firestore: https://firebase.google.com/docs/firestore/query-data/get-data
+- Add data to Cloud Firestore: https://firebase.google.com/docs/firestore/manage-data/add-data
+- Delete data from Cloud Firestore: https://firebase.google.com/docs/firestore/manage-data/delete-data
+- Update a document: https://firebase.google.com/docs/firestore/manage-data/add-data#update-data
+- Wait until Firestore detdocuments()is finished before moving on - Swift: https://www.appsloveworld.com/swift/100/304/swiftui-wait-until-firestore-getdocuments-is-finished-before-moving-on
+*/
+
 //
 //  GameForum.swift
 //  GMagnet
@@ -9,6 +29,8 @@ import Foundation
 import Firebase
 
 struct GameForum: Identifiable{
+    // MARK: - attributes of gameforum struct
+
     let id: String
     let name: String
     let description: String
@@ -19,6 +41,8 @@ struct GameForum: Identifiable{
     var post_list: [String]
     var category_list: [Category]
     
+    
+    //MARK: - constructor to create game forums with all attributes
     init(id: String, name: String, description: String, logo: String, banner: String, admin: User, member_list: [String], post_list: [String], category_list: [Category]){
         self.id = id
         self.name = name
@@ -31,6 +55,7 @@ struct GameForum: Identifiable{
         self.category_list = category_list
     }
     
+    //MARK: - default constructor for gameforum
     init(){
         self.id = ""
         self.name = ""
@@ -43,6 +68,7 @@ struct GameForum: Identifiable{
         self.category_list = [Category]()
     }
     
+    //MARK: - convert to dictionary format before storing on the database
     func to_dictionary()->[String: Any]{
         //convert to dictionary to save to Firebase
         
@@ -66,6 +92,7 @@ struct GameForum: Identifiable{
         ]
     }
     
+    //MARK: - method to fetch all game forums to display to the main page
     static func get_all_forums(completion: @escaping ([GameForum])->Void){
         //get database reference
         let db = Firestore.firestore()
@@ -105,6 +132,7 @@ struct GameForum: Identifiable{
         //        return forum_list
     }
     
+    //MARK: - method to fetch game forum by ids
     static func get_forum(forum_id: String, completion: @escaping (GameForum)->Void) {
         let db = Firestore.firestore()
         var forum: GameForum = GameForum()
@@ -140,6 +168,7 @@ struct GameForum: Identifiable{
         //        return forum
     }
     
+    //MARK: - method to fetch list of game forums from list of ids
     static func get_forums(forum_ids: [String], completion: @escaping ([GameForum])->Void){
         var forum_list: [GameForum] = []
         
@@ -159,6 +188,7 @@ struct GameForum: Identifiable{
         //        return forum_list
     }
     
+    //MARK: - method to update a game forum
     static func update_forum(updated_forum: GameForum, completion: @escaping (GameForum)->Void){
         let db = Firestore.firestore()
         
@@ -172,6 +202,7 @@ struct GameForum: Identifiable{
         }
     }
     
+    //MARK: - method to add new game forum
     static func add_forum(added_forum: GameForum) -> String{
         let db = Firestore.firestore()
         
@@ -184,6 +215,7 @@ struct GameForum: Identifiable{
         return new_id.documentID
     }
     
+    //MARK: - method to delete game forum
     static func delete_forum(deleted_forum: GameForum, completion: @escaping () -> Void){
         let db = Firestore.firestore()
         
@@ -232,6 +264,7 @@ struct GameForum: Identifiable{
         }
     }
     
+    //MARK: - method to toggle list of members in game forum and list of joined forum of user (when user join/unjoin)
     static func toggle_join_forum(forum: GameForum, user: User, completion: @escaping (GameForum)->Void){
         
         
@@ -286,6 +319,7 @@ struct GameForum: Identifiable{
 }
 
 struct Category: Identifiable{
+    // MARK: - attributes of Category struct
     let id: String
     let category_name: String
     
@@ -295,6 +329,7 @@ struct Category: Identifiable{
         ]
     }
     
+    // MARK: - add new category to the database
     static func add_category(added_category: Category){
         let db = Firestore.firestore()
         
@@ -305,6 +340,7 @@ struct Category: Identifiable{
         }
     }
     
+    // MARK: - get category from database by id
     static func get_category(category_id: String, completion: @escaping (Category)->Void){
         let db = Firestore.firestore()
         var category: Category = Category(id: "", category_name: "")
@@ -324,6 +360,7 @@ struct Category: Identifiable{
         }
     }
     
+    // MARK: - get all categories from the database
     static func get_all_categories(completion: @escaping ([Category])->Void){
         //get database reference
         let db = Firestore.firestore()
@@ -347,6 +384,7 @@ struct Category: Identifiable{
         }
     }
     
+    // MARK: - get list of categories from database by ids
     static func get_categories(category_list: [String], completion: @escaping ([Category]) -> Void){
         var cate_list: [Category] = []
         

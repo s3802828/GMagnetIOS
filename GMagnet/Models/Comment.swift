@@ -1,3 +1,23 @@
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 3
+  Authors:
+- Le Quynh Giang (s3802828)
+- Phan Truong Quynh Anh (s3818245)
+- Ngo Huu Tri (s3818520)
+- Pham Thanh Dat (s3678437)
+  Created  date: 02/09/2022
+  Last modified: 18/09/2022
+  Acknowledgement:
+- Get data with Cloud Firestore: https://firebase.google.com/docs/firestore/query-data/get-data
+- Add data to Cloud Firestore: https://firebase.google.com/docs/firestore/manage-data/add-data
+- Delete data from Cloud Firestore: https://firebase.google.com/docs/firestore/manage-data/delete-data
+- Update a document: https://firebase.google.com/docs/firestore/manage-data/add-data#update-data
+- Wait until Firestore detdocuments()is finished before moving on - Swift: https://www.appsloveworld.com/swift/100/304/swiftui-wait-until-firestore-getdocuments-is-finished-before-moving-on
+*/
+
 //
 //  Comment.swift
 //  GMagnet
@@ -9,12 +29,14 @@ import Foundation
 import Firebase
 
 struct Comment: Identifiable{
+    // MARK: - attributes of comment struct
     let id: String
     let user: User
     let post: String
     var content: String
     let createdAt: Timestamp
     
+    //MARK: - constructor to create comment with all attributes
     init(id: String, user: User, post: String, content: String, createdAt: Timestamp){
         self.id = id
         self.user = user
@@ -22,6 +44,8 @@ struct Comment: Identifiable{
         self.content = content
         self.createdAt = createdAt
     }
+    
+    //MARK: - default constructor for comment
     init(){
         self.id = ""
         self.user = User()
@@ -30,6 +54,7 @@ struct Comment: Identifiable{
         self.createdAt = Timestamp.init()
     }
     
+    //MARK: - convert to dictionary format before storing on the database
     func to_dictionary()->[String: Any]{
         return [
             "user_id": self.user.id,
@@ -39,6 +64,7 @@ struct Comment: Identifiable{
         ]
     }
     
+    //MARK: - get list of comments by ids
     static func get_comments(comment_ids: [String], completion: @escaping ([Comment])->Void){
         var comment_list: [Comment] = []
         
@@ -57,7 +83,8 @@ struct Comment: Identifiable{
         }
 //        return comment_list
     }
-                        
+                 
+    //MARK: - get comment by id
     static func get_comment(comment_id: String, completion: @escaping (Comment)->Void){
         let db = Firestore.firestore()
         var comment: Comment = Comment()
@@ -84,6 +111,7 @@ struct Comment: Identifiable{
 //        return comment
     }
     
+    //MARK: - add new commen to the database
     static func add_comment(added_comment: Comment, completion: @escaping () -> Void){
         let db = Firestore.firestore()
         
@@ -109,11 +137,14 @@ struct Comment: Identifiable{
         }
     }
     
+    //MARK: - delete comment from the database
     static func delete_comment(deleted_comment: Comment, completion: @escaping (Post) -> Void){
         let db = Firestore.firestore()
         
         Post.get_post(post_id: deleted_comment.post){updated_post in
             var updated_post = updated_post
+            
+            //update the list of comments of the post
             if let comment_index = updated_post.comment_list.firstIndex(where: {$0.id == deleted_comment.id}){
                 updated_post.comment_list.remove(at: comment_index)
             }
@@ -131,6 +162,7 @@ struct Comment: Identifiable{
         }
     }
     
+    //MARK: - update comment to the database
     static func update_comment(updated_comment: Comment, completion: @escaping (Comment) -> Void){
         let db = Firestore.firestore()
         

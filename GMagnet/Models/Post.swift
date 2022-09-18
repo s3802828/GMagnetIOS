@@ -1,3 +1,23 @@
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 3
+  Authors:
+- Le Quynh Giang (s3802828)
+- Phan Truong Quynh Anh (s3818245)
+- Ngo Huu Tri (s3818520)
+- Pham Thanh Dat (s3678437)
+  Created  date: 01/09/2022
+  Last modified: 18/09/2022
+  Acknowledgement:
+- Get data with Cloud Firestore: https://firebase.google.com/docs/firestore/query-data/get-data
+- Add data to Cloud Firestore: https://firebase.google.com/docs/firestore/manage-data/add-data
+- Delete data from Cloud Firestore: https://firebase.google.com/docs/firestore/manage-data/delete-data
+- Update a document: https://firebase.google.com/docs/firestore/manage-data/add-data#update-data
+- Wait until Firestore detdocuments()is finished before moving on - Swift: https://www.appsloveworld.com/swift/100/304/swiftui-wait-until-firestore-getdocuments-is-finished-before-moving-on
+*/
+
 //
 //  Post.swift
 //  GMagnet
@@ -9,6 +29,8 @@ import Foundation
 import Firebase
 
 struct Post: Identifiable{
+    
+    // MARK: - attributes of post struct
     let id: String
     let user: User
     let game: GameForum
@@ -19,6 +41,7 @@ struct Post: Identifiable{
     var comment_list: [Comment]
     var createdAt: Timestamp
     
+    //MARK: - constructor to create post with all attributes
     init(id: String, user: User, game: GameForum, title: String, content: String, image: String, liked_users: [User], comment_list: [Comment], createdAt: Timestamp){
         self.id = id
         self.user = user
@@ -31,6 +54,7 @@ struct Post: Identifiable{
         self.createdAt = createdAt
     }
     
+    //MARK: - constructor to create posts without id
     init(user: User, game: GameForum, title: String, content: String, image: String, liked_users: [User], comment_list: [Comment], createdAt: Timestamp){
         self.id = "\(UUID())"
         self.user = user
@@ -43,6 +67,7 @@ struct Post: Identifiable{
         self.createdAt = createdAt
     }
     
+    //MARK: - default constructor for post
     init(){
         self.id = ""
         self.user = User()
@@ -55,6 +80,7 @@ struct Post: Identifiable{
         self.createdAt = Timestamp.init()
     }
     
+    //MARK: - convert to dictionary format before storing on the database
     func to_dictionary()->[String: Any]{
         //convert to dictionary to save to Firebase
 
@@ -83,6 +109,7 @@ struct Post: Identifiable{
         ]
     }
     
+    //MARK: - get list of posts by id
     static func get_posts(post_ids: [String], completion: @escaping ([Post])->Void){
         var posts_list: [Post] = []
         
@@ -100,6 +127,7 @@ struct Post: Identifiable{
 //        return posts_list
     }
     
+    //MARK: - add new post to the database
     static func add_post(added_post: Post, completion: @escaping ()->Void){
         User.get_user(user_id: added_post.user.id){post_owner in
             GameForum.get_forum(forum_id: added_post.game.id){updated_forum in
@@ -134,6 +162,7 @@ struct Post: Identifiable{
         
     }
     
+    //MARK: - update post on the database
     static func update_post(updated_post: Post, completion: @escaping (Post)->Void){
         let db = Firestore.firestore()
         
@@ -147,6 +176,7 @@ struct Post: Identifiable{
         }
     }
     
+    //MARK: - delete post from the database
     static func delete_post(deleted_post: Post, completion: @escaping ()->Void){
 //        var post_owner = User.get_user(user_id: deleted_post.user.id)
 //        var updated_forum = GameForum.get_forum(forum_id: deleted_post.game.id)
@@ -159,10 +189,11 @@ struct Post: Identifiable{
                 var post_owner = post_owner
                 var updated_forum = updated_forum
                 
+                //delete from lists of post in the posts's owner
                 if let post_index = post_owner.posts.firstIndex(where: {$0 == deleted_post.id}){
                     post_owner.posts.remove(at: post_index)
                 }
-
+                // delete from list of posts in the game forum
                 if let post_index = updated_forum.post_list.firstIndex(where: {$0 == deleted_post.id}){
                     updated_forum.post_list.remove(at: post_index)
                 }
@@ -187,6 +218,7 @@ struct Post: Identifiable{
         
     }
     
+    //MARK: - get post from the database by id
     static func get_post(post_id: String, completion: @escaping (Post)->Void){
         let db = Firestore.firestore()
         var post = Post()
@@ -225,6 +257,7 @@ struct Post: Identifiable{
 //        return post
     }
     
+    //MARK: - method to handle user toggle like button
     static func toggle_like_post(post: Post, user: User, completion: @escaping (Post)->Void) {
         // Call when user click Like/Unlike a post
         Post.get_post(post_id: post.id){post in

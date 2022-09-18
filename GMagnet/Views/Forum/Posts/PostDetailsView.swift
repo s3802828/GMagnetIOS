@@ -1,9 +1,15 @@
-//
-//  PostDetailsView.swift
-//  TestS3Upload
-//
-//  Created by Huu Tri on 09/09/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 3
+  Authors: Le Quynh Giang (s3802828), Phan Truong Quynh Anh (s3818245), Ngo Huu Tri (s3818520), Pham Thanh Dat (s3678437)
+  Created  date: 09/09/2022
+  Last modified: 18/09/2022
+ Acknowledgement:
+ -T.Huynh."SSETContactList/ContactList/Views/InfoView.swift".GitHub.https://github.com/TomHuynhSG/SSETContactList/blob/main/ContactList/Views/InfoView.swift.
+- How to implement a "read more" style button at the end of a text in SwiftUI - https://stackoverflow.com/questions/63741474/how-to-implement-a-read-more-style-button-at-the-end-of-a-text-in-swiftui
+*/
 
 import SwiftUI
 
@@ -61,6 +67,7 @@ struct PostDetailsView: View {
                         }
                     }
                     VStack (alignment: .leading){
+                        //MARK: - Back button
                         Button(action: {
                             dismiss()
                         }){
@@ -69,7 +76,9 @@ struct PostDetailsView: View {
                                 Text("Back")
                             }.padding(.horizontal, 5)
                         }
+                        //MARK: - Post author info
                         HStack {
+                            //Avatar
                             AsyncImage(url: URL(string: postDetail.post.user.avatar)) {phase in
                                 if let image = phase.image {
                                     image
@@ -100,10 +109,12 @@ struct PostDetailsView: View {
                                     
                                 }
                             }
+                            //Post title
                             VStack(alignment: .leading) {
                                 Text(postDetail.post.title)
                                     .font(.system(size: 20))
                                     .bold()
+                                //Post author name
                                 Text("By: \(postDetail.post.user.name)")
                                     .font(.system(size: 15))
                                     .bold()
@@ -116,7 +127,7 @@ struct PostDetailsView: View {
                         Divider()
                         
                         ZStack {
-                            
+                            //MARK: - Post content with view more/less button handle
                             VStack {
                                 Text(postDetail.post.content)
                                     .font(.body)
@@ -163,7 +174,7 @@ struct PostDetailsView: View {
                                 })
                                 .opacity(showViewButton ? 1.0 : 0.0)
                                 .disabled(!showViewButton)
-                                
+                                //MARK: - Post image
                                 if postDetail.post.image != "" {
                                     AsyncImage(url: URL(string: postDetail.post.image)) {phase in
                                         if let image = phase.image {
@@ -195,11 +206,10 @@ struct PostDetailsView: View {
                                 }
                                 
                                 Divider()
-                                
+                                //MARK: - Like & Comment section
                                 HStack {
-                                    
+                                    //Like button
                                     Button(action: {
-                                        
                                         postDetail.toggle_like_post(user: currentUser.currentUser)
                                         
                                     }, label: {
@@ -211,11 +221,8 @@ struct PostDetailsView: View {
                                             Circle().fill( postDetail.post.liked_users.contains(where: {$0.id == currentUser.currentUser.id}) ? .blue : .white)
                                         }.shadow(radius: 3)
                                     Text("\(postDetail.post.liked_users.count.roundedWithAbbreviations)")
-                                    
-                                    
-                                    
+                                    //Comment
                                     Button(action: {
-                                        
                                     }, label: {
                                         Image(systemName: "bubble.left")
                                     }).padding(.all,8)
@@ -226,7 +233,7 @@ struct PostDetailsView: View {
                                     Text("\(postDetail.post.comment_list.count.roundedWithAbbreviations)")
                                     
                                     Spacer()
-                                    
+                                    //MARK: Edit & Delete buttons menu
                                     if (currentUser.currentUser.id == postDetail.post.user.id){
                                         
                                         EditButtonSelection(deleteFunction: {
@@ -241,7 +248,7 @@ struct PostDetailsView: View {
                                     .padding(.horizontal, 20)
                                 
                                 Divider()
-                                
+                                //MARK: - Comment section
                                 ZStack {
                                     CommentList(commentList: postDetail.post.comment_list)
                                 }
@@ -250,6 +257,8 @@ struct PostDetailsView: View {
                     }
                 }.coordinateSpace(name: "pullToRefreshPostDetail")
                 Spacer()
+                //MARK: - Add comment section
+                //Only show if user is forum's member
                 if postDetail.post.game.member_list.contains(where: {$0 == currentUser.currentUser.id}){
                     AddComment()
                         .environmentObject(postDetail)

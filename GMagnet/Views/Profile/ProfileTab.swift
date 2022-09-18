@@ -1,10 +1,12 @@
-//
-//  ProfileTab.swift
-//  GMagnet
-//
-//  Created by Giang Le on 13/09/2022.
-//
-
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 3
+  Authors: Le Quynh Giang (s3802828), Phan Truong Quynh Anh (s3818245), Ngo Huu Tri (s3818520), Pham Thanh Dat (s3678437)
+  Created  date: 13/09/2022
+  Last modified: 18/09/2022
+*/
 import SwiftUI
 
 struct ProfileTab: View {
@@ -14,6 +16,7 @@ struct ProfileTab: View {
     @State var showEditProfile = false
     var body: some View {
         VStack {
+            //MARK: - Current user's avatar
             AsyncImage(url: URL(string: profile.user.avatar)) {phase in
                 if let image = phase.image {
                     image
@@ -36,6 +39,7 @@ struct ProfileTab: View {
                         .overlay(Circle().stroke(Color(.white),lineWidth: 2))
                 }
             }
+            //MARK: - Profile button
             Button{
                 showProfile = true
             }label: {
@@ -47,6 +51,7 @@ struct ProfileTab: View {
             }.fullScreenCover(isPresented: $showProfile){
                 ProfileView()
             }
+            //MARK: - Edit profile button
             Button{
                 showEditProfile = true
             }label: {
@@ -58,6 +63,7 @@ struct ProfileTab: View {
             }.fullScreenCover(isPresented: $showEditProfile, onDismiss: {currentUser.refreshCurrentUser()}){
                 EditProfileView()
             }
+            //MARK: - Sign out button
             Button{
                 currentUser.signOutUser()
             }label: {

@@ -1,9 +1,14 @@
-//
-//  ProfileView.swift
-//  PostList_IOS
-//
-//  Created by Dat Pham Thanh on 08/09/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 3
+  Authors: Le Quynh Giang (s3802828), Phan Truong Quynh Anh (s3818245), Ngo Huu Tri (s3818520), Pham Thanh Dat (s3678437)
+  Created  date: 09/09/2022
+  Last modified: 18/09/2022
+  Acknowledgement:
+ SwiftUI 2.0 Twitter Profile Page Parallax Animation + Sticky Headers - SwiftUI Tutorials - https://www.youtube.com/watch?v=U5UbLFmLUpU
+*/
 
 import SwiftUI
 
@@ -12,18 +17,20 @@ struct ProfileView: View {
     @State private var selectedFiler: TweetFilterViewModel = .posts
     @Environment(\.dismiss) var dismiss
     @Namespace var animation
-
+    //MARK: - Main display view
     var body: some View {
         VStack(alignment: .leading){
-            headerView
+            headerView // header
             
-            userInfoDetails
+            userInfoDetails // personal information
             
-            tweetsFilterBar
+            tweetsFilterBar // tabbar
             ScrollView {
+                //pull to refresh
                 PullToRefresh(coordinateSpaceName: "pullToRefreshProfileView") {
                     profile.refreshPage()
                 }
+                //show view based on tab content
                 if selectedFiler == .posts {
                     OwnedPostList()
                 } else if selectedFiler == .joinedForum {
@@ -42,11 +49,13 @@ struct ProfileView_Previews: PreviewProvider {
     }
 }
 extension ProfileView{
+    //MARK: - Header view define
     var headerView: some View {
         ZStack(alignment: .bottomLeading){
             Color.blue
                 .ignoresSafeArea()
             VStack {
+                //MARK: - Back button
                 Button{
                     dismiss()
                 } label:{
@@ -56,6 +65,7 @@ extension ProfileView{
                         .foregroundColor(.white)
                         .offset(x: 16, y:12)
                 }
+                //MARK: - User's avatar
                 AsyncImage(url: URL(string: profile.user.avatar)) {phase in
                     if let image = phase.image {
                         image
@@ -86,15 +96,19 @@ extension ProfileView{
         }
         .frame(height: 96)
     }
+    //MARK: - User personal information define
     var userInfoDetails: some View{
         VStack(alignment: .leading, spacing: 4){
             HStack (spacing: 5) {
+                //User's name
                 Text(profile.user.name)
                     .font(.title2).bold()
+                //User's username
                 Text("@\(profile.user.username)")
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
+            //User's bio
             Text(profile.user.description)
                 .font(.subheadline)
                 .foregroundColor(.gray)
@@ -102,15 +116,18 @@ extension ProfileView{
         .padding(.horizontal)
         .padding(.top, 12)
     }
+    //MARK: - Profile tab bar section
     var tweetsFilterBar: some View{
         HStack {
+            //Handle tab bar tab content and transition
             ForEach(TweetFilterViewModel.allCases, id: \.rawValue) { item in
                 VStack {
+                    //Tab name
                     Text(item.title)
                         .font(.subheadline)
                         .fontWeight(selectedFiler == item ? .semibold : .regular)
                         .foregroundColor(selectedFiler == item ? .black : .gray)
-                    
+                    //Tab layout
                     if selectedFiler == item {
                         Capsule()
                             .foregroundColor(Color.blue)
@@ -122,7 +139,7 @@ extension ProfileView{
                             .frame(height: 3)
                     }
                 }
-                .onTapGesture {
+                .onTapGesture { //Tap transition
                     withAnimation(.easeInOut) {
                         self.selectedFiler = item
                     }

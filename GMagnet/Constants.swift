@@ -1,9 +1,14 @@
-//
-//  Constants.swift
-//  GMagnet
-//
-//  Created by Giang Le on 04/09/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 3
+  Authors: Le Quynh Giang (s3802828), Phan Truong Quynh Anh (s3818245), Ngo Huu Tri (s3818520), Pham Thanh Dat (s3678437)
+  Created  date: 04/09/2022
+  Last modified: 18/09/2022
+  Acknowledgement:
+  T.Huynh."SSETContactList/ContactList/Model/ColorConstants.swift".GitHub.https://github.com/TomHuynhSG/SSETContactList/blob/main/ContactList/Model/ColorConstants.swift. (accessed Jul. 31, 2022)
+*/
 
 import Foundation
 import SwiftUI

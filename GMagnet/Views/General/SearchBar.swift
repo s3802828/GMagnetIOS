@@ -1,9 +1,14 @@
-//
-//  SearchBar.swift
-//  GMagnet
-//
-//  Created by Giang Le on 11/09/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 3
+  Authors: Le Quynh Giang (s3802828), Phan Truong Quynh Anh (s3818245), Ngo Huu Tri (s3818520), Pham Thanh Dat (s3678437)
+  Created  date: 11/09/2022
+  Last modified: 18/09/2022
+  Acknowledgement:
+  Building a Search Bar in SwiftUI: https://www.appcoda.com/swiftui-search-bar/
+*/
 
 import SwiftUI
 
@@ -14,7 +19,7 @@ struct SearchBar: View {
  
     var body: some View {
         HStack {
- 
+            //MARK: - Text field to input
             TextField("Search...", text: $text)
                 .padding(7)
                 .padding(.horizontal, 25)
@@ -26,7 +31,7 @@ struct SearchBar: View {
                             .foregroundColor(.gray)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             .padding(.leading, 8)
-                 
+                        //clear search text button
                         if isEditing {
                             Button(action: {
                                 self.text = ""
@@ -44,7 +49,8 @@ struct SearchBar: View {
                         self.isEditing = true
                     }
                 }
- 
+            //MARK: - Cancel button
+            //cancel searching mode
             if isEditing {
                 Button(action: {
                     withAnimation(.default){

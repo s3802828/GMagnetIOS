@@ -1,9 +1,12 @@
-//
-//  TagFilter.swift
-//  GMagnet
-//
-//  Created by Huu Tri on 14/09/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 3
+  Authors: Le Quynh Giang (s3802828), Phan Truong Quynh Anh (s3818245), Ngo Huu Tri (s3818520), Pham Thanh Dat (s3678437)
+  Created  date: 14/09/2022
+  Last modified: 18/09/2022
+*/
 
 import SwiftUI
 
@@ -114,9 +117,3 @@ struct TagFilter: View {
         
     }
 }
-
-//struct TagFilter_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TagFilter()
-//    }
-//}

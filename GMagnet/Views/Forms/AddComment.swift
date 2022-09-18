@@ -1,9 +1,19 @@
-//
-//  AddComment.swift
-//  GMagnet
-//
-//  Created by Giang Le on 11/09/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 3
+  Authors: Le Quynh Giang (s3802828), Phan Truong Quynh Anh (s3818245), Ngo Huu Tri (s3818520), Pham Thanh Dat (s3678437)
+  Created  date: 11/09/2022
+  Last modified: 18/09/2022
+  Acknowledgement:
+ - Uploading Files from iOS to Amazon S3: https://www.kiloloco.com/articles/011-uploading-files-from-ios-to-amazon-s3/
+ - Get data with Cloud Firestore: https://firebase.google.com/docs/firestore/query-data/get-data
+ - Add data to Cloud Firestore: https://firebase.google.com/docs/firestore/manage-data/add-data
+ - Delete data from Cloud Firestore: https://firebase.google.com/docs/firestore/manage-data/delete-data
+ - Update a document: https://firebase.google.com/docs/firestore/manage-data/add-data#update-data
+ - SwiftUI 2.0 Material Design TextField - How to limit text In TextField? - SwiftUI Tutorials: https://www.youtube.com/watch?v=Gp2rhMApiqA
+*/
 
 import SwiftUI
 import Firebase

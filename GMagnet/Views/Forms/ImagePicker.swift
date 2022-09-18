@@ -1,3 +1,15 @@
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 3
+  Authors: Le Quynh Giang (s3802828), Phan Truong Quynh Anh (s3818245), Ngo Huu Tri (s3818520), Pham Thanh Dat (s3678437)
+  Created  date: 09/09/2022
+  Last modified: 18/09/2022
+  Acknowledgement:
+ - Create an ImagePicker to choose a photo from the library or take a photo from the camera - https://designcode.io/swiftui-advanced-handbook-imagepicker
+ - How to Access Photo Library and Use Camera in SwiftUI - https://www.appcoda.com/swiftui-camera-photo-library/
+*/
 import UIKit
 import SwiftUI
 

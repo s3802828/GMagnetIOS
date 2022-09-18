@@ -1,9 +1,12 @@
-//
-//  TagSelectionView.swift
-//  TestS3Upload
-//
-//  Created by Huu Tri on 11/09/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 3
+  Authors: Le Quynh Giang (s3802828), Phan Truong Quynh Anh (s3818245), Ngo Huu Tri (s3818520), Pham Thanh Dat (s3678437)
+  Created  date: 11/09/2022
+  Last modified: 18/09/2022
+*/
 
 import SwiftUI
 

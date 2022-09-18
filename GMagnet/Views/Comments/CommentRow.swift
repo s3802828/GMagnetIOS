@@ -1,9 +1,14 @@
-//
-//  CommentRow.swift
-//  GMagnet
-//
-//  Created by Giang Le on 11/09/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 3
+  Authors: Le Quynh Giang (s3802828), Phan Truong Quynh Anh (s3818245), Ngo Huu Tri (s3818520), Pham Thanh Dat (s3678437)
+  Created  date: 11/09/2022
+  Last modified: 18/09/2022
+ Acknowledgement:
+ T.Huynh."SSETContactList/ContactList/Views/ContactRow.swift".GitHub.https://github.com/TomHuynhSG/SSETContactList/blob/main/ContactList/Views/ContactRow.swift.
+*/
 
 import SwiftUI
 
@@ -16,7 +21,7 @@ struct CommentRow: View {
     @State var isCommentEditing = false
     @State var commentEditInput = ""
     @State var showProfileDetail = false
-    
+    //MARK: - Update comment function
     func update_comment(){
         //copy old comment values
         var new_comment = self.comment
@@ -28,7 +33,7 @@ struct CommentRow: View {
         postViewModel.update_comment(updated_comment: new_comment)
         isCommentEditing.toggle()
     }
-    
+    //MARK: - Delete comment function
     func delete_comment(){
         postViewModel.delete_comment(deleted_comment: comment)
     }
@@ -36,7 +41,8 @@ struct CommentRow: View {
     var body: some View {
         HStack {
             VStack {
-                Button(action: {
+                //MARK: - User's avatar
+                Button(action: { //Lead to user's profile view
                     showProfileDetail = true
                 }, label: {
                     AsyncImage(url: URL(string: comment.user.avatar)) {phase in
@@ -71,10 +77,10 @@ struct CommentRow: View {
                 
                 Spacer()
             }
-            
+            //MARK: - User's name
             VStack(alignment: .leading) {
                 HStack {
-                    Button(action: {
+                    Button(action: { //Lead to user's profile view
                         showProfileDetail = true
                     }, label: {
                         Text(comment.user.name)
@@ -84,11 +90,13 @@ struct CommentRow: View {
                     .fullScreenCover(isPresented: $showProfileDetail, content: {ProfileView().environmentObject(ProfileViewModel(user_id: comment.user.id))})
                     
                     Spacer()
+                    //Date difference
                     Text(comment.createdAt.getDateDifference())
                         .fontWeight(.bold)
                 }
                 
                 HStack {
+                    //MARK: - Editing mode
                     if (isCommentEditing) {
                         HStack {
                             
@@ -104,14 +112,18 @@ struct CommentRow: View {
                             })
                         }.padding(.all, 5)
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke().opacity(0.5))
-                    } else {
+                    } else { //MARK: - Normal mode
+                        //comment content
                     Text(comment.content)
                         .padding(.all, 5)
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke().opacity(0.5))
                     }
                     Spacer()
+                    //MARK: - Edit & delete button menu
                     if (currentUser.currentUser.id == comment.user.id) {
+                        //only show if current user own this comment
                         if (isCommentEditing) {
+                            //editing mode
                             Button(action: {
                                 isCommentEditing.toggle()
                             }, label: {
@@ -123,7 +135,7 @@ struct CommentRow: View {
                             })
                         } else {
                             Menu(content: {
-
+                                //Edit button
                                 Button(action: {
                                     isCommentEditing.toggle()
                                     print("Edit clicked")
@@ -134,7 +146,7 @@ struct CommentRow: View {
                                         Text("Edit")
                                     }
                                 })
-                                
+                                //Delete button
                                 Button(action: {
                                     self.delete_comment()
                                 }, label: {

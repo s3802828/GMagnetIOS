@@ -1,9 +1,14 @@
-//
-//  GameForumTabView.swift
-//  GMagnet
-//
-//  Created by Giang Le on 09/09/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 3
+  Authors: Le Quynh Giang (s3802828), Phan Truong Quynh Anh (s3818245), Ngo Huu Tri (s3818520), Pham Thanh Dat (s3678437)
+  Created  date: 09/09/2022
+  Last modified: 18/09/2022
+  Acknowledgement:
+ How To Create A Custom Tab Bar In SwiftUI: https://blckbirds.com/post/custom-tab-bar-in-swiftui/
+*/
 
 import SwiftUI
 
@@ -26,35 +31,27 @@ struct GameForumTabProfile: View {
     @State var isEditShowing = false
     
     @State var isShowingOption = false
-    
+    //MARK: - Content of each tab declaration
     @ViewBuilder var contentView: some View {
         switch tabbarRouter.currentPage {
         case .home:
+            //Default view is game detail view
             GameDetailView()
         case .post:
+            // post tab view
             PostList()
         case .member:
+            // member tab view
             MemberList()
         case .profile:
-            VStack {
-                Text("Profile")
-                Button(action: {
-                    currentUser.signOutUser()
-                }, label: {
-                    Text("Logout")
-                        .font(.system(size: 18, weight: .heavy , design: .monospaced))
-                        .frame(width: 75, height: 30)
-                        .background(.blue)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 9))
-                        .padding(.bottom, 15)
-                })
-            }
+            //Unused tab name
+            Text("Profile")
         case .plus:
+            //not used to show view
             EmptyView()
         }
     }
-    
+    //MARK: - Delete forum function
     func delete_forum(){
         self.profile.delete_forum(deleted_forum: gameForum.gameforum)
         dismiss()
@@ -66,25 +63,29 @@ struct GameForumTabProfile: View {
             VStack {
                 ScrollView(.vertical,showsIndicators: false,
                            content: {
+                    //MARK: - PullToRefresh view
                     PullToRefresh(coordinateSpaceName: "pullToRefresh") {
                         gameForum.refreshGameForum(){
+                            //if game forum is deleted, dismiss this tab view
                             if gameForum.gameforum.id == "" {
                                 dismiss()
                             }
                         }
                     }
                     VStack(spacing: 15){
+                        //MARK: - Common header
                         GeometryReader{proxy -> AnyView in
                             
                             let minY = proxy.frame(in: .global).minY
-                            
+                            //track if image is stretched
                             DispatchQueue.main.async{
                                 self.offset = minY
                             }
                             return AnyView(
                                 ZStack{
+                                    //Game banner
                                     AsyncImage(url: URL(string: gameForum.gameforum.banner)) {phase in
-                                        if let image = phase.image {
+                                        if let image = phase.image { //Succefully load image
                                             image
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fill)
@@ -92,6 +93,7 @@ struct GameForumTabProfile: View {
                                                 .cornerRadius(0)
                                             
                                         } else if phase.error != nil {
+                                            //fail to load image
                                             Image(systemName: "x.circle")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fill)
@@ -99,26 +101,23 @@ struct GameForumTabProfile: View {
                                                 .cornerRadius(0)
 
                                             
-                                        } else {
+                                        } else { //image is loading
                                             ProgressView()
                                                 .aspectRatio(contentMode: .fill)
                                                 .frame(width: getRect().width, height:  minY > 0 ? 220 + minY : 220, alignment: .center)
                                                 .cornerRadius(0)
-
-                                            
-                                            
                                         }
                                     }
                                     
                                 }
-                                    .frame(height: minY > 0 ? 220 + minY : nil)
+                                    .frame(height: minY > 0 ? 220 + minY : nil) //identify height of image when stretched or normal
                                     .offset(y: minY > 0 ? -minY: 0)
                             )
                         }.frame(height: 220)
                         VStack{
                             HStack{
                                 AsyncImage(url: URL(string: gameForum.gameforum.logo)) {phase in
-                                    if let image = phase.image {
+                                    if let image = phase.image { //Succefully load image
                                         image
                                             .resizable()
                                             .aspectRatio(contentMode: .fill)
@@ -127,7 +126,7 @@ struct GameForumTabProfile: View {
                                             .padding(10)
                                             .background(Color.white)
                                             .clipShape(Circle())
-                                    } else if phase.error != nil {
+                                    } else if phase.error != nil { //fail to load image
                                         Image(systemName: "x.circle")
                                             .resizable()
                                             .aspectRatio(contentMode: .fill)
@@ -136,7 +135,7 @@ struct GameForumTabProfile: View {
                                             .padding(10)
                                             .background(Color.white)
                                             .clipShape(Circle())
-                                    } else {
+                                    } else { //image is loading
                                         ProgressView()
                                             .aspectRatio(contentMode: .fill)
                                             .frame(width: 110, height: 110)
@@ -149,6 +148,7 @@ struct GameForumTabProfile: View {
                                 }
                                 
                                 Spacer()
+                                //MARK: - Join button
                                 Button(action: {
                                     gameForum.toggle_join_forum(forum: gameForum.gameforum, authViewModel: currentUser)
                                 }, label: {
@@ -163,9 +163,9 @@ struct GameForumTabProfile: View {
                                 })
                                 .padding(.top,20)
                                 .padding(20)
-                                
+                                //MARK: - Edit & Delete Buttons
+                                //Only show when forum is created by user
                                 if (currentUser.currentUser.id == gameForum.gameforum.admin.id){
-                                    
                                     EditButtonSelection(deleteFunction: {
                                         self.delete_forum()
                                     }, content: {
@@ -173,19 +173,18 @@ struct GameForumTabProfile: View {
                                     })
 
                                 }
-                                
-                                
                             }.padding(.top, -55)
-                            //Tab Content
+                            //MARK: - Content View
                             contentView
                         }.padding(.horizontal)
                     }
                 }).ignoresSafeArea(.all,edges: .top)
                 
                 Spacer()
-                // Tabbar
+                // MARK: - Common footer: Tabbar
                 HStack {
                     Spacer()
+                    //MARK: - Back button
                     VStack {
                         Image(systemName: "arrow.backward.circle")
                             .resizable()
@@ -201,17 +200,20 @@ struct GameForumTabProfile: View {
                         dismiss()
                     }
                     Spacer()
+                    // MARK: - Description tab
                     TabItem(width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "info.circle", tabName: "Description", tabbarRouter: tabbarRouter, assignedPage: .home)
-                    
                     Spacer()
+                    // MARK: - Add post tab
                     if gameForum.members.contains(where: {$0.id == currentUser.currentUser.id}){
                         TabPlusButton(width: geometry.size.width/7, height: geometry.size.width/7, systemIconName: "plus.circle.fill", tabName: "plus"){
                             CreatePostView(tabRouter: tabbarRouter)
                         }.offset(y: -geometry.size.height/8/2)
                     }
                     Spacer()
+                    // MARK: - Discussion post tab
                     TabItem(width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "message.circle", tabName: "Discussion", tabbarRouter: tabbarRouter, assignedPage: .post)
                     Spacer()
+                    // MARK: - Member tab
                     TabItem(width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "person.3", tabName: "Members", tabbarRouter: tabbarRouter, assignedPage: .member)
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height/10)
@@ -224,16 +226,3 @@ struct GameForumTabProfile: View {
     }
 }
 
-
-//struct GameForumTabView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        GameForumTabView()
-//    }
-//}
-
-//extension View{
-//    func getRect()->CGRect{
-//        return UIScreen.main.bounds
-//    }
-//
-//}

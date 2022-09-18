@@ -1,9 +1,12 @@
-//
-//  ForumCardView.swift
-//  GMagnet
-//
-//  Created by Huu Tri on 01/09/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 3
+  Authors: Le Quynh Giang (s3802828), Phan Truong Quynh Anh (s3818245), Ngo Huu Tri (s3818520), Pham Thanh Dat (s3678437)
+  Created  date: 09/09/2022
+  Last modified: 18/09/2022
+*/
 
 import SwiftUI
 
@@ -16,7 +19,7 @@ struct JoinedForumCardView: View {
     var body: some View {
         ZStack{
             VStack {
-                
+                //MARK: - Game forum banner
                 AsyncImage(url: URL(string: gameForum.gameforum.banner)) {phase in
                     if let image = phase.image {
                         image
@@ -49,29 +52,19 @@ struct JoinedForumCardView: View {
                         
                     }
                 }
-                
                 Spacer()
-                
+                //MARK: - Game forum name
                 HStack {
                     Text(gameForum.gameforum.name)
                         .font(.system(size: 17, weight: .heavy , design: .monospaced))
-                        
-                        
                     Spacer()
                 }.padding(.leading, 15)
                     .padding(.bottom, 10)
-                
-                
-                
             }.frame(width: 300, height: 160)
-            
-            
-            
-            
+        //MARK: - Join button
             VStack {
                 HStack {
                     Spacer()
-                    
                     Button(action: {
                         profile.toggle_join_forum(forum: gameForum.gameforum, user: currentUser)
                         
@@ -89,13 +82,10 @@ struct JoinedForumCardView: View {
                 }.padding(.horizontal, 5)
                     .padding(.top, 15)
                 
-                
                 Spacer()
-                
-                
             }.frame(width: 300, height: 160)
 
-                
+            //MARK: Forum logo
             AsyncImage(url: URL(string: gameForum.gameforum.logo)) {phase in
                 if let image = phase.image {
                     image
@@ -131,7 +121,10 @@ struct JoinedForumCardView: View {
         }
         .onTapGesture {
             showForumDetail = true
-        }.fullScreenCover(isPresented: $showForumDetail, onDismiss: {profile.refreshPage()}){
+        }.fullScreenCover(isPresented: $showForumDetail, onDismiss: {
+            //refresh page to get latest update if any
+            profile.refreshPage()
+        }){
             GameForumTabProfile()
         }
         

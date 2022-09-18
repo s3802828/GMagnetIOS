@@ -15,18 +15,15 @@ struct PostDetailProfile: View {
     @State var expanded: Bool = false
     @State private var showViewButton: Bool = false
     @State var lineLimit = 5
-    
-    
+    //MARK: - Check view more / less is chosen
     private var moreLessText: String {
         if showViewButton {
             return expanded ? "View Less" : "View More"
-            
         } else {
             return ""
-            
         }
     }
-    
+    //MARK: Delete post function
     func delete_post(){
         self.profile.delete_post(deleted_post: self.postDetail.post)
         dismiss()
@@ -36,6 +33,7 @@ struct PostDetailProfile: View {
         ZStack {
             ScrollViewReader {value in
                 ScrollView {
+                    //MARK: - PullToRefresh
                     PullToRefresh(coordinateSpaceName: "pullToRefreshPostDetail") {
                         postDetail.refreshPostViewModel(){
                             if postDetail.post.id == "" {

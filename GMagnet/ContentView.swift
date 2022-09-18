@@ -1,9 +1,16 @@
-//
-//  ContentView.swift
-//  GMagnet
-//
-//  Created by Giang Le on 01/09/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 3
+  Authors: Le Quynh Giang (s3802828), Phan Truong Quynh Anh (s3818245), Ngo Huu Tri (s3818520), Pham Thanh Dat (s3678437)
+  Created  date: 01/09/2022
+  Last modified: 18/09/2022
+  Acknowledgement:
+- How to show a relative date and time using RelativeDateTimeFormatter: https://www.hackingwithswift.com/example-code/system/how-to-show-a-relative-date-and-time-using-relativedatetimeformatter
+ - Finding distance between CLLocationCoordinate2D points: https://stackoverflow.com/questions/11077425/finding-distance-between-cllocationcoordinate2d-points
+*/
+
 
 import SwiftUI
 import Firebase
@@ -13,19 +20,19 @@ struct ContentView: View {
     @StateObject var currentUser = AuthenticateViewModel()
     
     var body: some View {
+        //if current user is done signing in, show tab view / sign up + login view
         if !currentUser.isLoggingIn {
             if (Auth.auth().currentUser != nil){
-                
+                //if user is signed in, show tab view
                 TabViews().environmentObject(currentUser)
                     .onAppear(){
-                        print("not allowingggggg")
                         currentUser.refreshCurrentUser()
                         currentUser.requestAllowOnceLocationPermission()
                     }
-            } else {
+            } else { //otherwise, show sign up + login view
                 Home().environmentObject(currentUser)
             }
-        } else {
+        } else {// otherwise, show progress view
             ProgressView()
         }
         

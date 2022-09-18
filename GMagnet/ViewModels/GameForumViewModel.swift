@@ -3,11 +3,7 @@
   Course: COSC2659 iOS Development
   Semester: 2022B
   Assessment: Assignment 3
-  Authors:
-- Le Quynh Giang (s3802828)
-- Phan Truong Quynh Anh (s3818245)
-- Ngo Huu Tri (s3818520)
-- Pham Thanh Dat (s3678437)
+  Authors: Le Quynh Giang (s3802828), Phan Truong Quynh Anh (s3818245), Ngo Huu Tri (s3818520), Pham Thanh Dat (s3678437)
   Created  date: 01/09/2022
   Last modified: 18/09/2022
   Acknowledgement:
@@ -15,15 +11,8 @@
 - Add data to Cloud Firestore: https://firebase.google.com/docs/firestore/manage-data/add-data
 - Delete data from Cloud Firestore: https://firebase.google.com/docs/firestore/manage-data/delete-data
 - Update a document: https://firebase.google.com/docs/firestore/manage-data/add-data#update-data
-- Wait until Firestore detdocuments()is finished before moving on - Swift: https://www.appsloveworld.com/swift/100/304/swiftui-wait-until-firestore-getdocuments-is-finished-before-moving-on
+- Wait until Firestore getdocuments() is finished before moving on - Swift: https://www.appsloveworld.com/swift/100/304/swiftui-wait-until-firestore-getdocuments-is-finished-before-moving-on
 */
-
-//
-//  GameForumViewModel.swift
-//  GMagnet
-//
-//  Created by Phan Anh on 01/09/2022.
-//
 
 import Foundation
 import Firebase

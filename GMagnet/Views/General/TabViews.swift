@@ -1,12 +1,17 @@
-//
-//  TabViews.swift
-//  GMagnet
-//
-//  Created by Huu Tri on 03/09/2022.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2022B
+  Assessment: Assignment 3
+  Authors: Le Quynh Giang (s3802828), Phan Truong Quynh Anh (s3818245), Ngo Huu Tri (s3818520), Pham Thanh Dat (s3678437)
+  Created  date: 03/09/2022
+  Last modified: 18/09/2022
+  Acknowledgement:
+ How To Create A Custom Tab Bar In SwiftUI: https://blckbirds.com/post/custom-tab-bar-in-swiftui/
+*/
 
 import SwiftUI
-
+//MARK: - Tab page name declaration frame
 enum Page {
     case home
     case post
@@ -14,7 +19,7 @@ enum Page {
     case profile
     case plus
 }
-
+//MARK: - TabView
 struct TabViews: View {
     let gradient = LinearGradient(colors: [.blue.opacity(0.3), .green.opacity(0.5)],
                                   startPoint: .topLeading,
@@ -23,23 +28,25 @@ struct TabViews: View {
     @StateObject var tabbarRouter = TabBarRouter()
     @StateObject var mainViewModels = MainPageViewModel()
     @EnvironmentObject var currentUser: AuthenticateViewModel
-    
-    @State var showSearchBar = false
-    @State var searchInput = ""
-    
+    //MARK: - Content of each tab declaration
     @ViewBuilder var contentView: some View {
         switch tabbarRouter.currentPage {
         case .home:
+            //Default view is main view (list of forums)
             MainView().environmentObject(mainViewModels)
         case .post:
+            // Unused tab name
             Text("Post")
         case .member:
+            //Unused tab name
             Text("member")
         case .profile:
+            //Profile tab show profile tab view
             ProfileTab()
                 .environmentObject(ProfileViewModel(user_id: currentUser.currentUser.id))
                 .environmentObject(mainViewModels)
         case .plus:
+            //not used to show view
             EmptyView()
         }
     }
@@ -50,10 +57,8 @@ struct TabViews: View {
             VStack {
                 
                 HStack {
-                    if !self.showSearchBar {
-                        Text("GMagnet").fontWeight(.bold).font(.title).foregroundColor(.white)
-                    }
-                    
+                    //MARK: - GMagnet common header
+                    Text("GMagnet").fontWeight(.bold).font(.title).foregroundColor(.white)
                     Spacer(minLength: 0)
                     
                     
@@ -63,16 +68,18 @@ struct TabViews: View {
                     .background(Color.blue)
                 
                 Spacer()
-                // Contents
+                // MARK: - Content view
                 contentView
                 Spacer()
                 // Tabbar
+                //MARK: - Tabbar Footer
                 HStack {
                     Spacer()
-                    
+                    //MARK: - Home main view tab
                     TabItem(width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "homekit", tabName: "Home", tabbarRouter: tabbarRouter, assignedPage: .home)
 
                     Spacer()
+                    //MARK: - Add forum tab
                     TabPlusButton(width: geometry.size.width/7, height: geometry.size.width/7, systemIconName: "plus.circle.fill", tabName: "plus"){
                         CreateForumView(curr_user: currentUser.currentUser)
                             .environmentObject(mainViewModels)
@@ -80,6 +87,7 @@ struct TabViews: View {
                     }
                           .offset(y: -geometry.size.height/8/2)
                     Spacer()
+                    //MARK: - Profile tab
                     TabItem(width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "person.crop.circle", tabName: "Profile", tabbarRouter: tabbarRouter, assignedPage: .profile)
                     Spacer()
                 }
@@ -99,7 +107,7 @@ struct TabViews_Previews: PreviewProvider {
 }
 
 
-
+//MARK: - TabItem
 struct TabItem: View {
     
      let width, height: CGFloat
@@ -128,6 +136,7 @@ struct TabItem: View {
      }
  }
 
+//MARK: - TabPlus button
 struct TabPlusButton<Content:View>: View {
     let width, height: CGFloat
     let systemIconName, tabName: String
@@ -164,13 +173,12 @@ struct TabPlusButton<Content:View>: View {
         .padding(.horizontal, -4)
     }
 }
-
+//MARK: - Edit & Delete Menu Frame
 struct EditButtonSelection<Content:View>: View {
     
     let openEditView : Content
     @State var isEditShowing = false
     let deleteFunc: () -> Void
-    
     init(deleteFunction: @escaping () -> Void, @ViewBuilder content: () -> Content){
         self.openEditView = content()
         self.deleteFunc = deleteFunction
@@ -178,7 +186,7 @@ struct EditButtonSelection<Content:View>: View {
     
     var body: some View{
         Menu(content: {
-
+            //edit button
             Button(action: {
                 isEditShowing = true
                 print("Edit clicked")
@@ -189,7 +197,7 @@ struct EditButtonSelection<Content:View>: View {
                     Text("Edit")
                 }
             })
-            
+            //delete button
             Button(action: {
                 deleteFunc()
             }, label: {

@@ -8,5 +8,6 @@
 import Foundation
 
 class TabBarRouter: ObservableObject {
+    //current tab page
     @Published var currentPage: Page = .home
 }

@@ -10,6 +10,7 @@ struct ImagePicker: UIViewControllerRepresentable {
     @Binding var imageName: String
     @Environment(\.presentationMode) private var presentationMode
 
+    //Configure the UIImagePickerController initial state
     func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
         
         let imagePicker = UIImagePickerController()
@@ -20,14 +21,17 @@ struct ImagePicker: UIViewControllerRepresentable {
         return imagePicker
     }
     
+    //Update the UIImagePickerController's state
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
         
     }
     
+    //Instantiate Coordinator class
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
     
+    //Get the selected image data and present it to SwiftUI view
     final class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         
         var parent: ImagePicker
@@ -36,6 +40,7 @@ struct ImagePicker: UIViewControllerRepresentable {
             self.parent = parent
         }
         
+        //Keep track of the user's selected photo
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             
             if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {

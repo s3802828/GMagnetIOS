@@ -34,11 +34,13 @@ struct CreateForumView: View {
     
     @State var isProgressing = false
     
+    //MARK: - Submit form function
     func submit_addform(){
         uploadImage()
         
     }
     
+    //MARK: - Validation function
     func validate_form(){
         //Validate name
         do {
@@ -46,11 +48,11 @@ struct CreateForumView: View {
             let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~]*$"#
             let nameRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
             let range = NSRange(location: 0, length: forumName.count)
-            if (forumName == "") {
+            if (forumName == "") { //check when input is empty
                 nameErrorMessage = "Must not be empty"
-            } else if forumName.count > 150 {
+            } else if forumName.count > 150 { //check when input pass the letter limit
                 nameErrorMessage = "Limit up to 150 letters"
-            } else if nameRegex.firstMatch(in: forumName, range: range) != nil {
+            } else if nameRegex.firstMatch(in: forumName, range: range) != nil { //check if input matches the the regex pattern
                 nameErrorMessage = ""
             } else {
                 nameErrorMessage = "Invalid name"
@@ -65,11 +67,11 @@ struct CreateForumView: View {
             let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~\n]*$"#
             let descriptionRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
             let range = NSRange(location: 0, length: description.count)
-            if (description == "") {
+            if (description == "") { //check when input is empty
                 descriptionErrorMessage = "Must not be empty"
-            } else if description.count > 1500 {
+            } else if description.count > 1500 { //check when input pass the letter limit
                 descriptionErrorMessage = "Limit up to 1500 letters"
-            } else if descriptionRegex.firstMatch(in: description, range: range) != nil {
+            } else if descriptionRegex.firstMatch(in: description, range: range) != nil { //check if input matches the the regex pattern
                 descriptionErrorMessage = ""
             } else {
                 descriptionErrorMessage = "Invalid"
@@ -80,7 +82,7 @@ struct CreateForumView: View {
         }
         
         //Validate tags
-        if selectedTags.isEmpty {
+        if selectedTags.isEmpty { //check if the tag list is empty
             tagsErrorMessage = "Must select at least 1 tag"
         } else {
             tagsErrorMessage = ""
@@ -89,9 +91,9 @@ struct CreateForumView: View {
         //Validate image
         if let imageData = image.jpegData(compressionQuality: 1) {
             let imageSize = NSData(data: imageData).count
-            if (imageSize == 0) {
+            if (imageSize == 0) { //check if any image is selected
                 imageErrorMessage = "Must not be empty"
-            } else if ((imageSize / 1000000) > 5) {
+            } else if ((imageSize / 1000000) > 5) { //check if the selected image's size is over 5MB
                 imageErrorMessage = "Size must be lower than 5MB"
             } else {
                 imageErrorMessage = ""
@@ -103,9 +105,9 @@ struct CreateForumView: View {
         //Validate banner
         if let bannerData = imageBanner.jpegData(compressionQuality: 1) {
             let bannerSize = NSData(data: bannerData).count
-            if (bannerSize == 0) {
+            if (bannerSize == 0) { //check if any image is selected
                 bannerErrorMessage = "Must not be empty"
-            } else if ((bannerSize / 1000000) > 6) {
+            } else if ((bannerSize / 1000000) > 6) { //check if the selected image's size is over 6MB
                 bannerErrorMessage = "Size must be lower than 6MB"
             } else {
                 bannerErrorMessage = ""
@@ -115,8 +117,10 @@ struct CreateForumView: View {
         }
     }
     
+    //MARK: - Upload image function
     func uploadImage() {
         
+        //Compress selected UIImage into jpeg data
         let imageData = image.jpegData(compressionQuality: 1)!
         let bannerData = imageBanner.jpegData(compressionQuality: 1)!
 
@@ -126,10 +130,9 @@ struct CreateForumView: View {
             
         }, resultListener: { event in
             switch event {
-            case .success(let data):
+            case .success(let data): //when the image is successfully uploaded
                 print("Completed: \(data)")
-//                isProgressing = false
-            case .failure(let storageError):
+            case .failure(let storageError): //when the uploading failed
                 print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
             }
         }
@@ -140,7 +143,7 @@ struct CreateForumView: View {
 //            isProgressing = true
         }, resultListener: { event in
             switch event {
-            case .success(let data):
+            case .success(let data): //when the image is successfully uploaded
                 print("Completed: \(data)")
                 
                 let new_forum = GameForum(
@@ -155,7 +158,7 @@ struct CreateForumView: View {
                     category_list: selectedTags
                 )
                 
-                mainViewModels.add_forum(added_forum: new_forum)
+                mainViewModels.add_forum(added_forum: new_forum) //add image data to firestore
                 
                 isProgressing = false
                 
@@ -176,6 +179,7 @@ struct CreateForumView: View {
         ZStack {
             
             VStack {
+                //MARK: - Cancel button
                 HStack{
                     Button(action: {
                         dismiss()
@@ -188,6 +192,7 @@ struct CreateForumView: View {
                     Spacer()
                 }
                 
+                //MARK: - Header
                 Text("Create New Forum")
                     .font(.system(size: 30))
                     .fontWeight(.bold)
@@ -196,51 +201,60 @@ struct CreateForumView: View {
                 ScrollView{
                     VStack {
                         
+                        //MARK: - Forum name input field
                         ZStack {
-                            TextField("Enter forum name", text: $forumName)
+                            TextField("Enter forum name", text: $forumName) //label
                                 .padding()
                                 .background(Color.gray.opacity(0.3).cornerRadius(10))
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Color.black)
-                            Text("\(forumName.count)/150")
+                            Text("\(forumName.count)/150") //letter counter
                                 .foregroundColor(.black)
                                 .font(.system(size: 13, weight: .medium))
                                 .offset(x: 145, y: 20)
                         }
                         
+                        //error message for forum name
                         Text(nameErrorMessage)
                             .foregroundColor(.red)
                         
+                        //MARK: - Description input field
                         ZStack {
-                            TextEditor(text: $description)
+                            TextEditor(text: $description) //label
                                 .frame(height:250)
                                 .padding()
                                 .background(Color.gray.opacity(0.3).cornerRadius(10))
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Color.black)
-                            Text("\(description.count)/1500")
+                            Text("\(description.count)/1500") //letter counter
                                 .foregroundColor(.black)
                                 .font(.system(size: 13, weight: .medium))
                                 .offset(x: 135, y: 132)
                         }
                         
+                        //error message for description
                         Text(descriptionErrorMessage)
                             .foregroundColor(.red)
                         
+                        //MARK: - Forum tag selection list
                         VStack {
-                            Text("Select your forum tag")
+                            Text("Select your forum tag") //label
                             TagSelectionView(selectedTags: self.$selectedTags)
                                 .frame(height: 200)
                         }.padding()
                             .background(Color.gray.opacity(0.3).cornerRadius(10))
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(Color.black)
+                        
+                        //error message for tag list
                         Text(tagsErrorMessage)
                             .foregroundColor(.red)
                             
                         
                     }.padding(.top,5)
                     VStack {
+                        
+                        //MARK: - Image picker for forum logo
                         HStack {
                             Button(action: {
                                 self.isShowPhotoLibrary = true
@@ -269,9 +283,12 @@ struct CreateForumView: View {
                             .sheet(isPresented: $isShowPhotoLibrary) {
                                 ImagePicker(sourceType: .photoLibrary, img_path: "gameIcon", selectedImage: self.$image, imageName: self.$imageKey)
                         }
+                        
+                        //error message for logo
                         Text(imageErrorMessage)
                             .foregroundColor(.red)
-                            
+                        
+                        //MARK: - Image picker for forum banner
                         HStack {
                             Button(action: {
                                 self.isShowBannerLibrary = true
@@ -300,6 +317,8 @@ struct CreateForumView: View {
                             .sheet(isPresented: $isShowBannerLibrary) {
                             BannerPicker(sourceType: .photoLibrary, selectedBanner: self.$imageBanner, bannerName: $bannerKey)
                         }
+                        
+                        //error message for banner
                         Text(bannerErrorMessage)
                             .foregroundColor(.red)
                     }
@@ -307,6 +326,7 @@ struct CreateForumView: View {
                 Spacer()
                 Button(action: {
                     validate_form()
+                    //check if the error message of all the input fields is empty
                     if (nameErrorMessage == "" && descriptionErrorMessage == "" && imageErrorMessage == "" && bannerErrorMessage == "") {
                         self.submit_addform()
                     }
@@ -326,6 +346,7 @@ struct CreateForumView: View {
             }
             .padding()
             
+            //MARK: - Loading screen display
             if isProgressing {
                 ZStack {
                     Color(.black)

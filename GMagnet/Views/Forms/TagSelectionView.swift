@@ -17,7 +17,7 @@ struct TagSelectionView: View {
     @Binding var selectedTags: [Category] 
     @State var tagList: [Category] = []
     
-    //MARK: - GET INDEX
+    //MARK: - Get index of item in array function
     func index(of character: Category, array: Array<Category>) -> Int {
         for index in 0..<array.count {
             if array[index].id == character.id {
@@ -32,11 +32,14 @@ struct TagSelectionView: View {
         ZStack {
             ScrollView{
                 VStack {
+                    //MARK: - List of category view
                     LazyVGrid(columns: tagColumns, alignment: .center, spacing: 5, pinnedViews: [], content: {
                         ForEach (tagList.sorted(){
                             $0.category_name < $1.category_name
                         }, id: \.id) {
                             i in
+                            
+                            //MARK: - Category button
                             Button(action: {
                                 if (selectedTags.contains(where: { $0.id == i.id})) {
                                     selectedTags.remove(at: index(of: i, array: selectedTags))
@@ -44,6 +47,7 @@ struct TagSelectionView: View {
                                     selectedTags.append(i)
                                 }
                             }, label: {
+                                // When the category button is clicked, add that category to the list and highlight the button
                                 HStack{
                                     Image(systemName: selectedTags.contains(where: { $0.id == i.id}) ? "checkmark.circle" : "circle")
                                         .foregroundColor(selectedTags.contains(where: { $0.id == i.id}) ? .green : .black)

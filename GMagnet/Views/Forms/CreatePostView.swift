@@ -30,6 +30,7 @@ struct CreatePostView: View {
     
     @State var isPostProgressing = false
     
+    //MARK: - Add new post function
     func add_post(){
         let new_post = Post(
             user: currentUser.currentUser,
@@ -51,8 +52,9 @@ struct CreatePostView: View {
         tabRouter.currentPage = .post
     }
     
+    //MARK: - Upload image function
     func uploadImage() {
-        //        let postImageData = postImage.jpegData(compressionQuality: 1)!
+        
         if let postImageData = postImage.jpegData(compressionQuality: 1){
             isPostProgressing = true
             Amplify.Storage.uploadData(key: postImageKey, data: postImageData, progressListener: { progress in
@@ -60,12 +62,12 @@ struct CreatePostView: View {
                 
             }, resultListener: { event in
                 switch event {
-                case .success(let data):
+                case .success(let data): //when successfully upload image
                     print("Completed: \(data)")
                     isPostProgressing = false
                     
                     dismiss()
-                case .failure(let storageError):
+                case .failure(let storageError): //when upload failed
                     print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
                 }
             }
@@ -73,6 +75,7 @@ struct CreatePostView: View {
         }
     }
     
+    //MARK: - Validation function
     func validate_form() {
         //Validate title
         do {
@@ -80,11 +83,11 @@ struct CreatePostView: View {
             let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~]*$"#
             let titleRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
             let range = NSRange(location: 0, length: titleInput.count)
-            if (titleInput == "") {
+            if (titleInput == "") { //check when input is empty
                 titleErrorMessage = "Must not be empty"
-            } else if titleInput.count > 200 {
+            } else if titleInput.count > 200 { //check when input pass the letter limit
                 titleErrorMessage = "Limit up to 200 letters"
-            } else if titleRegex.firstMatch(in: titleInput, range: range) != nil {
+            } else if titleRegex.firstMatch(in: titleInput, range: range) != nil { //check if input matches the the regex pattern
                 titleErrorMessage = ""
             } else {
                 titleErrorMessage = "Invalid"
@@ -102,11 +105,12 @@ struct CreatePostView: View {
             let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~\n]*$"#
             let contentRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
             let range = NSRange(location: 0, length: contentInput.count)
-            if (contentInput == "") {
+            if (contentInput == "") { //check when input is empty
                 contentErrorMessage = "Must not be empty"
-            } else if contentInput.count > 1500 {
+            } else if contentInput.count > 1500 { //check when input pass the letter limit
                 contentErrorMessage = "Limit up to 1500 letters"
-            } else if contentRegex.firstMatch(in: contentInput, range: range) != nil {
+            } else if contentRegex.firstMatch(in: contentInput, range: range) != nil { //check if input matches the the regex pattern
+
                 contentErrorMessage = ""
             } else {
                 contentErrorMessage = "Invalid"
@@ -119,7 +123,7 @@ struct CreatePostView: View {
         //Validate post image
         if let imageData = postImage.jpegData(compressionQuality: 1) {
             let imageSize = NSData(data: imageData).count
-            if ((imageSize / 1000000) > 6) {
+            if ((imageSize / 1000000) > 6) { //check if the selected image's size is over 6MB
                 postImageErrorMessage = "Size must be lower than 6MB"
             } else {
                 postImageErrorMessage = ""
@@ -133,6 +137,7 @@ struct CreatePostView: View {
         ZStack {
             VStack {
                 VStack {
+                    //MARK: - Cancel button
                     HStack{
                         Button(action: {
                             dismiss()
@@ -145,6 +150,7 @@ struct CreatePostView: View {
                         Spacer()
                     }
                     
+                    //MARK: - Header
                     Text("Create New Post")
                         .font(.system(size: 30))
                         .fontWeight(.bold)
@@ -155,8 +161,9 @@ struct CreatePostView: View {
                     
                     Divider()
                     HStack {
+                        //MARK: - Post image
                         AsyncImage(url: URL(string: gameForum.gameforum.logo)) {phase in
-                            if let image = phase.image {
+                            if let image = phase.image { //if the image loaded successfully
                                 image
                                     .resizable()
                                     .scaledToFit()
@@ -166,7 +173,7 @@ struct CreatePostView: View {
                                     .padding(.horizontal,5)
                                     .id(-1)
                                 
-                            } else if phase.error != nil {
+                            } else if phase.error != nil { //if the image loading failed
                                 Image(systemName: "x.circle")
                                     .resizable()
                                     .scaledToFit()
@@ -174,7 +181,7 @@ struct CreatePostView: View {
                                     .clipShape(Circle())
                                     .overlay(Circle().stroke(.gray))
                                     .padding(.horizontal,5)
-                            } else {
+                            } else {// if the image is loading
                                 ProgressView()
                                     .scaledToFit()
                                     .frame(width: 50, height: 50)
@@ -192,34 +199,39 @@ struct CreatePostView: View {
                     }.padding(5)
                     Divider()
                     
+                    //MARK: - Post title input field
                     ZStack {
-                        TextField("Enter a title...", text: $titleInput)
+                        TextField("Enter a title...", text: $titleInput) //label
                             .padding()
                             .background(Color.gray.opacity(0.3).cornerRadius(10))
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(Color.black)
                             .padding(.horizontal, 15)
-                        Text("\(titleInput.count)/200")
+                        Text("\(titleInput.count)/200") //letter counter
                             .foregroundColor(.black)
                             .font(.system(size: 13, weight: .medium))
                             .offset(x: 145, y: 20)
                     }
+                    //error message for post title
                     Text(titleErrorMessage)
                         .foregroundColor(.red)
                     
+                    //MARK: - Post content field
                     ZStack {
-                        TextEditor(text: $contentInput)
+                        TextEditor(text: $contentInput) //label
                             .frame(height:200)
                             .padding()
                             .background(Color.gray.opacity(0.3).cornerRadius(10))
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(Color.black)
                             .padding(.horizontal, 15)
-                        Text("\(contentInput.count)/1500")
+                        Text("\(contentInput.count)/1500") //letter counter
                             .foregroundColor(.black)
                             .font(.system(size: 13, weight: .medium))
                             .offset(x: 135, y: 107)
                     }
+                    
+                    //error message for post content
                     Text(contentErrorMessage)
                         .foregroundColor(.red)
                 }
@@ -227,6 +239,7 @@ struct CreatePostView: View {
                 
                 
                 VStack{
+                    //MARK: - Toggle button for posting with image
                     HStack{
                         Button(action: {
                             isPostingImage.toggle()
@@ -250,6 +263,7 @@ struct CreatePostView: View {
                         Spacer()
                     }.padding(.horizontal, 15)
                     
+                    //MARK: - Image picker for posting image
                     if isPostingImage {
                         HStack {
                             Button(action: {
@@ -280,6 +294,8 @@ struct CreatePostView: View {
                             .sheet(isPresented: $isShowPostImageLibrary) {
                                 PostImagePicker(sourceType: .photoLibrary, selectedPostImage: self.$postImage, postImageName: self.$postImageKey)
                             }
+                        
+                        //error message for post image
                         Text(postImageErrorMessage)
                             .foregroundColor(.red)
                     }
@@ -293,6 +309,7 @@ struct CreatePostView: View {
                     Button(action: {
                         
                         validate_form()
+                        //check if the error message of all the input fields is empty
                         if (titleErrorMessage == "" && contentErrorMessage == "" && postImageErrorMessage == "") {
                             self.add_post()
                         }
@@ -311,7 +328,7 @@ struct CreatePostView: View {
             }
             
             
-            
+            //MARK: - Loading screen display
             if isPostProgressing {
                 
                 Color(.black)

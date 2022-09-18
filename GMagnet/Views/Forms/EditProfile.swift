@@ -29,11 +29,13 @@ struct EditProfileView: View {
     @Environment(\.dismiss) var dismiss
     let gameColor = GameColor()
     
+    //MARK: - Get image key function
     func generate_img_key(link: String)->String{
         let split_arr = link.split(separator: "/")
         return split_arr.count>0 ? String(split_arr[split_arr.count - 1]) : ""
     }
     
+    //MARK: - Download image data from s3 storage
     func downloadImage() {
         Amplify.Storage.downloadData(key: "userUpload/\(self.imageKey)") { result in
             switch result {
@@ -49,9 +51,14 @@ struct EditProfileView: View {
         }
     }
     
+    //MARK: - Update user data function
     func update_user(){
         isProgressing = true
+        
+        //check if the user image is updated
         if self.imageKey.contains("userUpload/"){
+            
+            //compress UIImage into jpeg data
             let imageData = image.jpegData(compressionQuality: 1)!
             
             Amplify.Storage.uploadData(key: imageKey, data: imageData, progressListener: { progress in
@@ -59,7 +66,7 @@ struct EditProfileView: View {
                 
             }, resultListener: { event in
                 switch event {
-                case .success(let data):
+                case .success(let data): //when upload image successfully
                     let updated_user = User(id: self.profile.user.id,
                                             username: self.profile.user.username,
                                             name: self.fullname,
@@ -80,6 +87,8 @@ struct EditProfileView: View {
                 }
             }
             )
+            
+            //Check if the user image is kept the same
         }else{
             let updated_user = User(id: self.profile.user.id,
                                     username: self.profile.user.username,
@@ -100,6 +109,7 @@ struct EditProfileView: View {
         
     }
     
+    //MARK: - Validation function
     func validate_form() {
         //Validate full name
         do {
@@ -107,11 +117,11 @@ struct EditProfileView: View {
             let pattern = #"^[A-Za-z0-9 '-]*$"#
             let nameRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
             let range = NSRange(location: 0, length: fullname.count)
-            if (fullname == "") {
+            if (fullname == "") { //check when input is empty
                 fullnameErrorMessage = "Must not be empty"
-            } else if fullname.count > 100 {
+            } else if fullname.count > 100 { //check when input pass the letter limit
                 fullnameErrorMessage = "Limit up to 100 letters"
-            } else if nameRegex.firstMatch(in: fullname, range: range) != nil {
+            } else if nameRegex.firstMatch(in: fullname, range: range) != nil { //check if input matches the the regex pattern
                 fullnameErrorMessage = ""
             } else {
                 fullnameErrorMessage = "Invalid name (Special characters allowed: ' and - )"
@@ -127,9 +137,9 @@ struct EditProfileView: View {
             let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~]*$"#
             let nameRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
             let range = NSRange(location: 0, length: bio.count)
-            if bio.count > 500 {
+            if bio.count > 500 { //check when input pass the letter limit
                 bioErrorMessage = "Limit up to 500 letters"
-            } else if nameRegex.firstMatch(in: bio, range: range) != nil {
+            } else if nameRegex.firstMatch(in: bio, range: range) != nil { //check if input matches the the regex pattern
                 bioErrorMessage = ""
             } else {
                 bioErrorMessage = "Invalid"
@@ -142,7 +152,7 @@ struct EditProfileView: View {
         //Validate image
         if let imageData = image.jpegData(compressionQuality: 1) {
             let imageSize = NSData(data: imageData).count
-            if ((imageSize / 1000000) > 5) {
+            if ((imageSize / 1000000) > 5) { //check if the selected image's size is over 5MB
                 imageErrorMessage = "Size must be lower than 5MB"
             } else {
                 imageErrorMessage = ""
@@ -155,6 +165,8 @@ struct EditProfileView: View {
     var body: some View {
         ZStack{
             VStack{
+                
+                //MARK: - Cancel button
                 HStack{
                     Button(action: {
                         dismiss()
@@ -166,6 +178,8 @@ struct EditProfileView: View {
                     }
                     Spacer()
                 }
+                
+                //MARK: - Header
                 Text("Edit your profile")
                     .font(.title)
                     .fontWeight(.bold)
@@ -173,6 +187,8 @@ struct EditProfileView: View {
                     .kerning(1.9)
                     .frame(maxWidth: .infinity,  alignment: .leading)
                 VStack(alignment: .leading, spacing: 8, content: {
+                    
+                    //MARK: - Image picker for user avatar
                     HStack{
                         Button(action: {
                             self.isShowPhotoLibrary = true
@@ -201,21 +217,26 @@ struct EditProfileView: View {
                     .sheet(isPresented: $isShowPhotoLibrary) {
                         ImagePicker(sourceType: .photoLibrary, img_path: "userUpload", selectedImage: self.$image, imageName: $imageKey)
                     }
+                    
+                    //error message for post image
                     Text(imageErrorMessage)
                         .foregroundColor(.red)
                     
+                    //MARK: - Full name input field
                     Text("Fullname")
                         .fontWeight(.bold)
                         .foregroundColor(.gray)
                     ZStack {
-                        TextField("Pham Van A", text: $fullname)
+                        TextField("Pham Van A", text: $fullname) //label
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(Color.black)
-                        Text("\(fullname.count)/100")
+                        Text("\(fullname.count)/100") //letter counter
                             .foregroundColor(.black)
                             .font(.system(size: 13, weight: .medium))
                             .offset(x: 145, y: 20)
                     }
+                    
+                    //error message for fullname input
                     Text(fullnameErrorMessage)
                         .foregroundColor(.red)
  
@@ -241,8 +262,9 @@ struct EditProfileView: View {
                 }
                 
                 
+                //MARK: - Bio input field
                 VStack(alignment: .leading, spacing: 8, content: {
-                    Text("Bio")
+                    Text("Bio") //label
                         .fontWeight(.bold)
                         .foregroundColor(.gray)
                     ZStack {
@@ -252,11 +274,13 @@ struct EditProfileView: View {
                             .background(Color.gray.opacity(0.3).cornerRadius(10))
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(Color.black)
-                        Text("\(bio.count)/500")
+                        Text("\(bio.count)/500") //letter counter
                             .foregroundColor(.black)
                             .font(.system(size: 13, weight: .medium))
                             .offset(x: 135, y: 83)
                     }
+                    
+                    //error message for bio input
                     Text(bioErrorMessage)
                         .foregroundColor(.red)
                     
@@ -267,6 +291,8 @@ struct EditProfileView: View {
                 
                 Button(action: {
                     validate_form()
+                    
+                    //check if the error message of all the input fields is empty
                     if (fullnameErrorMessage == "" && bioErrorMessage == "" && imageErrorMessage == "") {
                         self.update_user()
                     }
@@ -285,6 +311,7 @@ struct EditProfileView: View {
             }
             .padding()
             
+            //MARK: - Loading screen display
             if isProgressing {
                 ZStack {
                     Color(.black)

@@ -126,6 +126,7 @@ struct SignInView: View {
                     .padding(.top, 5)
             })
             .padding(.top,20)
+            
             //MARK: - Buttons area
             HStack (spacing: 5){
                 //Submit form button

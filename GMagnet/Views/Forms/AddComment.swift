@@ -13,7 +13,9 @@ struct AddComment: View {
     @EnvironmentObject var currentUser: AuthenticateViewModel
     @EnvironmentObject var postDetail : PostViewModel
     
+    //MARK: - Add comment function
     func add_comment(){
+        
         if self.commentInput.trimmingCharacters(in: .whitespacesAndNewlines) != ""{
             let new_comment = Comment(
                 id: "ayo",
@@ -26,12 +28,14 @@ struct AddComment: View {
             commentInput = ""
         }
     }
+    
     var body: some View {
         ZStack {
             
             HStack{
+                //MARK: - Display user's avatar
                 AsyncImage(url: URL(string: currentUser.currentUser.avatar)) {phase in
-                    if let image = phase.image {
+                    if let image = phase.image { //image successfully loaded
                         image
                             .resizable()
                             .frame(width: 40, height: 40)
@@ -39,7 +43,7 @@ struct AddComment: View {
                             .overlay(Circle().stroke(.gray))
                             .padding(.leading, 10)
 
-                    } else if phase.error != nil {
+                    } else if phase.error != nil { //image failed loading
                         Image(systemName: "x.circle")
                             .resizable()
                             .frame(width: 40, height: 40)
@@ -47,7 +51,7 @@ struct AddComment: View {
                             .overlay(Circle().stroke(.gray))
                             .padding(.leading, 10)
 
-                    } else {
+                    } else { //image is loading
                         ProgressView()
                             .frame(width: 40, height: 40)
                             .clipShape(Circle())
@@ -55,6 +59,7 @@ struct AddComment: View {
                             .padding(.leading, 10)
                     }
                 }
+                //MARK: - Add comment input field
                 HStack {
                     
                     TextField("Add a comment...", text: $commentInput)

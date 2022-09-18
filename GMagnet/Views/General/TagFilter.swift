@@ -14,7 +14,7 @@ struct TagFilter: View {
     @State var isFiltering = false
     @Binding var chosenCategory: [Category]
     
-    //MARK: - GET INDEX
+    //MARK: - Get index of item in array function
     func index(of character: Category, array: Array<Category>) -> Int {
         for index in 0..<array.count {
             if array[index].id == character.id {
@@ -32,6 +32,7 @@ struct TagFilter: View {
                 
                 Spacer()
                 
+                //MARK: - Filter button
                 Button(action: {
                     withAnimation(.default) {
                         isFiltering.toggle()
@@ -58,9 +59,12 @@ struct TagFilter: View {
             }
             
             if isFiltering {
+                
+                //MARK: - Filter section
                 HStack {
                     Text("Selected: ")
                         .padding(.vertical, 10)
+                    //MARK: - Display selected tag
                     ScrollView(.horizontal){
                         HStack {
                             ForEach (0..<chosenCategory.count, id: \.self) {
@@ -94,6 +98,7 @@ struct TagFilter: View {
                 
                 
                 Divider()
+                //MARK: - Display list of tags
                 VStack {
                     TagSelectionView(selectedTags: self.$chosenCategory)
                         .frame(height: 200)

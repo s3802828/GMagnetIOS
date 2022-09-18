@@ -213,8 +213,8 @@ struct GameForumTabView: View {
                     // MARK: - Discussion post tab
                     TabItem(width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "message.circle", tabName: "Discussion", tabbarRouter: tabbarRouter, assignedPage: .post)
                     Spacer()
-                    // MARK: - Member tab
-                    TabItem(width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "person.3", tabName: "Members", tabbarRouter: tabbarRouter, assignedPage: .member)
+                    TabItem(width: geometry.size.width/5, height: geometry.size.height/28, systemIconName: "person.3", tabName: "Members", tabbarRouter: tabbarRouter, assignedPage: .member).padding(.trailing, 15)
+                    
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height/10)
                 .background(Color(.black).shadow(radius: 2).opacity(0.03))

@@ -37,20 +37,17 @@ struct UpdateForumView: View {
     
     init(updated_forum: GameForum){
         self.updated_forum = updated_forum
-//        downloadImage(key: self.imageKey){result in
-//            self.image = result
-//        }
-//        downloadImage(key: self.bannerKey){result in
-//            self.imageBanner = result
-//        }
+
         
     }
     
+    //MARK: - Get image key function
     func generate_img_key(link: String)->String{
         let split_arr = link.split(separator: "/")
         return split_arr.count>0 ? String(split_arr[split_arr.count - 1]) : ""
     }
     
+    //MARK: - Remove logo data from s3 storage function
     func removeImage() {
         Amplify.Storage.remove(key: "gameIcon/\(self.imageOldKey)") { event in
             switch event {
@@ -62,6 +59,7 @@ struct UpdateForumView: View {
         }
     }
     
+    //MARK: - Remove banner data from s3 storage function
     func removeBanner() {
         Amplify.Storage.remove(key: "gameIcon/\(self.bannerOldKey)") { event in
             switch event {
@@ -73,7 +71,7 @@ struct UpdateForumView: View {
         }
     }
     
-    
+    //MARK: - Download logo data from s3 storage function
     func downloadImage() {
         Amplify.Storage.downloadData(key: "gameIcon/\(self.imageKey)") { result in
             switch result {
@@ -89,6 +87,7 @@ struct UpdateForumView: View {
         }
     }
     
+    //MARK: - Download banner data from s3 storage function
     func downloadBanner() {
         Amplify.Storage.downloadData(key: "gameBanner/\(self.bannerKey)") { result in
             switch result {
@@ -106,22 +105,23 @@ struct UpdateForumView: View {
     
     
     
-    
+    //MARK: - Submit form function
     func submit_addform(){
         uploadImage()
     }
     
+    //MARK: - Validation function
     func validate_form(){
         //Validate name
         do {
             let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~]*$"#
             let nameRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
             let range = NSRange(location: 0, length: forumName.count)
-            if (forumName == "") {
+            if (forumName == "") { //check when input is empty
                 nameErrorMessage = "Must not be empty"
-            } else if forumName.count > 150 {
+            } else if forumName.count > 150 { //check when input pass the letter limit
                 nameErrorMessage = "Limit up to 150 letters"
-            } else if nameRegex.firstMatch(in: forumName, range: range) != nil {
+            } else if nameRegex.firstMatch(in: forumName, range: range) != nil { //check if input matches the the regex pattern
                 nameErrorMessage = ""
             } else {
                 nameErrorMessage = "Invalid name"
@@ -136,11 +136,11 @@ struct UpdateForumView: View {
             let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~\n]*$"#
             let nameRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
             let range = NSRange(location: 0, length: description.count)
-            if (description == "") {
+            if (description == "") { //check when input is empty
                 descriptionErrorMessage = "Must not be empty"
-            } else if description.count > 1500 {
+            } else if description.count > 1500 { //check when input pass the letter limit
                 descriptionErrorMessage = "Limit up to 1500 letters"
-            } else if nameRegex.firstMatch(in: description, range: range) != nil {
+            } else if nameRegex.firstMatch(in: description, range: range) != nil { //check if input matches the the regex pattern
                 descriptionErrorMessage = ""
             } else {
                 descriptionErrorMessage = "Invalid"
@@ -151,7 +151,7 @@ struct UpdateForumView: View {
         }
         
         //Validate tags
-        if selectedTags.isEmpty {
+        if selectedTags.isEmpty { //check if the tag list is empty
             tagsErrorMessage = "Must select at least 1 tag"
         } else {
             tagsErrorMessage = ""
@@ -160,9 +160,9 @@ struct UpdateForumView: View {
         //Validate image
         if let imageData = image.jpegData(compressionQuality: 1) {
             let imageSize = NSData(data: imageData).count
-            if (imageSize == 0) {
+            if (imageSize == 0) { //check if any image is selected
                 imageErrorMessage = "Must not be empty"
-            } else if ((imageSize / 1000000) > 5) {
+            } else if ((imageSize / 1000000) > 5) { //check if the selected image's size is over 5MB
                 imageErrorMessage = "Size must be lower than 5MB"
             } else {
                 imageErrorMessage = ""
@@ -174,9 +174,9 @@ struct UpdateForumView: View {
         //Validate banner
         if let bannerData = imageBanner.jpegData(compressionQuality: 1) {
             let bannerSize = NSData(data: bannerData).count
-            if (bannerSize == 0) {
+            if (bannerSize == 0) { //check if any image is selected
                 bannerErrorMessage = "Must not be empty"
-            } else if ((bannerSize / 1000000) > 6) {
+            } else if ((bannerSize / 1000000) > 6) { //check if the selected image's size is over 6MB
                 bannerErrorMessage = "Size must be lower than 6MB"
             } else {
                 bannerErrorMessage = ""
@@ -186,13 +186,16 @@ struct UpdateForumView: View {
         }
     }
     
+    //MARK: - Upload image function
     func uploadImage() {
         
+        //Compress selected UIImage into jpeg data
         let imageData = image.jpegData(compressionQuality: 1)!
         let bannerData = imageBanner.jpegData(compressionQuality: 1)!
 
         isProgressing = true
         
+        //Check if both the logo and banner are updated
         if self.imageKey.contains("gameIcon/") && self.bannerKey.contains("gameBanner/"){
             Amplify.Storage.uploadData(key: imageKey, data: imageData, progressListener: { progress in
                 print("Progress: \(progress)")
@@ -239,6 +242,7 @@ struct UpdateForumView: View {
                 }
             }
             )
+            //Check if only the logo is updated
         }else if self.imageKey.contains("gameIcon/"){
             Amplify.Storage.uploadData(key: imageKey, data: imageData, progressListener: { progress in
                 print("Progress: \(progress)")
@@ -270,6 +274,7 @@ struct UpdateForumView: View {
                 }
             }
             )
+            //Check if only the banner is updated
         }else if self.bannerKey.contains("gameBanner/"){
             Amplify.Storage.uploadData(key: bannerKey, data: bannerData, progressListener: { progress in
                 print("Progress: \(progress)")
@@ -302,6 +307,7 @@ struct UpdateForumView: View {
                 }
             }
             )
+            //If both banner and logo are not changed
         }else{
             let updated_forum = GameForum(
                 id: self.updated_forum.id,
@@ -328,6 +334,7 @@ struct UpdateForumView: View {
         ZStack {
             
             VStack {
+                //MARK: - Cancel button
                 HStack{
                     Button(action: {
                         dismiss()
@@ -340,6 +347,7 @@ struct UpdateForumView: View {
                     Spacer()
                 }
                 
+                //MARK: - Header
                 Text("Update forum")
                     .font(.system(size: 30))
                     .fontWeight(.bold)
@@ -347,50 +355,61 @@ struct UpdateForumView: View {
                     .kerning(1.9)
                 ScrollView{
                     VStack {
+                        
+                        //MARK: - Forum name input field
                         ZStack {
-                            TextField("Enter forum name", text: $forumName)
+                            TextField("Enter forum name", text: $forumName) //label
                                 .padding()
                                 .background(Color.gray.opacity(0.3).cornerRadius(10))
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Color.black)
-                            Text("\(forumName.count)/150")
+                            Text("\(forumName.count)/150") //letter counter
                                 .foregroundColor(.black)
                                 .font(.system(size: 13, weight: .medium))
                                 .offset(x: 145, y: 20)
                         }
+                        
+                        //error message for forum name
                         Text(nameErrorMessage)
                             .foregroundColor(.red)
                         
+                        //MARK: - Description input field
                         ZStack {
-                            TextEditor(text: $description)
+                            TextEditor(text: $description) //label
                                 .frame(height:250)
                                 .padding()
                                 .background(Color.gray.opacity(0.3).cornerRadius(10))
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Color.black)
-                            Text("\(description.count)/1500")
+                            Text("\(description.count)/1500") //letter counter
                                 .foregroundColor(.black)
                                 .font(.system(size: 13, weight: .medium))
                                 .offset(x: 135, y: 132)
                         }
                         
+                        //error message for description
                         Text(descriptionErrorMessage)
                             .foregroundColor(.red)
                         
+                        //MARK: - Forum tag selection list
                         VStack {
-                            Text("Select your forum tag")
+                            Text("Select your forum tag") //label
                             TagSelectionView(selectedTags: self.$selectedTags)
                                 .frame(height: 200)
                         }.padding()
                             .background(Color.gray.opacity(0.3).cornerRadius(10))
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(Color.black)
+                        
+                        //error message for tag list
                         Text(tagsErrorMessage)
                             .foregroundColor(.red)
                             
                         
                     }.padding(.top,5)
                     VStack{
+                        
+                        //MARK: - Image picker for forum logo
                         HStack {
                             Button(action: {
                                 self.isShowPhotoLibrary = true
@@ -418,9 +437,12 @@ struct UpdateForumView: View {
                             .sheet(isPresented: $isShowPhotoLibrary) {
                                 ImagePicker(sourceType: .photoLibrary, img_path: "gameIcon", selectedImage: self.$image, imageName: self.$imageKey)
                         }
+                        
+                        //error message for logo
                         Text(imageErrorMessage)
                             .foregroundColor(.red)
-                            
+                          
+                        //MARK: - Image picker for forum banner
                         HStack {
                             Button(action: {
                                 self.isShowBannerLibrary = true
@@ -448,6 +470,8 @@ struct UpdateForumView: View {
                             .sheet(isPresented: $isShowBannerLibrary) {
                             BannerPicker(sourceType: .photoLibrary, selectedBanner: self.$imageBanner, bannerName: $bannerKey)
                         }
+                        
+                        //error message for banner
                         Text(bannerErrorMessage)
                             .foregroundColor(.red)
                     }
@@ -456,6 +480,7 @@ struct UpdateForumView: View {
                 Button(action: {
 
                     validate_form()
+                    //check if the error message of all the input fields is empty
                     if (nameErrorMessage == "" && descriptionErrorMessage == "" && imageErrorMessage == "" && bannerErrorMessage == "") {
                         self.submit_addform()
                     }
@@ -474,6 +499,7 @@ struct UpdateForumView: View {
             }
             .padding()
             
+            //MARK: - Loading screen display
             if isProgressing {
                 ZStack {
                     Color(.black)

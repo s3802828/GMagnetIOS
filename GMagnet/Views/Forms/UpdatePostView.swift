@@ -28,11 +28,13 @@ struct UpdatePostView: View {
     @Environment(\.dismiss) var dismiss
     @State var isPostProgressing = false
     
+    //MARK: - Get image key function
     func generate_img_key(link: String)->String{
         let split_arr = link.split(separator: "/")
         return split_arr.count>0 ? String(split_arr[split_arr.count - 1]) : ""
     }
     
+    //MARK: - Download image data from s3 storage
     func downloadPostImage() {
         if (self.postImageKey != "") {
             Amplify.Storage.downloadData(key: "postUpload/\(self.postImageKey)") { result in
@@ -50,45 +52,23 @@ struct UpdatePostView: View {
         }
     }
     
-//    func add_post(){
-//        if self.postImageKey.contains("postUpload/"){
-//            let updated_post = Post(
-//                user: updated_post.user,
-//                game: updated_post.game,
-//                title: self.titleInput,
-//                content: self.contentInput,
-//                image: "https://gmagnet-ios-storage03509-dev.s3.amazonaws.com/public/\(postImageKey)",
-//                liked_users: updated_post.liked_users,
-//                comment_list: updated_post.comment_list,
-//                createdAt: updated_post.createdAt)
-//            self.postViewModel.update_post(update_post: updated_post)
-//            uploadImage()
-//        }else{
-//            let updated_post = Post(
-//                user: updated_post.user,
-//                game: updated_post.game,
-//                title: self.titleInput,
-//                content: self.contentInput,
-//                image: updated_post.image,
-//                liked_users: updated_post.liked_users,
-//                comment_list: updated_post.comment_list,
-//                createdAt: updated_post.createdAt)
-//            self.postViewModel.update_post(update_post: updated_post)
-//            uploadImage()
-//        }
-//    }
-    
+
+    //MARK: - Upload image function
     func uploadImage() {
         
+        //check if the post image is updated
         if self.postImageKey.contains("postUpload/"){
+            
+            //compress UIImage into jpeg data
             let postImageData = postImage.jpegData(compressionQuality: 1)!
             isPostProgressing = true
             Amplify.Storage.uploadData(key: postImageKey, data: postImageData, progressListener: { progress in
                 print("Progress: \(progress)")
             }, resultListener: { event in
                 switch event {
-                case .success(let data):
+                case .success(let data): //when upload image successfully
                     print("Completed: \(data)")
+                    
                     let updated_post = Post(
                         id: updated_post.id,
                         user: updated_post.user,
@@ -99,6 +79,7 @@ struct UpdatePostView: View {
                         liked_users: updated_post.liked_users,
                         comment_list: updated_post.comment_list,
                         createdAt: updated_post.createdAt)
+                    
                     self.postViewModel.update_post(update_post: updated_post)
                     
                     isPostProgressing = false
@@ -107,8 +88,9 @@ struct UpdatePostView: View {
                     print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
                 }
             })
+            
+        //Check if the post image is still the same
         }else{
-            print("Case no image added")
             let updated_post = Post(
                 id: updated_post.id,
                 user: updated_post.user,
@@ -119,6 +101,7 @@ struct UpdatePostView: View {
                 liked_users: updated_post.liked_users,
                 comment_list: updated_post.comment_list,
                 createdAt: updated_post.createdAt)
+            
             self.postViewModel.update_post(update_post: updated_post)
             
             isPostProgressing = false
@@ -126,6 +109,7 @@ struct UpdatePostView: View {
         }
     }
     
+    //MARK: - Validation function
     func validate_form() {
         //Validate title
         do {
@@ -133,11 +117,11 @@ struct UpdatePostView: View {
             let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~]*$"#
             let titleRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
             let range = NSRange(location: 0, length: titleInput.count)
-            if (titleInput == "") {
+            if (titleInput == "") { //check when input is empty
                 titleErrorMessage = "Must not be empty"
-            } else if titleInput.count > 200 {
+            } else if titleInput.count > 200 { //check when input pass the letter limit
                 titleErrorMessage = "Limit up to 200 letters"
-            } else if titleRegex.firstMatch(in: titleInput, range: range) != nil {
+            } else if titleRegex.firstMatch(in: titleInput, range: range) != nil { //check if input matches the the regex pattern
                 titleErrorMessage = ""
             } else {
                 titleErrorMessage = "Invalid"
@@ -155,11 +139,11 @@ struct UpdatePostView: View {
             let pattern = #"^[A-Za-z0-9 '"!@#$%^&*()_+=.,:;?/\-\[\]{}|~\n]*$"#
             let contentRegex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
             let range = NSRange(location: 0, length: contentInput.count)
-            if (contentInput == "") {
+            if (contentInput == "") { //check when input is empty
                 contentErrorMessage = "Must not be empty"
-            } else if contentInput.count > 1500 {
+            } else if contentInput.count > 1500 { //check when input pass the letter limit
                 contentErrorMessage = "Limit up to 1500 letters"
-            } else if contentRegex.firstMatch(in: contentInput, range: range) != nil {
+            } else if contentRegex.firstMatch(in: contentInput, range: range) != nil { //check if input matches the the regex pattern
                 contentErrorMessage = ""
             } else {
                 contentErrorMessage = "Invalid"
@@ -172,7 +156,7 @@ struct UpdatePostView: View {
         //Validate post image
         if let imageData = postImage.jpegData(compressionQuality: 1) {
             let imageSize = NSData(data: imageData).count
-            if ((imageSize / 1000000) > 6) {
+            if ((imageSize / 1000000) > 6) { //check if the selected image's size is over 6MB
                 postImageErrorMessage = "Size must be lower than 6MB"
             } else {
                 postImageErrorMessage = ""
@@ -187,6 +171,7 @@ struct UpdatePostView: View {
             VStack {
                 
                 VStack {
+                    //MARK: - Cancel button
                     HStack{
                         Button(action: {
                             dismiss()
@@ -199,6 +184,7 @@ struct UpdatePostView: View {
                         Spacer()
                     }
                     
+                    //MARK: - Header
                     Text("Update Post")
                         .font(.system(size: 30))
                         .fontWeight(.bold)
@@ -209,8 +195,9 @@ struct UpdatePostView: View {
                     
                     Divider()
                     HStack {
+                        //MARK: - Post image
                         AsyncImage(url: URL(string: self.updated_post.game.logo)) {phase in
-                            if let image = phase.image {
+                            if let image = phase.image { //if the image loaded successfully
                                 image
                                     .resizable()
                                     .scaledToFit()
@@ -220,7 +207,7 @@ struct UpdatePostView: View {
                                     .padding(.horizontal,5)
                                     .id(-1)
                                 
-                            } else if phase.error != nil {
+                            } else if phase.error != nil { //if the image loading failed
                                 Image(systemName: "x.circle")
                                     .resizable()
                                     .scaledToFit()
@@ -230,7 +217,7 @@ struct UpdatePostView: View {
                                     .padding(.horizontal,5)
                                     .id(-1)
                                 
-                            } else {
+                            } else { // if the image is loading
                                 ProgressView()
                                     .scaledToFit()
                                     .frame(width: 50, height: 50)
@@ -249,34 +236,40 @@ struct UpdatePostView: View {
                     }.padding(5)
                     Divider()
                     
+                    //MARK: - Post title input field
                     ZStack {
-                        TextField("Enter a title...", text: $titleInput)
+                        TextField("Enter a title...", text: $titleInput) //label
                             .padding()
                             .background(Color.gray.opacity(0.3).cornerRadius(10))
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(Color.black)
                             .padding(.horizontal, 15)
-                        Text("\(titleInput.count)/200")
+                        Text("\(titleInput.count)/200") //letter counter
                             .foregroundColor(.black)
                             .font(.system(size: 13, weight: .medium))
                             .offset(x: 145, y: 20)
                     }
+                    
+                    //error message for post title
                     Text(titleErrorMessage)
                         .foregroundColor(.red)
                     
+                    //MARK: - Post content field
                     ZStack {
-                        TextEditor(text: $contentInput)
+                        TextEditor(text: $contentInput) //label
                             .frame(height:200)
                             .padding()
                             .background(Color.gray.opacity(0.3).cornerRadius(10))
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(Color.black)
                             .padding(.horizontal, 15)
-                        Text("\(contentInput.count)/1500")
+                        Text("\(contentInput.count)/1500") //letter counter
                             .foregroundColor(.black)
                             .font(.system(size: 13, weight: .medium))
                             .offset(x: 135, y: 107)
                     }
+                    
+                    //error message for post content
                     Text(contentErrorMessage)
                         .foregroundColor(.red)
                 }
@@ -284,6 +277,8 @@ struct UpdatePostView: View {
                 
                 VStack{
                     if self.postImageKey != ""{
+                        
+                        //MARK: - Image picker for user avatar
                         HStack {
                             Button(action: {
                                 self.isShowPostImageLibrary = true
@@ -313,6 +308,8 @@ struct UpdatePostView: View {
                         .sheet(isPresented: $isShowPostImageLibrary) {
                             PostImagePicker(sourceType: .photoLibrary, selectedPostImage: self.$postImage, postImageName: self.$postImageKey)
                         }
+                        
+                        //error message for post image
                         Text(postImageErrorMessage)
                             .foregroundColor(.red)
                     }
@@ -327,6 +324,7 @@ struct UpdatePostView: View {
                     Button(action: {
 
                         validate_form()
+                        //check if the error message of all the input fields is empty
                         if (titleErrorMessage == "" && contentErrorMessage == "" && postImageErrorMessage == "") {
                             self.uploadImage()
                         }
@@ -346,7 +344,7 @@ struct UpdatePostView: View {
             }
             
             
-            
+            //MARK: - Loading screen display
             if isPostProgressing {
                 ZStack {
                     Color(.black)
